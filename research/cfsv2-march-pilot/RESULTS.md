@@ -49,7 +49,7 @@ The adjustment loses to the observed-average comparator at three of five airport
 - Added chronological and leave-one-winter-out native bias screens with observations and a climatology comparator.
 - Added an isolated manual GitHub workflow and a comparison renderer.
 
-## Remaining gates
+## Remaining gates after the initial pilot (updated below)
 
 1. Historical sampling sensitivity for the August/September lead mixture and the full 24-cycle native product.
 2. Broader spatial verification and an observed correction that adds value beyond climatology, including snowy cases.
@@ -72,3 +72,60 @@ Production source, maps, schedules and publication remain unchanged. The added r
 - [Reproduction and method](README.md)
 
 The saved data package contains all requested source-byte ranges and their URL/hash provenance, observation responses, full numerical grids, and both result reports. Research code is retained on this GitHub branch.
+
+
+## Expanded experiment — exact native ensemble and 15 stations
+
+**Decision: bias reduction is demonstrated; nationwide forecast improvement is not established.**
+
+Twelve of thirteen historical 24-cycle windows were complete (288 native forecasts). The September 4, 2019 18Z March-2020 archive file returned HTTP 404; the entire 2019 initialization window was excluded. All 15 requested stations had complete daily March observations in all 13 years, and supported CIPS ratios at their sampled cells. Therefore each station uses the same 12 model/observation pairs.
+
+The walk-forward test begins with five earlier winters and scores seven later Marches: 2017–2019 and 2021–2024. Each correction and climatology comparator uses only the winters available before that initialization. These are exploratory re-used historical cases, not a new independent promotion set.
+
+| Station | Raw MAE | Corrected MAE | Climatology MAE | Snowy cases | Corrected snowy MAE | Climatology snowy MAE |
+|---|---:|---:|---:|---:|---:|---:|
+| KRDU | 2.114 | 0.379 | 0.425 | 2 | 0.905 | 0.888 |
+| KAVL | 4.765 | 0.670 | 0.676 | 3 | 0.959 | 0.946 |
+| KOKC | 7.164 | 0.933 | 0.955 | 2 | 1.735 | 1.541 |
+| KORD | 18.585 | 3.199 | 3.262 | 7 | 3.199 | 3.262 |
+| KBOS | 12.551 | 7.885 | 7.844 | 6 | 7.867 | 7.847 |
+| KDFW | 2.544 | 0.306 | 0.482 | 0 | — | — |
+| KDEN | 26.647 | 8.222 | 7.738 | 6 | 7.803 | 7.334 |
+| KMSP | 17.779 | 4.601 | 4.259 | 7 | 4.601 | 4.259 |
+| KDTW | 11.456 | 3.738 | 3.909 | 6 | 3.427 | 3.698 |
+| KCLE | 19.578 | 3.362 | 3.667 | 6 | 2.358 | 2.880 |
+| KBUF | 24.298 | 6.596 | 6.862 | 7 | 6.596 | 6.862 |
+| KALB | 21.270 | 10.657 | 10.583 | 7 | 10.657 | 10.583 |
+| KBTV | 21.816 | 10.388 | 10.453 | 7 | 10.388 | 10.453 |
+| KPIT | 18.759 | 5.578 | 5.735 | 7 | 5.578 | 5.735 |
+| KSTL | 10.880 | 1.882 | 1.830 | 4 | 1.719 | 1.426 |
+
+All errors are snow-depth inches. Correction improves raw MAE at all 15 stations and beats climatology at 10/15 overall, but only 6/14 with measurable-snow validation cases. Most margins against climatology are small and no significance claim is made. DFW has zero measurable-snow validation Marches; its improvement cannot establish rare-event skill. Raleigh, Asheville and Oklahoma City all lose to climatology on their snowy subgroup. The leave-one-winter-out diagnostic beats climatology at only 7/15 stations. No fitted factors were applied to March 2027 or interpolated across CONUS.
+
+The exact native 24-cycle sampling gap is now addressed for the 12 available winters. Spatial coverage remains a selected station sample, and a useful independently validated correction remains an open production gate.
+
+Ten research tests passed, including exact month-boundary cycle selection, rejection of partial/misaligned ensembles, and prevention of present/future observation leakage. The full native experiment was replayed from retained source downloads with the final chronological validation implementation.
+
+## August/September lead sensitivity
+
+All 29 initialization years supplied August 29 reforecasts, four cycles each. A 25% August / 75% September blend matches the modern lead proportions, while still using eight historical cycles per winter rather than 24 exact dates. August 29 lies outside the modern window. This explicitly labeled approximation does not replace a matched hindcast reference.
+
+| Location | Original pilot departure | Lead-mix departure | Change |
+|---|---:|---:|---:|
+| Raleigh | +0.1015 | +0.1137 | +0.0123 |
+| Asheville | +1.3672 | +1.4063 | +0.0391 |
+| Oklahoma City | +0.5950 | +0.5966 | +0.0017 |
+| Denton TX | +0.0861 | +0.0848 | -0.0013 |
+| Chicago | -0.8858 | -0.8055 | +0.0802 |
+| Boston | +0.0451 | +0.0704 | +0.0254 |
+
+Values are snowfall **water-equivalent inches**, not snow depth. The sensitivity is small at Denton and Oklahoma City and does not explain the excessive southern totals. Asheville and Chicago show larger sensitivity. No observed native-snow correction is implied by changing this separate phase-derived departure reference.
+
+The final reference-grid replay reproduced the exact SHA-256 of the initial lead-mix result. Source URLs and hashes, station cases, fitted factors, and numerical reference grids are retained in the expanded result package. The large historical native source files are reproducible from the permanent NOAA URLs; they are not duplicated in that compact result package. The original saved pilot package retains the dated operational inputs.
+
+## Live-cycle recheck
+
+At approximately 21:12 UTC September 5, the 12Z March monthly inventory returned HTTP 404 from NOMADS. The successful scheduled job selected 06Z after finding its eight required monthly files; the live manifest was rebuilt at 19:53:59 UTC. The scheduled next check is 23:45 UTC, subject to GitHub scheduling delay. The shared URL also explicitly pins the 06Z run.
+
+- [Successful scheduled job](https://github.com/jwallio/seasonal/actions/runs/33987436356)
+- [Live manifest](https://jwallio.github.io/seasonal/cfsv2_manifest.json)
