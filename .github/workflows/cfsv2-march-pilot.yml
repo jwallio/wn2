@@ -1,0 +1,64 @@
+name: CFSv2 March Calibration Research Pilot
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cfsv2-march-calibration-research
+  cancel-in-progress: false
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install isolated research dependencies
+        run: python -m pip install -r research/cfsv2-march-pilot/requirements.txt
+      - uses: actions/cache/restore@v4
+        with:
+          path: .cache/cfsv2-march-pilot
+          key: cfsv2-march-pilot-v1-${{ github.run_id }}
+          restore-keys: cfsv2-march-pilot-v1-
+      - name: Check numerical and source contracts
+        run: python -m unittest discover -s research/cfsv2-march-pilot -p test_reference.py
+      - name: Rebuild the research reference
+        run: >-
+          python -u scripts/cfsv2_march_pilot.py
+          --cache .cache/cfsv2-march-pilot
+          --output research-output
+      - name: Compare with the existing reference
+        run: >-
+          python scripts/cfsv2_march_compare.py
+          --cache .cache/cfsv2-march-pilot
+          --pilot research-output
+      - name: Render comparison
+        run: python scripts/plot_cfsv2_march_pilot.py research-output
+      - name: Screen native totals against observations
+        run: >-
+          python -u scripts/cfsv2_native_bias_screen.py
+          --cache .cache/cfsv2-march-pilot
+          --output research-output/native-bias-screen.json
+      - name: Preserve source downloads after every attempt
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/cfsv2-march-pilot
+          key: cfsv2-march-pilot-v1-${{ github.run_id }}
+      - name: Upload research results only
+        uses: actions/upload-artifact@v4
+        with:
+          name: cfsv2-march-research-${{ github.run_id }}
+          path: research-output/
+          if-no-files-found: error
+          retention-days: 30
+
+# Deliberately absent from publish-pages.yml. This workflow cannot deploy maps.
+# The fixed operational anchor needs its cached source records after NOMADS's
+# archive rotates; missing records fail instead of substituting another run.
