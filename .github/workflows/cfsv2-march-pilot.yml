@@ -27,7 +27,7 @@ jobs:
           key: cfsv2-march-pilot-v1-${{ github.run_id }}
           restore-keys: cfsv2-march-pilot-v1-
       - name: Check numerical and source contracts
-        run: python -m unittest discover -s research/cfsv2-march-pilot -p test_reference.py
+        run: python -m unittest discover -s research/cfsv2-march-pilot -p 'test_*.py'
       - name: Rebuild the research reference
         run: >-
           python -u scripts/cfsv2_march_pilot.py
@@ -41,6 +41,12 @@ jobs:
       - name: Test August and September lead proportions
         run: >-
           python -u scripts/cfsv2_march_lead_mix.py
+          --cache .cache/cfsv2-march-pilot
+          --pilot research-output
+          --output research-output
+      - name: Review the CONUS reference candidate
+        run: >-
+          python -u scripts/cfsv2_reference_review.py
           --cache .cache/cfsv2-march-pilot
           --pilot research-output
           --output research-output
@@ -58,6 +64,16 @@ jobs:
           python scripts/plot_cfsv2_native_validation.py
           research-output/native-ensemble-screen.json
           research-output/native-ensemble-validation.png
+      - name: Validate December through February and DJF
+        run: >-
+          python -u scripts/cfsv2_winter_validation.py
+          --cache .cache/cfsv2-march-pilot
+          --output research-output
+      - name: Render winter validation
+        run: >-
+          python scripts/plot_cfsv2_winter_validation.py
+          research-output/winter-validation.json
+          research-output/cfsv2-winter-validation.png
       - name: Preserve source downloads after every attempt
         if: always()
         uses: actions/cache/save@v4
