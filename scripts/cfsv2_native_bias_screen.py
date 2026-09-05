@@ -1,9 +1,10 @@
-"""Research screen: single-cycle historical native snow vs daily ACIS observations.
+"""Research screen: historical native snow vs daily ACIS observations.
 
-This deliberately does not publish a correction: one historical cycle is not
-the operational 24-cycle product, and five stations cannot calibrate CONUS.
+This does not publish a correction. An optional exact 24-cycle ensemble and
+chronological validation extend the initial single-cycle station pilot.
 """
 import argparse
+from datetime import datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor
 import json
 from pathlib import Path
@@ -42,6 +43,29 @@ def leave_one_winter_out(raw,observed):
                 limitation='Leave-one-out uses other earlier and later winters; diagnostic, not a chronological forecast simulation.')
 
 
+
+def walk_forward(years,raw,observed,min_train=5):
+    """Refit only on earlier winters; include all eligible later March cases."""
+    years=np.asarray(years);raw=np.asarray(raw);observed=np.asarray(observed)
+    if not (len(years)==len(raw)==len(observed)) or np.any(np.diff(years)<=0):
+        raise ValueError('Require aligned, unique chronological winters')
+    if len(years)<min_train+3 or not np.isfinite(raw).all() or not np.isfinite(observed).all():
+        raise ValueError('Insufficient complete walk-forward data')
+    cases=[]
+    for i in range(min_train,len(years)):
+        if raw[:i].mean()<=0:raise ValueError('Undefined walk-forward factor')
+        factor=float(observed[:i].mean()/raw[:i].mean())
+        cases.append(dict(initialization_year=int(years[i]),factor=factor,
+                          raw=float(raw[i]),corrected=float(raw[i]*factor),
+                          climatology=float(observed[:i].mean()),observed=float(observed[i])))
+    groups={}
+    for label,subset in [('all',cases),('measurable_snow',[c for c in cases if c['observed']>=.1]),
+                         ('zero_or_trace',[c for c in cases if c['observed']<.1])]:
+        if subset:
+            groups[label]=dict(count=len(subset),**{key:error_metrics([c[key] for c in subset],
+                         [c['observed'] for c in subset]) for key in ('raw','corrected','climatology')})
+    return dict(cases=cases,groups=groups,min_training_winters=min_train)
+
 def evaluate(years,raw,observed,train_end=2018):
     """Fixed chronological split, with fitting restricted to the training set."""
     years=np.asarray(years);raw=np.asarray(raw);observed=np.asarray(observed)
@@ -59,9 +83,9 @@ def evaluate(years,raw,observed,train_end=2018):
                 validation_measurable_snow_winters=int(np.sum(observed[test]>=.1)))
 
 
-def native_year(year,cache):
-    init=f'{year}090506';target=f'{year+1}03'
-    url=ROOT+f'monthly-means/{year}/{year}09/{year}0905/{init}/flxf.01.{init}.{target}.avrg.grib.grb2'
+def native_cycle(init,cache):
+    year=int(init[:4]);target=f'{year+1}03'
+    url=ROOT+f'monthly-means/{year}/{init[:6]}/{init[:8]}/{init}/flxf.01.{init}.{target}.avrg.grib.grb2'
     try:
         data,meta=p.fetch(url,cache,limit=10_000_000)
         file=cache/(p.sha(data)+'.grb2');file.write_bytes(data)
@@ -73,7 +97,7 @@ def native_year(year,cache):
                         and ec.codes_get(h,'parameterNumber')==12 and ec.codes_get(h,'typeOfLevel')=='surface'):
                         # CFS encodes lead in calendar months; its uncorrected
                         # end-of-interval date is not the valid month.
-                        if ec.codes_get(h,'indicatorOfUnitOfTimeRange')!=3 or ec.codes_get(h,'forecastTime')!=6:
+                        if ec.codes_get(h,'indicatorOfUnitOfTimeRange')!=3 or ec.codes_get(h,'forecastTime')!=p.cf.lead_for_target(init,target):
                             raise ValueError('Historical native record has wrong lead')
                         found.append(p.decode(ec.codes_get_message(h),'native',init))
                 finally:ec.codes_release(h)
@@ -84,11 +108,36 @@ def native_year(year,cache):
                 raise ValueError('Historical axes differ from ratio lookup')
             values=rate*31*86400/25.4*lookup['native_ratios']
         print('Native history',year,'available',flush=True)
-        return dict(year=year,status='available',lons=xs,lats=ys,depth=values,source=meta)
+        return dict(year=year,init=init,status='available',lons=xs,lats=ys,depth=values,source=meta)
     except (requests.RequestException,ValueError) as exc:
         print('Native history',year,str(exc)[:120],flush=True)
-        return dict(year=year,status='unavailable',url=url,error=str(exc))
+        return dict(year=year,init=init,status='unavailable',url=url,error=str(exc))
 
+
+
+def native_year(year,cache):
+    return native_cycle(f'{year}090506',cache)
+
+
+def cycle_window(year):
+    """Exact operational anchor: Aug 30 12Z through Sep 5 06Z, inclusive."""
+    anchor=datetime(year,9,5,6)
+    return [(anchor-timedelta(hours=6*i)).strftime('%Y%m%d%H') for i in reversed(range(24))]
+
+
+def ensemble_year(year,cache):
+    with ThreadPoolExecutor(max_workers=4) as pool:
+        cycles=list(pool.map(lambda init:native_cycle(init,cache),cycle_window(year)))
+    sources=[{k:v for k,v in c.items() if k not in ('lons','lats','depth')} for c in cycles]
+    if any(c['status']!='available' for c in cycles):
+        return dict(year=year,status='unavailable',cycles=sources,
+                    error='Incomplete 24-cycle window; never substitute a partial mean')
+    first=cycles[0]
+    for c in cycles[1:]:
+        if not (np.array_equal(first['lons'],c['lons']) and np.array_equal(first['lats'],c['lats'])):
+            raise ValueError('Ensemble cycle grids differ')
+    return dict(year=year,status='available',cycles=sources,lons=first['lons'],lats=first['lats'],
+                depth=np.mean([c['depth'] for c in cycles],axis=0))
 
 def observations(sid,cache):
     payload=dict(sid=sid,sdate='2012-01-01',edate='2024-04-01',
@@ -122,10 +171,13 @@ def observations(sid,cache):
 
 def main(args):
     cache=Path(args.cache);cache.mkdir(parents=True,exist_ok=True)
+    if args.ensemble:
+        historical=[ensemble_year(y,cache) for y in range(2011,2024)]
+    else:
+        with ThreadPoolExecutor(max_workers=3) as pool:
+            historical=list(pool.map(lambda y:native_year(y,cache),range(2011,2024)))
     with ThreadPoolExecutor(max_workers=3) as pool:
-        historical=list(pool.map(lambda y:native_year(y,cache),range(2011,2024)))
-    with ThreadPoolExecutor(max_workers=3) as pool:
-        observed=list(pool.map(lambda sid:observations(sid,cache),STATIONS))
+        observed=list(pool.map(lambda sid:observations(sid,cache),args.stations.split(',')))
     stations=[]
     for obs in observed:
         x,y=obs['meta']['ll'];rows=[]
@@ -140,6 +192,8 @@ def main(args):
         try:
             scores=evaluate([r['initialization_year'] for r in rows],[r['raw_snow_inches'] for r in rows],
                             [r['observed_snow_inches'] for r in rows])
+            scores['walk_forward']=walk_forward([r['initialization_year'] for r in rows],
+                    [r['raw_snow_inches'] for r in rows],[r['observed_snow_inches'] for r in rows])
             scores['leave_one_winter_out']=leave_one_winter_out([r['raw_snow_inches'] for r in rows],
                                                                [r['observed_snow_inches'] for r in rows])
         except ValueError as exc:scores={'status':'insufficient_data','reason':str(exc)}
@@ -148,8 +202,10 @@ def main(args):
     report=dict(status='RESEARCH_SCREEN_ONLY_NO_CORRECTION_PUBLISHED',
         method='Native SRWEQ integrated for March, times existing CIPS ratio at nearest station grid cell.',
         split='Fit initialization years 2011–2018; evaluate 2019–2023, excluding unavailable data.',
-        limitations=['One September 5 06Z cycle per year, not the operational 24-cycle rolling mean.',
-                     'Five station points do not represent a calibrated CONUS grid.',
+        ensemble_cycles=24 if args.ensemble else 1,
+        limitations=[('Exact 24-cycle window; only complete windows are evaluated.' if args.ensemble else
+                      'One September 5 06Z cycle per year, not the operational 24-cycle rolling mean.'),
+                     'Station points do not represent a calibrated CONUS grid.',
                      'Station snowfall and coarse grid estimates have spatial representativeness differences.',
                      'This exploratory fixed split is not a production promotion test.'],
         historical_sources=[{k:v for k,v in h.items() if k not in ['lons','lats','depth']} for h in historical],stations=stations)
@@ -161,4 +217,6 @@ def main(args):
 if __name__=='__main__':
     a=argparse.ArgumentParser(description=__doc__)
     a.add_argument('--cache',required=True);a.add_argument('--output',required=True)
+    a.add_argument('--ensemble',action='store_true',help='Require all 24 historical cycles')
+    a.add_argument('--stations',default=','.join(STATIONS))
     main(a.parse_args())
