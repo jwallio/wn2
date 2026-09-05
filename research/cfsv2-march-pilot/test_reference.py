@@ -85,6 +85,13 @@ class MarchPilotTests(unittest.TestCase):
         self.assertNotIn('depth',result)
         self.assertEqual(len(result['cycles']),24)
 
+    def test_ensemble_rejects_misaligned_grid(self):
+        def fake(init,cache):
+            return dict(init=init,status='available',lons=np.array([1 if init.endswith('06') else 0]),
+                        lats=np.array([0]),depth=np.array([[10.]]))
+        with patch('cfsv2_native_bias_screen.native_cycle',side_effect=fake):
+            with self.assertRaises(ValueError):ensemble_year(2011,Path('/unused'))
+
     def test_walk_forward_cannot_see_present_or_future_observations(self):
         years=list(range(2011,2024));raw=np.arange(1,14,dtype=float);obs=raw*.3
         first=walk_forward(years,raw,obs)
