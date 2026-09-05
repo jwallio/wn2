@@ -38,13 +38,26 @@ jobs:
           python scripts/cfsv2_march_compare.py
           --cache .cache/cfsv2-march-pilot
           --pilot research-output
+      - name: Test August and September lead proportions
+        run: >-
+          python -u scripts/cfsv2_march_lead_mix.py
+          --cache .cache/cfsv2-march-pilot
+          --pilot research-output
+          --output research-output
       - name: Render comparison
         run: python scripts/plot_cfsv2_march_pilot.py research-output
       - name: Screen native totals against observations
         run: >-
           python -u scripts/cfsv2_native_bias_screen.py
           --cache .cache/cfsv2-march-pilot
-          --output research-output/native-bias-screen.json
+          --output research-output/native-ensemble-screen.json
+          --ensemble
+          --stations KRDU,KAVL,KOKC,KORD,KBOS,KDFW,KDEN,KMSP,KDTW,KCLE,KBUF,KALB,KBTV,KPIT,KSTL
+      - name: Plot chronological station validation
+        run: >-
+          python scripts/plot_cfsv2_native_validation.py
+          research-output/native-ensemble-screen.json
+          research-output/native-ensemble-validation.png
       - name: Preserve source downloads after every attempt
         if: always()
         uses: actions/cache/save@v4
