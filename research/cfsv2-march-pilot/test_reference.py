@@ -2,10 +2,11 @@
 from pathlib import Path
 import sys
 import unittest
+from unittest.mock import patch
 import numpy as np
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'scripts'))
 import cfsv2_march_pilot as pilot
-from cfsv2_native_bias_screen import evaluate, leave_one_winter_out
+from cfsv2_native_bias_screen import evaluate, leave_one_winter_out, walk_forward, cycle_window, ensemble_year
 
 
 class MarchPilotTests(unittest.TestCase):
@@ -65,6 +66,33 @@ class MarchPilotTests(unittest.TestCase):
         second=leave_one_winter_out(raw,obs)
         self.assertEqual(first['factors'][0],second['factors'][0])
         self.assertNotEqual(first['factors'][1],second['factors'][1])
+
+    def test_window_matches_production_across_month_boundary(self):
+        window=cycle_window(2026)
+        self.assertEqual(set(window),set(pilot.cf.rolling_cycle_inits('2026090506',24)))
+        self.assertEqual(len(window),24)
+        self.assertEqual(sum(i[4:6]=='08' for i in window),6)
+        self.assertEqual(window[0],'2026083012')
+        self.assertEqual(window[-1],'2026090506')
+
+    def test_partial_ensemble_is_not_averaged(self):
+        def fake(init,cache):
+            return dict(init=init,status='unavailable' if init.endswith('06') else 'available',
+                        lons=np.array([0]),lats=np.array([0]),depth=np.array([[10.]]))
+        with patch('cfsv2_native_bias_screen.native_cycle',side_effect=fake):
+            result=ensemble_year(2011,Path('/unused'))
+        self.assertEqual(result['status'],'unavailable')
+        self.assertNotIn('depth',result)
+        self.assertEqual(len(result['cycles']),24)
+
+    def test_walk_forward_cannot_see_present_or_future_observations(self):
+        years=list(range(2011,2024));raw=np.arange(1,14,dtype=float);obs=raw*.3
+        first=walk_forward(years,raw,obs)
+        obs[5:]+=1000
+        second=walk_forward(years,raw,obs)
+        self.assertEqual(first['cases'][0]['factor'],second['cases'][0]['factor'])
+        self.assertEqual(first['cases'][0]['climatology'],second['cases'][0]['climatology'])
+        self.assertNotEqual(first['cases'][1]['factor'],second['cases'][1]['factor'])
 
 
 if __name__=='__main__':unittest.main()
