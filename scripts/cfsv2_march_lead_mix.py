@@ -32,10 +32,14 @@ def main(args):
     cache=Path(args.cache);out=Path(args.output);out.mkdir(parents=True,exist_ok=True)
     original=json.loads((Path(args.pilot)/'report.json').read_text())
     years=[int(y) for y in original['historical_years']]
-    with ThreadPoolExecutor(max_workers=4) as pool:
+    with ThreadPoolExecutor(max_workers=args.workers) as pool:
         dates=list(pool.map(lambda year:august_date(year,cache),years))
         samples=list(pool.map(lambda init:p.cycle(init,str(int(init[:4])+1)+'03',cache,True),
                               [d+h for d in dates for h in ('00','06','12','18')]))
+    for sample in samples[1:]:
+        if not (np.array_equal(sample['lons'],samples[0]['lons']) and
+                np.array_equal(sample['lats'],samples[0]['lats'])):
+            raise ValueError('August cycle grids differ')
     august,_,used=p.historical_reference(samples)
     if used!=original['historical_years']:raise ValueError('Historical years do not match')
     with np.load(Path(args.pilot)/'pilot-grids.npz') as old:
@@ -64,4 +68,5 @@ def main(args):
 if __name__=='__main__':
     a=argparse.ArgumentParser(description=__doc__)
     a.add_argument('--cache',required=True);a.add_argument('--pilot',required=True);a.add_argument('--output',required=True)
+    a.add_argument('--workers',type=int,choices=range(1,9),default=4)
     main(a.parse_args())
