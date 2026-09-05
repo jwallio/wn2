@@ -114,3 +114,39 @@ dated input cache once NOMADS rotates.
 
 No all-CONUS numerical correction, production deployment, or full scientific
 validation is claimed by this pilot.
+
+
+## Expanded ensemble experiment
+
+Use `--ensemble` on `cfsv2_native_bias_screen.py` to require all 24 initializations
+from August 30 12Z through September 5 06Z in each initialization year 2011–2023.
+A missing cycle excludes the whole winter. Calendar leads are checked separately
+for August (7) and September (6). The default single-cycle mode remains available
+for comparison with the original pilot. `--stations` accepts comma-separated ACIS
+station identifiers. The manual workflow now requests 15 stations across the
+South, Plains, Rockies, Great Lakes, and Northeast. This is an exploratory,
+selected station sample, not spatial validation of a CONUS correction.
+
+In addition to the original fixed split and leave-one-out diagnostic, each report
+includes walk-forward validation: begin with five complete earlier winters, fit
+only those winters, evaluate the next March, then expand the training period.
+Each case records its fitted factor and observed climatology comparator. Missing
+observations are excluded, never treated as zero snowfall. Report snowy and
+zero/trace March cases separately. Evaluating additional methods or stations on
+these same winters does not create a new independent promotion test.
+
+```bash
+python scripts/cfsv2_native_bias_screen.py --cache .cache/cfsv2-march-pilot \
+  --output research-output/native-ensemble-screen.json --ensemble \
+  --stations KRDU,KAVL,KOKC,KORD,KBOS,KDFW,KDEN,KMSP,KDTW,KCLE,KBUF,KALB,KBTV,KPIT,KSTL
+python scripts/cfsv2_march_lead_mix.py --cache .cache/cfsv2-march-pilot \
+  --pilot research-output --output research-output
+```
+
+The lead-mix experiment discovers the last available August initialization date,
+calculates each of its four cycles individually, and weights that historical
+reference 25% alongside 75% of the original September reference. It matches the
+operational **lead proportions**, but the five-day historical schedule cannot
+match all 24 initialization dates. Treat it as a sensitivity test only; it does
+not remove the matched-hindcast validation requirement. Output is separate from
+the original pilot grids and from all production manifests.
