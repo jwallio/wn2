@@ -26,7 +26,7 @@ def targets(year):
     return [f'{year}12',f'{year+1}01',f'{year+1}02']
 
 
-def native_record(init,target,cache):
+def native_record(init,target,cache,offline=False):
     """Retain one exact native message, plus full upstream source provenance."""
     url=march.ROOT+f'monthly-means/{init[:4]}/{init[:6]}/{init[:8]}/{init}/flxf.01.{init}.{target}.avrg.grib.grb2'
     stem=cache/f'native-{init}-{target}'
@@ -37,6 +37,7 @@ def native_record(init,target,cache):
         if meta['record_sha256']!=p.sha(message) or meta['source']['url']!=url:
             raise ValueError('Native record cache identity/hash mismatch')
     else:
+        if offline:raise ValueError('Native record unavailable in offline cache')
         # Reuse a full-file cache if one exists; new full files are temporary.
         key=p.sha(f'{url}|None|None'.encode())
         with tempfile.TemporaryDirectory() as temp:
@@ -64,10 +65,10 @@ def native_record(init,target,cache):
     return xs,ys,rate*month_seconds(target)/25.4,meta
 
 
-def point_cycle(task,cache,observed,lookup):
+def point_cycle(task,cache,observed,lookup,offline=False):
     init,target=task
     try:
-        xs,ys,lwe,source=native_record(init,target,cache)
+        xs,ys,lwe,source=native_record(init,target,cache,offline)
         if not (np.allclose(xs,lookup['lons'],atol=.001,rtol=0) and np.allclose(ys,lookup['lats'],atol=.001,rtol=0)):
             raise ValueError('Grid differs from fixed CIPS lookup')
         values={};grid={}
@@ -82,11 +83,12 @@ def point_cycle(task,cache,observed,lookup):
         return dict(init=init,target=target,status='unavailable',error=str(exc))
 
 
-def daily_response(sid,start,end,cache):
+def daily_response(sid,start,end,cache,offline=False):
     payload=dict(sid=sid,sdate=start,edate=end,
                  elems=[{'name':'snow','interval':'dly','duration':'dly'}],meta='name,state,ll,sids')
     path=cache/('acis-'+p.sha(json.dumps(payload,sort_keys=True).encode())+'.json')
     if not path.exists():
+        if offline:raise ValueError('Observation response unavailable in offline cache')
         r=requests.post('https://data.rcc-acis.org/StnData',json=payload,timeout=(10,40));r.raise_for_status()
         raw=r.content
     else:raw=path.read_bytes()
@@ -107,10 +109,10 @@ def month_total(rows,target):
     return float(vals.sum())
 
 
-def winter_observations(sid,cache):
+def winter_observations(sid,cache,offline=False):
     # Most observations are already in the March pilot's cached daily response.
-    main,source=daily_response(sid,'2012-01-01','2024-04-01',cache)
-    early,early_source=daily_response(sid,'2011-12-01','2011-12-31',cache)
+    main,source=daily_response(sid,'2012-01-01','2024-04-01',cache,offline)
+    early,early_source=daily_response(sid,'2011-12-01','2011-12-31',cache,offline)
     if not np.allclose(main['meta']['ll'],early['meta']['ll'],atol=1e-6,rtol=0):
         raise ValueError('Station coordinates changed between responses')
     rows=early['data']+main['data'];monthly={};excluded=[]
@@ -141,8 +143,16 @@ def influence(years,raw,obs):
             factor=np.mean(np.asarray(obs)[train])/denominator
             corrected.append(case['raw']*factor);clim.append(np.mean(np.asarray(obs)[train]));observed.append(case['observed'])
         a=march.error_metrics(corrected,observed)['mae'];b=march.error_metrics(clim,observed)['mae']
-        omitted.append(dict(omitted_training_initialization_year=excluded,corrected_mae=a,climatology_mae=b,difference=a-b))
+        snowy=np.array(observed)>=.1
+        snowy_difference=(march.error_metrics(np.asarray(corrected)[snowy],np.asarray(observed)[snowy])['mae']-
+                          march.error_metrics(np.asarray(clim)[snowy],np.asarray(observed)[snowy])['mae']) if snowy.any() else None
+        omitted.append(dict(omitted_training_initialization_year=excluded,corrected_mae=a,climatology_mae=b,difference=a-b,
+                            snowy_difference=snowy_difference))
+    snow_cases=[c for c in cases if c['observed']>=.1]
+    snow_errors=np.array([abs(c['corrected']-c['observed'])-abs(c['climatology']-c['observed']) for c in snow_cases])
     return dict(baseline_mae_difference=float(errors.mean()),
+                drop_one_snowy_validation_case_differences=([dict(initialization_year=c['initialization_year'],
+                    difference=float(np.delete(snow_errors,i).mean())) for i,c in enumerate(snow_cases)] if len(snow_cases)>1 else []),
                 drop_one_validation_case_differences=[dict(initialization_year=c['initialization_year'],difference=float(np.delete(errors,i).mean())) for i,c in enumerate(cases)],
                 drop_one_training_winter=omitted)
 
@@ -156,18 +166,22 @@ def build_report(cycles,observed):
     for obs in observed:
         products={}
         for label,indexes in [('December',[0]),('January',[1]),('February',[2]),('DJF',[0,1,2])]:
-            rows=[];excluded=[]
+            rows=[];excluded=[];unmatched=[]
             for year in range(2011,2024):
                 months=[targets(year)[i] for i in indexes]
-                if any(means[t] is None or t not in obs['monthly'] for t in months):excluded.append(year);continue
+                if any(means[t] is None or t not in obs['monthly'] for t in months):
+                    excluded.append(year)
+                    if all(t in obs['monthly'] for t in months):
+                        unmatched.append(dict(initialization_year=year,targets=months,observed=sum(obs['monthly'][t] for t in months),reason='incomplete model ensemble'))
+                    continue
                 rows.append(dict(initialization_year=year,targets=months,
                     raw=sum(means[t][obs['sid']] for t in months),observed=sum(obs['monthly'][t] for t in months)))
             years=[r['initialization_year'] for r in rows];raw=[r['raw'] for r in rows];actual=[r['observed'] for r in rows]
-            try:
-                scores=dict(walk_forward=march.walk_forward(years,raw,actual),
-                            sensitivity=influence(years,raw,actual),fixed_split=march.evaluate(years,raw,actual))
-            except ValueError as exc:scores=dict(status='insufficient_data',reason=str(exc))
-            products[label]=dict(rows=rows,excluded_initialization_years=excluded,scores=scores)
+            scores={}
+            for name,calculate in [('walk_forward',march.walk_forward),('sensitivity',influence),('fixed_split',march.evaluate)]:
+                try:scores[name]=calculate(years,raw,actual)
+                except ValueError as exc:scores[name]=dict(status='insufficient_data',reason=str(exc))
+            products[label]=dict(rows=rows,excluded_initialization_years=excluded,unmatched_observations=unmatched,scores=scores)
         stations.append(dict(sid=obs['sid'],station=obs['meta'],products=products,observations_sources=obs['sources'],excluded_observation_months=obs['excluded']))
     return dict(status='RESEARCH_ONLY_NO_PRODUCTION_CORRECTION',anchor='September 5 06Z',ensemble_cycles=24,
                 source_cycles=cycles,stations=stations,
@@ -182,12 +196,12 @@ def main(args):
     cache=Path(args.cache);cache.mkdir(parents=True,exist_ok=True)
     out=Path(args.output);out.mkdir(parents=True,exist_ok=True)
     with ThreadPoolExecutor(max_workers=3) as pool:
-        observed=list(pool.map(lambda sid:winter_observations(sid,cache),args.stations.split(',')))
+        observed=list(pool.map(lambda sid:winter_observations(sid,cache,args.offline),args.stations.split(',')))
     with np.load(Path(__file__).with_name('data')/'cfsv2_cwa_slr_v1.npz') as z:lookup={k:z[k] for k in ('lons','lats','native_ratios')}
     tasks=[(init,target) for year in range(2011,2024) for target in targets(year) for init in march.cycle_window(year)]
     cycles=[]
     with ThreadPoolExecutor(max_workers=args.workers) as pool:
-        for c in pool.map(lambda task:point_cycle(task,cache,observed,lookup),tasks):
+        for c in pool.map(lambda task:point_cycle(task,cache,observed,lookup,args.offline),tasks):
             cycles.append(c)
             if len(cycles)%24==0:
                 print('Completed',len(cycles),'of',len(tasks),c['target'],flush=True)
@@ -201,4 +215,5 @@ if __name__=='__main__':
     a=argparse.ArgumentParser(description=__doc__)
     a.add_argument('--cache',required=True);a.add_argument('--output',required=True)
     a.add_argument('--stations',default=STATIONS);a.add_argument('--workers',type=int,choices=range(1,9),default=4)
+    a.add_argument('--offline',action='store_true',help='Use verified cached records only; never request missing inputs')
     main(a.parse_args())
