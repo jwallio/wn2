@@ -13,7 +13,7 @@ concurrency:
 jobs:
   research:
     runs-on: ubuntu-latest
-    timeout-minutes: 120
+    timeout-minutes: 180
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -47,6 +47,12 @@ jobs:
       - name: Review the CONUS reference candidate
         run: >-
           python -u scripts/cfsv2_reference_review.py
+          --cache .cache/cfsv2-march-pilot
+          --pilot research-output
+          --output research-output
+      - name: Interpolate the historical reference to requested cycle dates
+        run: >-
+          python -u scripts/cfsv2_reference_interpolation.py
           --cache .cache/cfsv2-march-pilot
           --pilot research-output
           --output research-output
