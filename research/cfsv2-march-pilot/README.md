@@ -190,3 +190,30 @@ python scripts/cfsv2_winter_validation.py --cache .cache/cfsv2-march-pilot \
 python scripts/plot_cfsv2_winter_validation.py \
   research-output/winter-validation.json research-output/cfsv2-winter-validation.png
 ```
+
+`cfsv2_reference_interpolation.py` compares a further March candidate. It derives
+snowfall independently at August 29, September 3, and September 8 (four hours
+per date, 29 historical years), then linearly interpolates same-hour references
+to each of the 24 requested initialization dates. Exact-date matches keep their
+own reference; absent brackets and gaps longer than five days fail. These are
+interpolated reference estimates, not synthetic hindcast forecasts. No current
+September 8 forecast is used. The production forecast remains the retained
+September 5 06Z 24-cycle mean.
+
+```bash
+python scripts/cfsv2_reference_interpolation.py --cache .cache/cfsv2-march-pilot \
+  --pilot research-output --output research-output
+python scripts/cfsv2_winter_validation.py --cache .cache/cfsv2-march-pilot \
+  --output replay-output --offline
+```
+
+Offline winter mode never requests missing model or observation inputs. It
+verifies retained GRIB identities and hashes and re-decodes the records. Missing
+records remain unavailable; the retained online report documents their original
+HTTP failure. A fixed-split test with too few later cases reports its own
+insufficiency without discarding a valid expanding-training score. Unmatched
+observed months/seasons are retained so omission of snowy winters is auditable.
+
+The station mean-ratio correction absorbs both model and fixed snow/liquid-ratio
+bias. This does not separately validate the CIPS ratios and must not be applied
+to the separate phase-derived water-equivalent departure product.
