@@ -1,7 +1,7 @@
 {
   "schema_version": "seasonal_z500_analogs_v1",
   "kind": "seasonal_z500_analog_manifest",
-  "generated_utc": "2026-09-05T17:12:53Z",
+  "generated_utc": "2026-09-05T21:17:45Z",
   "models": [
     {
       "key": "cfsv2",
@@ -718,6 +718,10 @@
     }
   ],
   "skipped": [
+    "cfsv2:cfsv2-2026090506-snowfall_anomaly:202612:numeric_grid_missing",
+    "cfsv2:cfsv2-2026090506-snowfall_anomaly:202701:numeric_grid_missing",
+    "cfsv2:cfsv2-2026090506-snowfall_anomaly:202702:numeric_grid_missing",
+    "cfsv2:cfsv2-2026090506-snowfall_anomaly:202612-202702:numeric_grid_missing",
     "superensemble:superensemble-2026080100-snowfall_anomaly:202612:numeric_grid_missing",
     "superensemble:superensemble-2026080100-snowfall_anomaly:202701:numeric_grid_missing",
     "superensemble:superensemble-2026080100-snowfall_anomaly:202702:numeric_grid_missing",
