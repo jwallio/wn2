@@ -56,6 +56,12 @@ jobs:
           --cache .cache/cfsv2-march-pilot
           --pilot research-output
           --output research-output
+      - name: Package the reviewed reference and before-after preview
+        run: >-
+          python scripts/package_cfsv2_snow_reference.py
+          --study research-output
+          --pilot research-output
+          --output research-output/reference-preview
       - name: Render comparison
         run: python scripts/plot_cfsv2_march_pilot.py research-output
       - name: Screen native totals against observations

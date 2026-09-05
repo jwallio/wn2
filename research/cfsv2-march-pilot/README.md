@@ -1,7 +1,9 @@
 # March 2027 calibration pilot
 
-Research only. This branch does not change a production generator, model
-manifest, published numerical grid, or Pages deployment. The added manual
+Research and an opt-in reference correction. The generator now accepts an
+explicit reviewed snowfall reference, disabled by default. No scheduled workflow,
+model manifest, published numerical grid, or Pages deployment has changed.
+See [IMPLEMENTATION.md](IMPLEMENTATION.md) for the completed, deliberately limited scope. The added manual
 workflow is not on the publisher's workflow allowlist and has read-only
 repository permissions. Its definition must be available on the default
 branch before GitHub exposes its manual dispatch control.
