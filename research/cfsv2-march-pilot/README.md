@@ -150,3 +150,43 @@ operational **lead proportions**, but the five-day historical schedule cannot
 match all 24 initialization dates. Treat it as a sensitivity test only; it does
 not remove the matched-hindcast validation requirement. Output is separate from
 the original pilot grids and from all production manifests.
+
+## CONUS reference review and DJF validation
+
+`cfsv2_reference_review.py` reconstructs 29 annual August/September weighted
+March references from retained inputs, verifies equality with the lead-mix
+result, renders a three-panel CONUS preview, and measures area-weighted changes.
+It also omits each historical winter in turn to expose baseline sensitivity.
+Those omission ranges are not confidence intervals. The candidate remains
+research-only: it cannot enter a production manifest or replace a live baseline.
+
+`cfsv2_winter_validation.py` extends the fixed September 5 06Z experiment to
+December, January, February, and DJF using 936 requested source cycles. It uses
+actual calendar-month lengths, including leap February. Each monthly ensemble
+requires all 24 cycles, and DJF requires all three complete model and observation
+months. Seasonal calibration fits the seasonal sum rather than adding three
+independently fitted monthly corrections. Most daily observations are reused
+from the original March response; December 2011 is fetched separately.
+
+The new source cache retains the exact SRWEQ GRIB message and its hash together
+with the full upstream URL/content hash. New whole-file downloads are temporary;
+verified cached native records support offline replay without retaining duplicate
+multi-field GRIB files. Invalid native-record hashes fail rather than being
+silently refreshed. Re-running the experiment re-evaluates unavailable files.
+
+Besides chronological all-case and snowy-case scores, each station/period has
+an influence analysis: remove one earlier training winter while preserving the
+validation cases, and separately remove one validation case. The latter tests
+sensitivity of the measured advantage; it never feeds that case into training.
+We will distinguish stable exploratory improvement from improvement whose sign
+changes after an omission. These historical screens alone do not establish a
+spatially calibrated CONUS product or a new independent holdout result.
+
+```bash
+python scripts/cfsv2_reference_review.py --cache .cache/cfsv2-march-pilot \
+  --pilot research-output --output research-output
+python scripts/cfsv2_winter_validation.py --cache .cache/cfsv2-march-pilot \
+  --output research-output --workers 8
+python scripts/plot_cfsv2_winter_validation.py \
+  research-output/winter-validation.json research-output/cfsv2-winter-validation.png
+```
