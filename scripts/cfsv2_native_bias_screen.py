@@ -7,6 +7,7 @@ import argparse
 from datetime import datetime, timedelta
 from concurrent.futures import ThreadPoolExecutor
 import json
+import tempfile
 from pathlib import Path
 import numpy as np
 import requests
@@ -88,9 +89,10 @@ def native_cycle(init,cache):
     url=ROOT+f'monthly-means/{year}/{init[:6]}/{init[:8]}/{init}/flxf.01.{init}.{target}.avrg.grib.grb2'
     try:
         data,meta=p.fetch(url,cache,limit=10_000_000)
-        file=cache/(p.sha(data)+'.grb2');file.write_bytes(data)
         found=[]
-        with file.open('rb') as stream:
+        # The verified source is already cached; do not persist a second copy.
+        with tempfile.TemporaryFile() as stream:
+            stream.write(data);stream.seek(0)
             while (h:=ec.codes_grib_new_from_file(stream)) is not None:
                 try:
                     if (ec.codes_get(h,'discipline')==0 and ec.codes_get(h,'parameterCategory')==1
