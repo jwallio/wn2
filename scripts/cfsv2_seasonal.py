@@ -2506,10 +2506,15 @@ def seasonal_baseline_manifest(
         metadata["rolling_policy"] = "anchor_initialization"
         metadata["anchor_init"] = rolling_init
 
-    if monthly_baselines and all(item.get("method") == "derive_each_forecast_then_same_hour_interpolate_v1"
+    if monthly_baselines and all(item.get("method") in {"derive_each_forecast_then_same_hour_interpolate_v1",
+                                                          "derive_each_forecast_daily_rate_then_same_hour_interpolate_v2"}
                                  for item in monthly_baselines):
         metadata["rolling_policy"] = "reference_matched_to_each_forecast_cycle"
-        metadata["years"] = "1982-2010"
+        reference_years = sorted({year for item in monthly_baselines for year in item["historical_years"]})
+        metadata["years"] = f"{reference_years[0]}-{reference_years[-1]}"
+        counts = [len(item["historical_years"]) for item in monthly_baselines]
+        count_label = str(min(counts)) if min(counts) == max(counts) else f"{min(counts)}-{max(counts)}"
+        metadata["label"] = f"{metadata['years']} CFS reforecasts ({count_label} years/month)"
         metadata["monthly_references"] = list(monthly_baselines)
 
     baseline_urls = [item.get("url") for item in provenance_records if item.get("url")]
@@ -4205,6 +4210,7 @@ def _run_single_window(args: argparse.Namespace) -> int:
                     NCEI_CALIBRATION_YEARS if args.ncei_calibration else (args.baseline_years or None),
                     rolling_init=init if rolling_mode else None,
                 )
+                baseline_label = str(seasonal_entry["baseline"]["label"])
             else:
                 seasonal_entry["baseline"] = {
                     "status": "not_applicable",

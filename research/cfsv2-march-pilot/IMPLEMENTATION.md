@@ -1,5 +1,8 @@
 # Limited snowfall reference correction
 
+This describes the original March preview. Routine monthly/seasonal integration
+is documented in [RUN_INTEGRATION.md](RUN_INTEGRATION.md).
+
 The product remains a CFS model viewer. The completed implementation corrects
 the historical reference calculation for the reviewed March departure map.
 It does not fit a new forecast model or adjust native snowfall-depth totals.

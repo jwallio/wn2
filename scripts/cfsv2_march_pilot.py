@@ -12,6 +12,7 @@ import json
 from pathlib import Path
 import re
 import time
+import threading
 import xml.etree.ElementTree as ET
 
 import eccodes as ec
@@ -34,6 +35,16 @@ def sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
+_http_state = threading.local()
+
+
+def http_session():
+    # Reuse NOAA connections within each worker across inventories and ranges.
+    if not hasattr(_http_state, 'session'):
+        _http_state.session = requests.Session()
+    return _http_state.session
+
+
 def fetch(url, cache, start=None, end=None, limit=2_000_000):
     """Bounded range reads, with URL/range/content-hash checked caching."""
     key = sha(f'{url}|{start}|{end}'.encode())
@@ -49,7 +60,7 @@ def fetch(url, cache, start=None, end=None, limit=2_000_000):
     headers = {} if start is None else {'Range': f'bytes={start}-{end if end is not None else ""}'}
     for attempt in range(3):
         try:
-            with requests.get(url, headers=headers, stream=True, timeout=(10, 30)) as r:
+            with http_session().get(url, headers=headers, stream=True, timeout=(10, 30)) as r:
                 r.raise_for_status()
                 chunks = bytearray()
                 for chunk in r.iter_content(65536):
@@ -69,19 +80,23 @@ def fetch(url, cache, start=None, end=None, limit=2_000_000):
                 path.write_bytes(data)
                 sidecar.write_text(json.dumps(meta, indent=2))
                 return data, meta
-        except requests.RequestException:
+        except requests.RequestException as exc:
+            if isinstance(exc, requests.HTTPError) and exc.response is not None and exc.response.status_code == 404:
+                raise
             if attempt == 2:
                 raise
             time.sleep(1 + attempt)
 
 
-def record_range(index, token, init, target):
+def record_range(index, token, init, target, allow_lead_zero=False):
     lines = index.splitlines()
     matches = [i for i, line in enumerate(lines) if f':{token}:' in line]
     if len(matches) != 1:
         raise ValueError(f'Expected one {token} record, found {len(matches)}')
     i = matches[0]
-    lead = cf.lead_for_target(init, target)
+    lead = (int(target[:4]) - int(init[:4])) * 12 + int(target[4:]) - int(init[4:6])
+    if not (0 if allow_lead_zero else 1) <= lead <= 9:
+        raise ValueError('Requested historical monthly lead is outside the archive range')
     if f':d={init}:' not in lines[i] or f':{lead}-{lead+1} month ave fcst:' not in lines[i]:
         raise ValueError('Wrong initialization, target month, or averaging interval')
     return int(lines[i].split(':')[1]), int(lines[i+1].split(':')[1])-1 if i+1 < len(lines) else None
@@ -145,7 +160,7 @@ def historical_reference(samples):
     return correct, wrong_order, years
 
 
-def cycle(init, target, cache, historical=False):
+def cycle(init, target, cache, historical=False, allow_lead_zero=False):
     if historical:
         root = ARCHIVE + f'high-priority-subset/monthly-means-9-month/{init[:4]}/{init[:6]}/{init[:8]}/'
         urls = {k: root+f'{k}{init}.01.{target}.avrg.grb2' for k in ('flxf','pgbf')}
@@ -159,7 +174,7 @@ def cycle(init, target, cache, historical=False):
     axes = None
     for field in fields:
         kind = 'pgbf' if field == 't850' else 'flxf'
-        start,end = record_range(indexes[kind],FIELDS[field][0],init,target)
+        start,end = record_range(indexes[kind],FIELDS[field][0],init,target, allow_lead_zero=historical and allow_lead_zero)
         data,meta = fetch(urls[kind],cache,start,end,limit=200000)
         xs,ys,values = decode(data,field,init)
         if axes is None:

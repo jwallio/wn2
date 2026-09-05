@@ -1,9 +1,10 @@
 # March 2027 calibration pilot
 
 Research and an opt-in reference correction. The generator now accepts an
-explicit reviewed snowfall reference, disabled by default. No scheduled workflow,
-model manifest, published numerical grid, or Pages deployment has changed.
-See [IMPLEMENTATION.md](IMPLEMENTATION.md) for the completed, deliberately limited scope. The added manual
+explicit reviewed snowfall reference, disabled by default. The branch now wires this correction into the scheduled snowfall workflow.
+Merging the branch enables it; no maps are published by the research workflow.
+The routine workflow integration is documented in [RUN_INTEGRATION.md](RUN_INTEGRATION.md);
+[IMPLEMENTATION.md](IMPLEMENTATION.md) records the original March preview. The added manual
 workflow is not on the publisher's workflow allowlist and has read-only
 repository permissions. Its definition must be available on the default
 branch before GitHub exposes its manual dispatch control.
