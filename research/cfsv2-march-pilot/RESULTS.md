@@ -129,3 +129,8 @@ At approximately 21:12 UTC September 5, the 12Z March monthly inventory returned
 
 - [Successful scheduled job](https://github.com/jwallio/seasonal/actions/runs/33987436356)
 - [Live manifest](https://jwallio.github.io/seasonal/cfsv2_manifest.json)
+
+
+## Subsequent winter and date-interpolation review
+
+See [WINTER_RESULTS.md](WINTER_RESULTS.md) for the completed December–February/DJF validation, 930-record offline replay, date-interpolated March preview, influence checks, and product-specific release decisions. These supersede the initial pilot's remaining-work list where addressed.
