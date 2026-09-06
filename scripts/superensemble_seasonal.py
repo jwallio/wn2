@@ -84,7 +84,6 @@ CFSV2_STANDALONE_PRODUCTS = frozenset(
         "500mb_height_anomaly_nh",
         "2m_temperature_anomaly",
         "precipitation_anomaly",
-        "snowfall_anomaly",
         "mslp_anomaly",
     }
 )
@@ -205,6 +204,12 @@ def canonical_exclusions(product: str) -> list[dict[str, Any]]:
                 },
             ]
         )
+    elif product == "snowfall_anomaly":
+        exclusions.append({
+            "package": "NOAA CFSv2 snowfall (standalone / C3S / NMME)",
+            "reason": "No matched native snowfall anomaly reference; the legacy derived baseline applies a nonlinear phase curve after climatological averaging and is excluded from the native snowfall blend",
+            "represented_by": None,
+        })
     else:
         exclusions.extend(
             [
@@ -378,6 +383,7 @@ def product_spec(product: str, *, synthetic: bool = False) -> dict[str, Any]:
     spec["source_label"] = "wall.cloud seasonal super ensemble"
     detail = "Synthetic style preview — not forecast data" if synthetic else "Deduplicated equal-weight forecast families"
     if product == "snowfall_anomaly":
+        spec["snowfall_input_kind"] = "Native model blend"
         spec.update(
             {
                 "map_domain": "land",
