@@ -14,6 +14,13 @@ def asset(root, value):
 
 
 def refresh(root):
+    # The main numerical download follows the image's snowfall-depth units;
+    # the separately exposed LWE file retains the canonical blending quantity.
+    for marker in root.rglob('*.snow.json'):
+        display = json.loads(marker.read_text())
+        display['canonical_grid_quantity'] = 'snowfall liquid-water-equivalent departure'
+        display['numeric_grid_quantity'] = 'estimated snowfall depth departure'
+        marker.write_text(json.dumps(display))
     manifest = root / 'cfsv2_manifest.json'
     if not manifest.exists():
         return
