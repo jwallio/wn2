@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "cfsv2_seasonal_manifest",
-  "generated_utc": "2026-09-06T12:38:05Z",
+  "generated_utc": "2026-09-06T13:33:21Z",
   "source": "NOAA CFSv2 NOMADS",
   "source_url": "https://nomads.ncep.noaa.gov/pub/data/nccf/com/cfs/prod/",
   "retention": {
@@ -15653,13 +15653,13 @@
               "state_sha256": "196b4f15565ce95c512fee51a873624cdd66b8d346e9e65b27c43a272c643cf3",
               "retrieved_utc": "2026-09-06T12:37:08.024940+00:00",
               "status": "available",
-              "storage": "nomads_grib2_range",
-              "downloaded": true,
+              "storage": "retained_decoded_grid",
+              "downloaded": false,
               "corrected_time_metadata": "1:0:start_ft=2026120100:end_ft=2026123118"
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 15 CWAs; 4 Texas CWAs unavailable. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs; Florida displayed white without changing numeric values. Separate phase-derived departures are not its reference.",
           "derivation": {
             "method": "native_SRWEQ_times_CIPS_CWA_with_assumed_fills_v2",
             "snow_to_liquid_ratio": {
@@ -15787,6 +15787,7 @@
                 "BOI",
                 "BOU",
                 "BOX",
+                "BRO",
                 "BTV",
                 "BUF",
                 "BYZ",
@@ -15794,6 +15795,7 @@
                 "CAR",
                 "CHS",
                 "CLE",
+                "CRP",
                 "CTP",
                 "CYS",
                 "DDC",
@@ -15804,6 +15806,7 @@
                 "EAX",
                 "EKA",
                 "EPZ",
+                "EWX",
                 "FFC",
                 "FGF",
                 "FGZ",
@@ -15817,6 +15820,7 @@
                 "GRR",
                 "GSP",
                 "GYX",
+                "HGX",
                 "HNX",
                 "HUN",
                 "ICT",
@@ -15887,14 +15891,10 @@
                 "UNR",
                 "VEF"
               ],
-              "unsupported_cwas": [
-                "BRO",
-                "CRP",
-                "EWX",
-                "HGX"
-              ],
+              "unsupported_cwas": [],
               "lookup_sha256": "ef71a7cb26d6378f587bf29783efc0a89ace96c3fd562682568f41b8027f83f5",
               "description": "Measured CIPS CWA ratios with explicit owner-assumed fills; no ratio smoothing.",
+              "florida_display_policy": "owner_requested_white_mask; underlying values retained",
               "measured_supported_cwas": [
                 "ABQ",
                 "ABR",
@@ -16009,24 +16009,27 @@
                 "KEY": 7.0,
                 "MFL": 7.0,
                 "MLB": 7.0,
-                "TBW": 7.0
+                "TBW": 7.0,
+                "BRO": 7.0,
+                "CRP": 7.0,
+                "HGX": 7.0,
+                "EWX": 8.0
               },
               "assumption_status": "owner_assumed_not_measured_CIPS",
               "assumption_reasons": {
                 "PSR": "Use neighboring TWC measured mean (10:1), per owner.",
-                "8": "Owner-selected Southeast assumption.",
-                "7": "Owner-selected Gulf Coast / Florida assumption."
+                "8": "Owner-selected Southeast / inland EWX assumption.",
+                "7": "Owner-selected Gulf Coast / Florida / coastal Texas assumption."
               }
             },
             "native_departure_status": "unavailable",
             "bias_correction": "none",
-            "unsupported_cwas": [
-              "BRO",
-              "CRP",
-              "EWX",
-              "HGX"
-            ],
-            "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing"
+            "unsupported_cwas": [],
+            "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing",
+            "display_overrides": {
+              "Florida": "white mask; numeric values retained",
+              "white_below_inches": 0.1
+            }
           },
           "ensemble_expected_members": 24,
           "ensemble_complete": true,
@@ -16038,12 +16041,12 @@
             "field": "snowfall_accumulation",
             "period": "monthly",
             "total_points": 72960,
-            "finite_points": 903,
-            "finite_fraction": 0.012377,
+            "finite_points": 925,
+            "finite_fraction": 0.012678,
             "minimum": 0.0,
             "maximum": 62.618584,
             "p01": 0.049209,
-            "p99": 50.393344,
+            "p99": 50.107845,
             "display": {
               "minimum": 0.0,
               "maximum": 200.0,
@@ -16602,13 +16605,13 @@
               "state_sha256": "c36c416e85b90725e14e034bfb8e01da97d620563da03eebd94457a7f393688e",
               "retrieved_utc": "2026-09-06T12:37:22.956375+00:00",
               "status": "available",
-              "storage": "nomads_grib2_range",
-              "downloaded": true,
+              "storage": "retained_decoded_grid",
+              "downloaded": false,
               "corrected_time_metadata": "1:0:start_ft=2027010100:end_ft=2027013118"
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 15 CWAs; 4 Texas CWAs unavailable. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs; Florida displayed white without changing numeric values. Separate phase-derived departures are not its reference.",
           "derivation": {
             "method": "native_SRWEQ_times_CIPS_CWA_with_assumed_fills_v2",
             "snow_to_liquid_ratio": {
@@ -16736,6 +16739,7 @@
                 "BOI",
                 "BOU",
                 "BOX",
+                "BRO",
                 "BTV",
                 "BUF",
                 "BYZ",
@@ -16743,6 +16747,7 @@
                 "CAR",
                 "CHS",
                 "CLE",
+                "CRP",
                 "CTP",
                 "CYS",
                 "DDC",
@@ -16753,6 +16758,7 @@
                 "EAX",
                 "EKA",
                 "EPZ",
+                "EWX",
                 "FFC",
                 "FGF",
                 "FGZ",
@@ -16766,6 +16772,7 @@
                 "GRR",
                 "GSP",
                 "GYX",
+                "HGX",
                 "HNX",
                 "HUN",
                 "ICT",
@@ -16836,14 +16843,10 @@
                 "UNR",
                 "VEF"
               ],
-              "unsupported_cwas": [
-                "BRO",
-                "CRP",
-                "EWX",
-                "HGX"
-              ],
+              "unsupported_cwas": [],
               "lookup_sha256": "ef71a7cb26d6378f587bf29783efc0a89ace96c3fd562682568f41b8027f83f5",
               "description": "Measured CIPS CWA ratios with explicit owner-assumed fills; no ratio smoothing.",
+              "florida_display_policy": "owner_requested_white_mask; underlying values retained",
               "measured_supported_cwas": [
                 "ABQ",
                 "ABR",
@@ -16958,24 +16961,27 @@
                 "KEY": 7.0,
                 "MFL": 7.0,
                 "MLB": 7.0,
-                "TBW": 7.0
+                "TBW": 7.0,
+                "BRO": 7.0,
+                "CRP": 7.0,
+                "HGX": 7.0,
+                "EWX": 8.0
               },
               "assumption_status": "owner_assumed_not_measured_CIPS",
               "assumption_reasons": {
                 "PSR": "Use neighboring TWC measured mean (10:1), per owner.",
-                "8": "Owner-selected Southeast assumption.",
-                "7": "Owner-selected Gulf Coast / Florida assumption."
+                "8": "Owner-selected Southeast / inland EWX assumption.",
+                "7": "Owner-selected Gulf Coast / Florida / coastal Texas assumption."
               }
             },
             "native_departure_status": "unavailable",
             "bias_correction": "none",
-            "unsupported_cwas": [
-              "BRO",
-              "CRP",
-              "EWX",
-              "HGX"
-            ],
-            "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing"
+            "unsupported_cwas": [],
+            "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing",
+            "display_overrides": {
+              "Florida": "white mask; numeric values retained",
+              "white_below_inches": 0.1
+            }
           },
           "ensemble_expected_members": 24,
           "ensemble_complete": true,
@@ -16987,12 +16993,12 @@
             "field": "snowfall_accumulation",
             "period": "monthly",
             "total_points": 72960,
-            "finite_points": 903,
-            "finite_fraction": 0.012377,
+            "finite_points": 925,
+            "finite_fraction": 0.012678,
             "minimum": 0.0,
             "maximum": 56.912485,
-            "p01": 0.351848,
-            "p99": 51.490416,
+            "p01": 0.36538,
+            "p99": 51.487748,
             "display": {
               "minimum": 0.0,
               "maximum": 200.0,
@@ -17551,13 +17557,13 @@
               "state_sha256": "1143c785594790c6c8df774cb72e2e5aaa40dcde3b5977e04d012c35c051d696",
               "retrieved_utc": "2026-09-06T12:37:37.436831+00:00",
               "status": "available",
-              "storage": "nomads_grib2_range",
-              "downloaded": true,
+              "storage": "retained_decoded_grid",
+              "downloaded": false,
               "corrected_time_metadata": "1:0:start_ft=2027020100:end_ft=2027022818"
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 15 CWAs; 4 Texas CWAs unavailable. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs; Florida displayed white without changing numeric values. Separate phase-derived departures are not its reference.",
           "derivation": {
             "method": "native_SRWEQ_times_CIPS_CWA_with_assumed_fills_v2",
             "snow_to_liquid_ratio": {
@@ -17685,6 +17691,7 @@
                 "BOI",
                 "BOU",
                 "BOX",
+                "BRO",
                 "BTV",
                 "BUF",
                 "BYZ",
@@ -17692,6 +17699,7 @@
                 "CAR",
                 "CHS",
                 "CLE",
+                "CRP",
                 "CTP",
                 "CYS",
                 "DDC",
@@ -17702,6 +17710,7 @@
                 "EAX",
                 "EKA",
                 "EPZ",
+                "EWX",
                 "FFC",
                 "FGF",
                 "FGZ",
@@ -17715,6 +17724,7 @@
                 "GRR",
                 "GSP",
                 "GYX",
+                "HGX",
                 "HNX",
                 "HUN",
                 "ICT",
@@ -17785,14 +17795,10 @@
                 "UNR",
                 "VEF"
               ],
-              "unsupported_cwas": [
-                "BRO",
-                "CRP",
-                "EWX",
-                "HGX"
-              ],
+              "unsupported_cwas": [],
               "lookup_sha256": "ef71a7cb26d6378f587bf29783efc0a89ace96c3fd562682568f41b8027f83f5",
               "description": "Measured CIPS CWA ratios with explicit owner-assumed fills; no ratio smoothing.",
+              "florida_display_policy": "owner_requested_white_mask; underlying values retained",
               "measured_supported_cwas": [
                 "ABQ",
                 "ABR",
@@ -17907,24 +17913,27 @@
                 "KEY": 7.0,
                 "MFL": 7.0,
                 "MLB": 7.0,
-                "TBW": 7.0
+                "TBW": 7.0,
+                "BRO": 7.0,
+                "CRP": 7.0,
+                "HGX": 7.0,
+                "EWX": 8.0
               },
               "assumption_status": "owner_assumed_not_measured_CIPS",
               "assumption_reasons": {
                 "PSR": "Use neighboring TWC measured mean (10:1), per owner.",
-                "8": "Owner-selected Southeast assumption.",
-                "7": "Owner-selected Gulf Coast / Florida assumption."
+                "8": "Owner-selected Southeast / inland EWX assumption.",
+                "7": "Owner-selected Gulf Coast / Florida / coastal Texas assumption."
               }
             },
             "native_departure_status": "unavailable",
             "bias_correction": "none",
-            "unsupported_cwas": [
-              "BRO",
-              "CRP",
-              "EWX",
-              "HGX"
-            ],
-            "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing"
+            "unsupported_cwas": [],
+            "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing",
+            "display_overrides": {
+              "Florida": "white mask; numeric values retained",
+              "white_below_inches": 0.1
+            }
           },
           "ensemble_expected_members": 24,
           "ensemble_complete": true,
@@ -17936,12 +17945,12 @@
             "field": "snowfall_accumulation",
             "period": "monthly",
             "total_points": 72960,
-            "finite_points": 903,
-            "finite_fraction": 0.012377,
+            "finite_points": 925,
+            "finite_fraction": 0.012678,
             "minimum": 0.01389,
             "maximum": 60.984794,
-            "p01": 0.225117,
-            "p99": 48.315955,
+            "p01": 0.226252,
+            "p99": 48.29866,
             "display": {
               "minimum": 0.0,
               "maximum": 200.0,
@@ -18500,13 +18509,13 @@
               "state_sha256": "153886cb15cadb9ef60d43f071dca17cf009188acc6ad774c390687438264034",
               "retrieved_utc": "2026-09-06T12:37:52.203043+00:00",
               "status": "available",
-              "storage": "nomads_grib2_range",
-              "downloaded": true,
+              "storage": "retained_decoded_grid",
+              "downloaded": false,
               "corrected_time_metadata": "1:0:start_ft=2027030100:end_ft=2027033118"
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 15 CWAs; 4 Texas CWAs unavailable. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs; Florida displayed white without changing numeric values. Separate phase-derived departures are not its reference.",
           "derivation": {
             "method": "native_SRWEQ_times_CIPS_CWA_with_assumed_fills_v2",
             "snow_to_liquid_ratio": {
@@ -18634,6 +18643,7 @@
                 "BOI",
                 "BOU",
                 "BOX",
+                "BRO",
                 "BTV",
                 "BUF",
                 "BYZ",
@@ -18641,6 +18651,7 @@
                 "CAR",
                 "CHS",
                 "CLE",
+                "CRP",
                 "CTP",
                 "CYS",
                 "DDC",
@@ -18651,6 +18662,7 @@
                 "EAX",
                 "EKA",
                 "EPZ",
+                "EWX",
                 "FFC",
                 "FGF",
                 "FGZ",
@@ -18664,6 +18676,7 @@
                 "GRR",
                 "GSP",
                 "GYX",
+                "HGX",
                 "HNX",
                 "HUN",
                 "ICT",
@@ -18734,14 +18747,10 @@
                 "UNR",
                 "VEF"
               ],
-              "unsupported_cwas": [
-                "BRO",
-                "CRP",
-                "EWX",
-                "HGX"
-              ],
+              "unsupported_cwas": [],
               "lookup_sha256": "ef71a7cb26d6378f587bf29783efc0a89ace96c3fd562682568f41b8027f83f5",
               "description": "Measured CIPS CWA ratios with explicit owner-assumed fills; no ratio smoothing.",
+              "florida_display_policy": "owner_requested_white_mask; underlying values retained",
               "measured_supported_cwas": [
                 "ABQ",
                 "ABR",
@@ -18856,24 +18865,27 @@
                 "KEY": 7.0,
                 "MFL": 7.0,
                 "MLB": 7.0,
-                "TBW": 7.0
+                "TBW": 7.0,
+                "BRO": 7.0,
+                "CRP": 7.0,
+                "HGX": 7.0,
+                "EWX": 8.0
               },
               "assumption_status": "owner_assumed_not_measured_CIPS",
               "assumption_reasons": {
                 "PSR": "Use neighboring TWC measured mean (10:1), per owner.",
-                "8": "Owner-selected Southeast assumption.",
-                "7": "Owner-selected Gulf Coast / Florida assumption."
+                "8": "Owner-selected Southeast / inland EWX assumption.",
+                "7": "Owner-selected Gulf Coast / Florida / coastal Texas assumption."
               }
             },
             "native_departure_status": "unavailable",
             "bias_correction": "none",
-            "unsupported_cwas": [
-              "BRO",
-              "CRP",
-              "EWX",
-              "HGX"
-            ],
-            "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing"
+            "unsupported_cwas": [],
+            "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing",
+            "display_overrides": {
+              "Florida": "white mask; numeric values retained",
+              "white_below_inches": 0.1
+            }
           },
           "ensemble_expected_members": 24,
           "ensemble_complete": true,
@@ -18885,12 +18897,12 @@
             "field": "snowfall_accumulation",
             "period": "monthly",
             "total_points": 72960,
-            "finite_points": 903,
-            "finite_fraction": 0.012377,
+            "finite_points": 925,
+            "finite_fraction": 0.012678,
             "minimum": 0.0,
             "maximum": 80.796643,
-            "p01": 0.18559,
-            "p99": 56.724405,
+            "p01": 0.136064,
+            "p99": 56.186639,
             "display": {
               "minimum": 0.0,
               "maximum": 200.0,
@@ -19454,8 +19466,8 @@
               "state_sha256": "196b4f15565ce95c512fee51a873624cdd66b8d346e9e65b27c43a272c643cf3",
               "retrieved_utc": "2026-09-06T12:37:08.024940+00:00",
               "status": "available",
-              "storage": "nomads_grib2_range",
-              "downloaded": true,
+              "storage": "retained_decoded_grid",
+              "downloaded": false,
               "corrected_time_metadata": "1:0:start_ft=2026120100:end_ft=2026123118"
             },
             {
@@ -19982,8 +19994,8 @@
               "state_sha256": "c36c416e85b90725e14e034bfb8e01da97d620563da03eebd94457a7f393688e",
               "retrieved_utc": "2026-09-06T12:37:22.956375+00:00",
               "status": "available",
-              "storage": "nomads_grib2_range",
-              "downloaded": true,
+              "storage": "retained_decoded_grid",
+              "downloaded": false,
               "corrected_time_metadata": "1:0:start_ft=2027010100:end_ft=2027013118"
             },
             {
@@ -20510,8 +20522,8 @@
               "state_sha256": "1143c785594790c6c8df774cb72e2e5aaa40dcde3b5977e04d012c35c051d696",
               "retrieved_utc": "2026-09-06T12:37:37.436831+00:00",
               "status": "available",
-              "storage": "nomads_grib2_range",
-              "downloaded": true,
+              "storage": "retained_decoded_grid",
+              "downloaded": false,
               "corrected_time_metadata": "1:0:start_ft=2027020100:end_ft=2027022818"
             }
           ],
@@ -20529,12 +20541,12 @@
             "field": "snowfall_accumulation",
             "period": "seasonal",
             "total_points": 72960,
-            "finite_points": 903,
-            "finite_fraction": 0.012377,
+            "finite_points": 925,
+            "finite_fraction": 0.012678,
             "minimum": 0.01389,
             "maximum": 165.922214,
-            "p01": 1.029706,
-            "p99": 144.856196,
+            "p01": 1.04147,
+            "p99": 144.405409,
             "display": {
               "minimum": 0.0,
               "maximum": 200.0,
@@ -20676,6 +20688,7 @@
                 "BOI",
                 "BOU",
                 "BOX",
+                "BRO",
                 "BTV",
                 "BUF",
                 "BYZ",
@@ -20683,6 +20696,7 @@
                 "CAR",
                 "CHS",
                 "CLE",
+                "CRP",
                 "CTP",
                 "CYS",
                 "DDC",
@@ -20693,6 +20707,7 @@
                 "EAX",
                 "EKA",
                 "EPZ",
+                "EWX",
                 "FFC",
                 "FGF",
                 "FGZ",
@@ -20706,6 +20721,7 @@
                 "GRR",
                 "GSP",
                 "GYX",
+                "HGX",
                 "HNX",
                 "HUN",
                 "ICT",
@@ -20776,14 +20792,10 @@
                 "UNR",
                 "VEF"
               ],
-              "unsupported_cwas": [
-                "BRO",
-                "CRP",
-                "EWX",
-                "HGX"
-              ],
+              "unsupported_cwas": [],
               "lookup_sha256": "ef71a7cb26d6378f587bf29783efc0a89ace96c3fd562682568f41b8027f83f5",
               "description": "Measured CIPS CWA ratios with explicit owner-assumed fills; no ratio smoothing.",
+              "florida_display_policy": "owner_requested_white_mask; underlying values retained",
               "measured_supported_cwas": [
                 "ABQ",
                 "ABR",
@@ -20898,26 +20910,29 @@
                 "KEY": 7.0,
                 "MFL": 7.0,
                 "MLB": 7.0,
-                "TBW": 7.0
+                "TBW": 7.0,
+                "BRO": 7.0,
+                "CRP": 7.0,
+                "HGX": 7.0,
+                "EWX": 8.0
               },
               "assumption_status": "owner_assumed_not_measured_CIPS",
               "assumption_reasons": {
                 "PSR": "Use neighboring TWC measured mean (10:1), per owner.",
-                "8": "Owner-selected Southeast assumption.",
-                "7": "Owner-selected Gulf Coast / Florida assumption."
+                "8": "Owner-selected Southeast / inland EWX assumption.",
+                "7": "Owner-selected Gulf Coast / Florida / coastal Texas assumption."
               }
             },
             "native_departure_status": "unavailable",
             "bias_correction": "none",
-            "unsupported_cwas": [
-              "BRO",
-              "CRP",
-              "EWX",
-              "HGX"
-            ],
-            "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing"
+            "unsupported_cwas": [],
+            "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing",
+            "display_overrides": {
+              "Florida": "white mask; numeric values retained",
+              "white_below_inches": 0.1
+            }
           },
-          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 15 CWAs; 4 Texas CWAs unavailable. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs; Florida displayed white without changing numeric values. Separate phase-derived departures are not its reference.",
           "native_lwe_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_lwe_202612-202702.csv.gz"
         },
         {
@@ -21467,8 +21482,8 @@
               "state_sha256": "c36c416e85b90725e14e034bfb8e01da97d620563da03eebd94457a7f393688e",
               "retrieved_utc": "2026-09-06T12:37:22.956375+00:00",
               "status": "available",
-              "storage": "nomads_grib2_range",
-              "downloaded": true,
+              "storage": "retained_decoded_grid",
+              "downloaded": false,
               "corrected_time_metadata": "1:0:start_ft=2027010100:end_ft=2027013118"
             },
             {
@@ -21995,8 +22010,8 @@
               "state_sha256": "1143c785594790c6c8df774cb72e2e5aaa40dcde3b5977e04d012c35c051d696",
               "retrieved_utc": "2026-09-06T12:37:37.436831+00:00",
               "status": "available",
-              "storage": "nomads_grib2_range",
-              "downloaded": true,
+              "storage": "retained_decoded_grid",
+              "downloaded": false,
               "corrected_time_metadata": "1:0:start_ft=2027020100:end_ft=2027022818"
             },
             {
@@ -22523,8 +22538,8 @@
               "state_sha256": "153886cb15cadb9ef60d43f071dca17cf009188acc6ad774c390687438264034",
               "retrieved_utc": "2026-09-06T12:37:52.203043+00:00",
               "status": "available",
-              "storage": "nomads_grib2_range",
-              "downloaded": true,
+              "storage": "retained_decoded_grid",
+              "downloaded": false,
               "corrected_time_metadata": "1:0:start_ft=2027030100:end_ft=2027033118"
             }
           ],
@@ -22542,12 +22557,12 @@
             "field": "snowfall_accumulation",
             "period": "seasonal",
             "total_points": 72960,
-            "finite_points": 903,
-            "finite_fraction": 0.012377,
+            "finite_points": 925,
+            "finite_fraction": 0.012678,
             "minimum": 0.01389,
             "maximum": 188.756425,
-            "p01": 1.090792,
-            "p99": 147.999459,
+            "p01": 1.101932,
+            "p99": 147.734627,
             "display": {
               "minimum": 0.0,
               "maximum": 200.0,
@@ -22689,6 +22704,7 @@
                 "BOI",
                 "BOU",
                 "BOX",
+                "BRO",
                 "BTV",
                 "BUF",
                 "BYZ",
@@ -22696,6 +22712,7 @@
                 "CAR",
                 "CHS",
                 "CLE",
+                "CRP",
                 "CTP",
                 "CYS",
                 "DDC",
@@ -22706,6 +22723,7 @@
                 "EAX",
                 "EKA",
                 "EPZ",
+                "EWX",
                 "FFC",
                 "FGF",
                 "FGZ",
@@ -22719,6 +22737,7 @@
                 "GRR",
                 "GSP",
                 "GYX",
+                "HGX",
                 "HNX",
                 "HUN",
                 "ICT",
@@ -22789,14 +22808,10 @@
                 "UNR",
                 "VEF"
               ],
-              "unsupported_cwas": [
-                "BRO",
-                "CRP",
-                "EWX",
-                "HGX"
-              ],
+              "unsupported_cwas": [],
               "lookup_sha256": "ef71a7cb26d6378f587bf29783efc0a89ace96c3fd562682568f41b8027f83f5",
               "description": "Measured CIPS CWA ratios with explicit owner-assumed fills; no ratio smoothing.",
+              "florida_display_policy": "owner_requested_white_mask; underlying values retained",
               "measured_supported_cwas": [
                 "ABQ",
                 "ABR",
@@ -22911,30 +22926,33 @@
                 "KEY": 7.0,
                 "MFL": 7.0,
                 "MLB": 7.0,
-                "TBW": 7.0
+                "TBW": 7.0,
+                "BRO": 7.0,
+                "CRP": 7.0,
+                "HGX": 7.0,
+                "EWX": 8.0
               },
               "assumption_status": "owner_assumed_not_measured_CIPS",
               "assumption_reasons": {
                 "PSR": "Use neighboring TWC measured mean (10:1), per owner.",
-                "8": "Owner-selected Southeast assumption.",
-                "7": "Owner-selected Gulf Coast / Florida assumption."
+                "8": "Owner-selected Southeast / inland EWX assumption.",
+                "7": "Owner-selected Gulf Coast / Florida / coastal Texas assumption."
               }
             },
             "native_departure_status": "unavailable",
             "bias_correction": "none",
-            "unsupported_cwas": [
-              "BRO",
-              "CRP",
-              "EWX",
-              "HGX"
-            ],
-            "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing"
+            "unsupported_cwas": [],
+            "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing",
+            "display_overrides": {
+              "Florida": "white mask; numeric values retained",
+              "white_below_inches": 0.1
+            }
           },
-          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 15 CWAs; 4 Texas CWAs unavailable. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs; Florida displayed white without changing numeric values. Separate phase-derived departures are not its reference.",
           "native_lwe_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_lwe_202701-202703.csv.gz"
         }
       ],
-      "source_warning": "Unadjusted native snowfall \u00d7 CIPS/assumed CWA ratios; 15 assumed and 4 Texas CWAs unavailable. The separate phase-derived departure is not a reference for this accumulation.",
+      "source_warning": "Unadjusted native snowfall \u00d7 CIPS/assumed CWA ratios; 19 assumed CWAs; Florida displayed white without changing numeric values. The separate phase-derived departure is not a reference for this accumulation.",
       "rolling_window": {
         "days": 6,
         "expected_cycles": 24,
