@@ -83,7 +83,7 @@ class NativeSnowTests(unittest.TestCase):
                 run, errors = can.render_product_run(args,can.PRODUCT_SPECS['snowfall_anomaly'],
                     '2026090100',[3,4,5],[3,4,5],'',Path(tmp),output,[],None)
             self.assertEqual(errors,0)
-            seasonal = run['targets'][-1]
+            seasonal = run['targets'][0]
             self.assertEqual(seasonal['target_month'],'202612-202702')
             self.assertEqual(seasonal['quality_control']['maximum'],6.)
             self.assertEqual(seasonal['quality_control']['display']['clipped_fraction'],1.)
@@ -93,6 +93,28 @@ class NativeSnowTests(unittest.TestCase):
             self.assertEqual(errors,0)
             self.assertEqual(run['status'],'pending')
             self.assertTrue(all('image' not in t for t in run['targets']))
+
+    def test_winter_periods_and_horizon(self):
+        self.assertEqual(native.winter_leads('2026080100'), [4,5,6,7])
+        self.assertEqual(native.winter_leads('2026090100'), [3,4,5,6])
+        self.assertEqual(native.winter_leads('2026100100'), [2,3,4,5])
+        self.assertEqual(native.winter_leads('2027010100'), [-1,0,1,2])
+        with tempfile.TemporaryDirectory() as tmp:
+            args = can.build_parser().parse_args(['--product','snowfall_anomaly','--decode-only'])
+            def field(_, init, lead):
+                self.assertIn(lead, range(6))
+                return can.Grid([0],[0],[[float(lead)]]), {'components': []}
+            with patch.object(native.NativeSnowArchive,'grid',field):
+                august, errors = native.render_run(args,'2026080100',[0,1,2,3,4,5],[3,4,5],Path(tmp),Path(tmp)/'out',[])
+                october, other_errors = native.render_run(args,'2026100100',[],[],Path(tmp),Path(tmp)/'out',[])
+            self.assertEqual(errors + other_errors, 0)
+            self.assertEqual([t['target_month'] for t in august['targets']],
+                             ['202612-202702','202701-202703','202612','202701','202702','202703'])
+            self.assertEqual(august['targets'][0]['missing_months'],['202702'])
+            self.assertEqual(august['targets'][1]['missing_months'],['202702','202703'])
+            self.assertTrue(all('image' not in t for t in august['targets'][:2]))
+            self.assertEqual(october['targets'][0]['quality_control']['maximum'],9.)
+            self.assertEqual(october['targets'][1]['quality_control']['maximum'],12.)
 
     def test_legacy_maps_removed_from_current_manifest(self):
         with tempfile.TemporaryDirectory() as tmp:

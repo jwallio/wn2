@@ -149,16 +149,27 @@ def quality(grid):
             'issues': [], 'validation_scope': 'data integrity and units; not observational forecast skill'}
 
 
+def winter_leads(init):
+    """December–March for the winter containing/following this initialization."""
+    year, month = int(init[:4]), int(init[4:6])
+    december_year = year - 1 if month <= 3 else year
+    december_lead = (december_year - year) * 12 + 12 - month
+    return list(range(december_lead, december_lead + 4))
+
+
 def render_run(args, init, leads, seasonal_leads, cache_dir, output_dir, border_paths):
     import cansips_seasonal as can
     root = Path(__file__).resolve().parents[1]
+    leads = winter_leads(init)
+    windows = [('DJF', leads[:3]), ('JFM', leads[1:])]
     run_id = f'cansips-{init}-snowfall_anomaly'
     entry = {'id': run_id, 'model': 'CanSIPS v3', 'product': 'snowfall_anomaly',
-             'method': METHOD, 'source': 'ECCC CanSIPS v3 / Copernicus C3S', 'source_url': SOURCE_URL,
+             'presentation': 'winter_djf_jfm_v1', 'method': METHOD, 'source': 'ECCC CanSIPS v3 / Copernicus C3S', 'source_url': SOURCE_URL,
              'init_utc': can.iso_utc(dt.datetime.strptime(init, '%Y%m%d%H').replace(tzinfo=dt.timezone.utc)),
              'generated_utc': can.iso_utc(dt.datetime.now(dt.timezone.utc)),
              'field': 'snowfall_anomaly', 'units': 'in', 'raw_field': VARIABLE, 'raw_units': 'm s-1',
              'statistic': 'ensemble_mean', 'ensemble_members': 40,
+             'aggregation': 'ensemble-mean seasonal total departure; sum monthly departures',
              'ensemble_scope': '20 CanESM5 + 20 GEM5.2-NEMO members; equal component weights',
              'climatology': {'source': BASELINE, 'years': '1993-2016', 'method': 'provider postprocessed; no second subtraction'},
              'display': {'quantity': 'estimated snowfall depth departure', 'units': 'in',
@@ -188,10 +199,10 @@ def render_run(args, init, leads, seasonal_leads, cache_dir, output_dir, border_
         write_grid_state(grid, gridpath)
         t['numeric_grid'] = relative_path(gridpath, root)
         if not args.decode_only:
-            imagepath = output_dir / init[:8] / f'cansips_native_snowfalla_{target}.jpg'
+            imagepath = output_dir / init[:8] / f'cansips_native_snowfalla_winter_{target}.jpg'
             can.render_standalone(grid, init, target[:6], lead, list(range(1, 41)), imagepath,
                 anomaly=True, baseline_label=BASELINE, border_paths=border_paths,
-                ensemble_label='40-member native snowfall blend', product_spec=product,
+                ensemble_label='40-member mean' + ('  •  Seasonal total departure' if seasonal else ''), product_spec=product,
                 seasonal=seasonal,
                 period_label=can.seasonal_period_label(*target.split('-')) if seasonal else None)
             t.update(image=relative_path(imagepath, root), status='rendered')
@@ -200,6 +211,9 @@ def render_run(args, init, leads, seasonal_leads, cache_dir, output_dir, border_
         target = can.target_month(init, lead)
         t = target_entry(target, lead)
         try:
+            if lead not in range(6):
+                raise NotAvailable(f'{can.target_month(init, lead)} is outside this initialization’s native snowfall range. '
+                                   'Use an initialization covering this month; months from different runs are not combined.')
             grid, source = archive.grid(init, lead)
             t['source_files'] = source['components']
             output(grid, t, lead)
@@ -211,10 +225,12 @@ def render_run(args, init, leads, seasonal_leads, cache_dir, output_dir, border_
             t.update(status='failed', error=str(exc))
         monthly[lead] = t
         entry['targets'].append(t)
-    if seasonal_leads:
+    for season, seasonal_leads in windows:
         target = f'{can.target_month(init, seasonal_leads[0])}-{can.target_month(init, seasonal_leads[-1])}'
         t = target_entry(target, f'{seasonal_leads[0]}–{seasonal_leads[-1]}')
         t['monthly_leads'] = seasonal_leads
+        t['season'] = season
+        t['aggregation'] = 'ensemble-mean seasonal total departure'
         if all(l in grids for l in seasonal_leads):
             try:
                 output(sum_grids([grids[l] for l in seasonal_leads]), t, t['lead_month'], True)
@@ -222,9 +238,16 @@ def render_run(args, init, leads, seasonal_leads, cache_dir, output_dir, border_
                 failures += 1
                 t.update(status='failed', error=str(exc))
         else:
-            t.update(status='failed' if failures else 'pending',
-                     error='Waiting for complete native snowfall for every month and both Canadian models.')
+            missing = [l for l in seasonal_leads if l not in grids]
+            labels = ', '.join(dt.datetime.strptime(can.target_month(init, l), '%Y%m').strftime('%b %Y') for l in missing)
+            outside = any(l not in range(6) for l in missing)
+            t.update(status='failed' if any(monthly[l]['status'] == 'failed' for l in missing) else 'pending',
+                     missing_months=[can.target_month(init, l) for l in missing],
+                     error=f'{season} unavailable: missing {labels}. ' +
+                           ('This initialization does not cover the complete season; use a run covering all three months.' if outside else
+                            'Awaiting native snowfall from both Canadian models.'))
         entry['targets'].append(t)
+    entry['targets'] = entry['targets'][-2:] + entry['targets'][:-2]
     states = {t['status'] for t in entry['targets']}
     entry['status'] = ('failed' if failures else 'pending' if states == {'pending'}
                        else 'partial' if 'pending' in states else 'decoded' if args.decode_only else 'rendered')

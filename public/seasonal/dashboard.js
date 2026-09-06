@@ -1245,7 +1245,9 @@ function renderCompare() {
 }
 function renderControls(model, run, targets) {
   const controls = el('target-controls'); controls.replaceChildren();
+  const winterSnow = run?.presentation === 'winter_djf_jfm_v1';
   targets.forEach((target, index) => {
+    if (winterSnow && index === 2) { const breakRow = document.createElement('span'); breakRow.style.flexBasis = '100%'; breakRow.setAttribute('aria-hidden', 'true'); controls.appendChild(breakRow); }
     const button = document.createElement('button'); button.type = 'button'; button.textContent = target.label; button.dataset.targetIndex = String(index);
     const active = String(target.key) === String(selection.target); button.classList.toggle('active', active); button.setAttribute('aria-pressed', String(active));
     button.addEventListener('click', () => { selection.target = target.key; renderAll(); });
@@ -1331,10 +1333,10 @@ function renderAll() {
     setImageFallbacks(imageElement, [image, originalImage], () => { el('download-link').hidden = true; setMessage('The manifest is available, but this image is not present in the published Pages tree.'); });
     const imageButton = document.createElement('button'); imageButton.type = 'button'; imageButton.className = 'image-button'; imageButton.setAttribute('aria-label', `Open full-size ${imageElement.alt}`); imageButton.addEventListener('click', () => { dialogOpener = imageButton; openMapDialog(imageElement.src, imageElement.alt); }); imageButton.appendChild(imageElement); el('map-wrap').appendChild(imageButton);
     el('download-link').href = image; el('download-link').download = downloadFileName(image); el('download-link').hidden = false;
-  } else setMessage('No rendered image is available for this target.');
+  } else setMessage(targetValue?.error || 'No rendered image is available for this target.');
   const warning = el('warning');
   if (targetValue?.status === 'failed') { warning.style.display = 'block'; warning.textContent = targetValue.error || 'This target failed; retained history remains selectable.'; }
-  else if (targetValue?.status === 'partial' || run.status === 'partial') { const counts = runCoverageCounts(run, targetValue); const coverage = counts ? ` (${counts.available}/${counts.expected} ${run.ensemble_scope === 'rolling_initial_conditions' ? 'cycles' : 'members'})` : ''; warning.style.display = 'block'; warning.textContent = `This run is partial${coverage}; retained history remains selectable.`; }
+  else if (targetValue?.status === 'partial' || (run.status === 'partial' && run.presentation !== 'winter_djf_jfm_v1')) { const counts = runCoverageCounts(run, targetValue); const coverage = counts ? ` (${counts.available}/${counts.expected} ${run.ensemble_scope === 'rolling_initial_conditions' ? 'cycles' : 'members'})` : ''; warning.style.display = 'block'; warning.textContent = `This run is partial${coverage}; retained history remains selectable.`; }
   else if (run.source_warning) { warning.style.display = 'block'; warning.textContent = run.source_warning; }
   else warning.style.display = 'none';
   el('footer-copy').textContent = modelState.manifest.generated_utc ? `Updated ${initLabel(modelState.manifest.generated_utc)} · ${model.source}` : model.source;
