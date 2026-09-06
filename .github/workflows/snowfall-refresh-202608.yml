@@ -15,7 +15,7 @@ permissions:
 jobs:
   dispatch:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 40
     steps:
       - name: Refresh native CanSIPS map titles and download metadata
         env:
@@ -34,3 +34,33 @@ jobs:
           -f product=snowfall_anomaly -f init=202608
           -f lead_months=4,5 -f seasonal_window=4,5
           -f minimum_members=6
+      - name: Publish each successful refreshed product
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          REFRESH_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          for workflow in cansips.yml superensemble.yml; do
+            run_id=""
+            for attempt in {1..12}; do
+              run_id=$(gh run list --workflow "$workflow" --branch main --event workflow_dispatch --json databaseId,headSha --jq ".[] | select(.headSha == \"$REFRESH_SHA\") | .databaseId" | head -1)
+              [[ -n "$run_id" ]] && break
+              sleep 5
+            done
+            test -n "$run_id"
+            gh run watch "$run_id" --exit-status --interval 15
+            source_name=$(gh run view "$run_id" --json workflowName --jq .workflowName)
+            gh workflow run publish-pages.yml --ref main -f source_workflow="$source_name" -f source_run_id="$run_id"
+            publish_id=""
+            for attempt in {1..12}; do
+              publish_id=$(gh run list --workflow publish-pages.yml --branch main --event workflow_dispatch --json databaseId,headSha --jq ".[] | select(.headSha == \"$REFRESH_SHA\") | .databaseId" | head -1)
+              [[ -n "$publish_id" && "$publish_id" != "${previous_publish_id:-}" ]] && break
+              sleep 5
+            done
+            test -n "$publish_id"
+            test "$publish_id" != "${previous_publish_id:-}"
+            gh run watch "$publish_id" --exit-status --interval 15
+            previous_publish_id="$publish_id"
+          done
