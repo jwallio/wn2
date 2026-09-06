@@ -93,10 +93,18 @@ def cached_cycle(session, args, cycle, member, target, state_dir, cache_dir, wgr
     raw.parent.mkdir(parents=True, exist_ok=True)
     for attempt in range(3):
         try:
-            time.sleep(max(0., args.request_delay))
+            limiter = getattr(args, '_request_limiter', None)
+            if limiter is not None:
+                limiter.wait()
+            else:
+                time.sleep(max(0., args.request_delay))
             index, _ = get_bounded(session, url + '.idx', 100000)
             start, end = snowfall_record(index.decode('ascii'), cycle, target)
-            time.sleep(max(0., args.request_delay))
+            limiter = getattr(args, '_request_limiter', None)
+            if limiter is not None:
+                limiter.wait()
+            else:
+                time.sleep(max(0., args.request_delay))
             content, headers = get_bounded(session, url, 200000,
                 {'Range': f'bytes={start}-{end if end is not None else ""}'})
             match = re.fullmatch(r'bytes (\d+)-(\d+)/(\d+)', headers.get('Content-Range', ''))
@@ -142,8 +150,22 @@ def decode(args, init, target, members, rolling_inits, cache_dir, state_dir, wgr
     pairs = [(cycle, args.rolling_member) for cycle in rolling_inits] if rolling_inits else [(init, m) for m in members]
     if not pairs or len(set(pairs)) != len(pairs):
         raise ValueError('Native snowfall requires unique complete cycles/members')
-    with requests.Session() as session:
-        decoded = [cached_cycle(session,args,c,m,target,state_dir,cache_dir,wgrib2) for c,m in pairs]
+    workers = min(4, max(1, getattr(args, 'decode_workers', 1)))
+    if workers > 1:
+        import argparse
+        from concurrent.futures import ThreadPoolExecutor
+        from cfsv2_execution import RequestLimiter
+        child = argparse.Namespace(**vars(args))
+        child._request_limiter = RequestLimiter(args.request_delay)
+        def one(pair):
+            # Each worker owns its session; no shared requests.Session state.
+            with requests.Session() as session:
+                return cached_cycle(session, child, *pair, target, state_dir, cache_dir, wgrib2)
+        with ThreadPoolExecutor(max_workers=workers) as pool:
+            decoded = list(pool.map(one, pairs))
+    else:
+        with requests.Session() as session:
+            decoded = [cached_cycle(session,args,c,m,target,state_dir,cache_dir,wgrib2) for c,m in pairs]
     lwe = strict_mean([g for g,_ in decoded], expected=len(pairs))
     depth = depth_grid(lwe)
     _, meta = lookup()

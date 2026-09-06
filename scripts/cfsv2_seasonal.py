@@ -2004,6 +2004,14 @@ def decode_target_ensemble(
 ) -> tuple:
     """Decode either the original single-cycle ensemble or a rolling blend."""
 
+    from cfsv2_execution import parallel_cycles
+    parallel = parallel_cycles(
+        decode_target_ensemble, args, init, target, members, rolling_inits,
+        cache_dir, state_dir, wgrib2, repo_root, last_request, product_spec,
+        return_member_grids)
+    if parallel is not None:
+        return parallel
+
     source_kind = product_spec["source_kind"]
 
     def prepare_grid(grid: Grid) -> Grid:
@@ -2048,44 +2056,63 @@ def decode_target_ensemble(
                 "state_file": relative_path(state_path, repo_root),
             }
             try:
-                downloaded, last_request = download_file(
-                    url,
-                    cache_path,
-                    max(0.0, args.request_delay),
-                    last_request,
-                )
-                grid = prepare_grid(
-                    decode_grib(
+                retained = None
+                if state_path.exists() and not args.force_decode:
+                    try:
+                        retained = read_grid_state(state_path)
+                        from cfsv2_execution import validate_retained
+                        validate_retained(retained, product_spec)
+                    except Exception:
+                        # An invalid cache is repaired from the source, never used.
+                        retained = None
+                if retained is not None:
+                    grid = retained
+                    source_file.update(storage="retained_decoded_grid", downloaded=False)
+                    source_file.update(source_metadata())
+                else:
+                    limiter = getattr(args, '_request_limiter', None)
+                    if limiter is not None and not cache_path.exists():
+                        limiter.wait()
+                    downloaded, last_request = download_file(
+                        url,
                         cache_path,
-                        wgrib2,
-                        force=args.force_decode,
-                        match_pattern=product_spec["match"],
-                        cache_tag=product_spec["cache_tag"],
-                        expected_shape=product_spec["grid_shape"],
+                        0.0 if limiter is not None else max(0.0, args.request_delay),
+                        last_request,
                     )
-                )
-                write_grid_state(grid, state_path)
-                if rolling_inits and not getattr(args, "keep_source_cache", False):
-                    # The compressed decoded state is the durable rolling input;
-                    # do not grow the CI cache with dozens of 25-MB GRIB2 files.
-                    decoded_csv = cache_path.with_name(
-                        cache_path.name + f".{product_spec['cache_tag']}.csv"
+                    grid = prepare_grid(
+                        decode_grib(
+                            cache_path,
+                            wgrib2,
+                            force=args.force_decode,
+                            match_pattern=product_spec["match"],
+                            cache_tag=product_spec["cache_tag"],
+                            expected_shape=product_spec["grid_shape"],
+                        )
                     )
-                    for temporary_source in (cache_path, decoded_csv):
-                        try:
-                            temporary_source.unlink()
-                        except FileNotFoundError:
-                            pass
-                source_file.update(
-                    {
-                        "storage": "nomads_grib2",
-                        "downloaded": downloaded,
-                    }
-                )
-                source_file.update(source_metadata())
+                    write_grid_state(grid, state_path)
+                    if rolling_inits and not getattr(args, "keep_source_cache", False):
+                        # The compressed decoded state is the durable rolling input;
+                        # do not grow the CI cache with dozens of 25-MB GRIB2 files.
+                        decoded_csv = cache_path.with_name(
+                            cache_path.name + f".{product_spec['cache_tag']}.csv"
+                        )
+                        for temporary_source in (cache_path, decoded_csv):
+                            try:
+                                temporary_source.unlink()
+                            except FileNotFoundError:
+                                pass
+                    source_file.update(
+                        {
+                            "storage": "nomads_grib2",
+                            "downloaded": downloaded,
+                        }
+                    )
+                    source_file.update(source_metadata())
             except Exception as exc:
-                if state_path.exists():
+                if state_path.exists() and not args.force_decode:
                     grid = read_grid_state(state_path)
+                    from cfsv2_execution import validate_retained
+                    validate_retained(grid, product_spec)
                     source_file.update(
                         {
                             "storage": "retained_decoded_grid",
@@ -2160,7 +2187,25 @@ def decode_target_ensemble(
     return result
 
 
-def decode_snowfall_target_ensemble(
+def decode_snowfall_target_ensemble(args, init, target, members, rolling_inits,
+                                    cache_dir, state_dir, wgrib2, repo_root,
+                                    last_request, product_name=PRODUCT_SNOWFALL_ANOMALY):
+    import copy
+    memo = getattr(args, '_monthly_snow_results', None)
+    key = (init, target, product_name, tuple(members), tuple(rolling_inits))
+    if memo is not None and key in memo:
+        result = copy.deepcopy(memo[key])
+        return (*result[:5], max(last_request, result[5]), result[6])
+    result = _decode_snowfall_target_ensemble(
+        args, init, target, members, rolling_inits, cache_dir, state_dir,
+        wgrib2, repo_root, last_request, product_name)
+    if memo is not None:
+        # Callers pop the native LWE grid from diagnostics; isolate the cache.
+        memo[key] = copy.deepcopy(result)
+    return result
+
+
+def _decode_snowfall_target_ensemble(
     args: argparse.Namespace,
     init: str,
     target: str,
@@ -3666,6 +3711,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--common-reference-dir", type=Path, help="cached CanSIPS 1991-2020 reference grids for the comparison view")
     parser.add_argument("--common-reference-url", default="", help="base URL for published CanSIPS 1991-2020 reference grids")
     parser.add_argument("--wgrib2", default="", help="path to wgrib2.exe; CFSV2_WGRIB2 is also honored")
+    parser.add_argument("--decode-workers", type=int, choices=range(1, 5), default=1, help="parallel forecast cycles (1-4; NOAA request spacing is shared)")
     parser.add_argument("--request-delay", type=float, default=2.0, help="seconds between NOAA downloads")
     parser.add_argument("--border-geojson", action="append", type=Path, help="local GeoJSON border file; repeatable")
     parser.add_argument("--no-borders", action="store_true", help="skip optional border downloads/drawing")
@@ -4443,6 +4489,7 @@ def run(args: argparse.Namespace) -> int:
     repo_root = Path(__file__).resolve().parents[1]
     resolved_init = discover_latest_init() if args.init == "latest" else parse_init(args.init)
     expected_run_id = f"cfsv2-{resolved_init}-{product_name}"
+    args._monthly_snow_results = {}
     window_runs: list[dict] = []
     result = 0
     with tempfile.TemporaryDirectory(prefix="cfsv2-seasonal-windows-") as temporary:

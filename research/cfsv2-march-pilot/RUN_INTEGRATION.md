@@ -93,3 +93,25 @@ skill or reduce the native snow-depth totals shown by the separate product.
 This test uses ecCodes for independent forecast decoding; it is not a claim
 that a GitHub-hosted wgrib2/Pages run has already completed. The standard GitHub
 contract workflow checks the integration before merge.
+
+### Forecast generation performance
+
+The production workflow uses `--decode-workers 2` (CLI range 1–4; default 1).
+Independent cycles decode concurrently, with a shared limiter retaining the
+configured two-second spacing between NOAA request starts. Results are combined
+in the original cycle order. Partial rolling windows keep their serial path.
+Native SRWEQ uses separate HTTP sessions per task and the same shared limiter.
+
+Retained anomaly dependency grids are read before requesting NOAA files. Their
+shape and finite values are validated; unreadable/invalid caches are repaired
+from the source. Stored precipitation is already converted to the target month's
+amount and is never converted again. `--force-decode` bypasses retained grids and
+fails if fresh decoding fails. Historical reference caching remains enabled.
+
+For multiple snowfall seasonal windows, monthly forecast results are retained
+only for that invocation and reused by the additional composites. DJF + JFM with
+December–March monthly maps needs four monthly calculations instead of seven.
+Copies protect native LWE diagnostics from callers that remove internal fields.
+Rendering resolution, snowfall calculations, reference formulas, completeness
+requirements, and publication gates are unchanged. End-to-end speedup depends
+on cache availability and NOAA latency; production timing is still to be measured.
