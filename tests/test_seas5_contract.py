@@ -121,6 +121,9 @@ def main() -> int:
     northern_height = module.PRODUCT_SPECS["500mb_height_anomaly_nh"]
     check(northern_height["region"] == module.NORTHERN_HEMISPHERE_REGION, "SEAS5 Northern Hemisphere 500-mb view must use the polar region")
     check(northern_height["projection"] == "north_polar_stereographic", "SEAS5 Northern Hemisphere 500-mb view must use the polar projection")
+    check(northern_height["projection_central_longitude"] == -100., "North America must face the bottom")
+    check(northern_height["polar_frame_latitude"] == 30., "NH frame must zoom to 30N at edge midpoints")
+    check(len(northern_height["anomaly_palette"])+1 == len(northern_height["anomaly_ticks"]), "NH colors must align with bounds")
     for product in (module.T850_ANOMALY, module.T2M_ANOMALY):
         temperature_spec = module.PRODUCT_SPECS[product]
         check((temperature_spec["anomaly_min"], temperature_spec["anomaly_max"]) == (-7.0, 7.0), f"SEAS5 {product} should use the shared ±7 °C range")

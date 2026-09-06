@@ -151,3 +151,13 @@ and retained historical runs are not automatically corrected by changing code.
 References:
 - https://ecmwf-projects.github.io/copernicus-training-c3s/sf-anomalies.html
 - https://cds.climate.copernicus.eu/datasets/seasonal-postprocessed-single-levels
+
+
+## Northern Hemisphere framing
+
+The standalone NH 500-mb view uses a north-polar stereographic projection
+centered on 100°W, placing North America below the pole. A square crop reaches
+30°N at edge midpoints (farther south in corners), retaining the full NH source
+coverage. Anomalies use a ±200 m scale, white near zero, pale neutral/yellow
+weak positive departures, and stronger oranges/reds for larger departures.
+The signed anomaly values and black absolute-height contours are unchanged.
