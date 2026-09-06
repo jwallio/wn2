@@ -1245,7 +1245,7 @@ function renderCompare() {
 }
 function renderControls(model, run, targets) {
   const controls = el('target-controls'); controls.replaceChildren();
-  const winterSnow = run?.presentation === 'winter_djf_jfm_v1';
+  const winterSnow = selection.model === 'cansips' && selection.product === 'snowfall_anomaly';
   targets.forEach((target, index) => {
     if (winterSnow && index === 2) { const breakRow = document.createElement('span'); breakRow.style.flexBasis = '100%'; breakRow.setAttribute('aria-hidden', 'true'); controls.appendChild(breakRow); }
     const button = document.createElement('button'); button.type = 'button'; button.textContent = target.label; button.dataset.targetIndex = String(index);
@@ -1336,7 +1336,7 @@ function renderAll() {
   } else setMessage(targetValue?.error || 'No rendered image is available for this target.');
   const warning = el('warning');
   if (targetValue?.status === 'failed') { warning.style.display = 'block'; warning.textContent = targetValue.error || 'This target failed; retained history remains selectable.'; }
-  else if (targetValue?.status === 'partial' || (run.status === 'partial' && run.presentation !== 'winter_djf_jfm_v1')) { const counts = runCoverageCounts(run, targetValue); const coverage = counts ? ` (${counts.available}/${counts.expected} ${run.ensemble_scope === 'rolling_initial_conditions' ? 'cycles' : 'members'})` : ''; warning.style.display = 'block'; warning.textContent = `This run is partial${coverage}; retained history remains selectable.`; }
+  else if (targetValue?.status === 'partial' || (run.status === 'partial' && !(selection.model === 'cansips' && selection.product === 'snowfall_anomaly'))) { const counts = runCoverageCounts(run, targetValue); const coverage = counts ? ` (${counts.available}/${counts.expected} ${run.ensemble_scope === 'rolling_initial_conditions' ? 'cycles' : 'members'})` : ''; warning.style.display = 'block'; warning.textContent = `This run is partial${coverage}; retained history remains selectable.`; }
   else if (run.source_warning) { warning.style.display = 'block'; warning.textContent = run.source_warning; }
   else warning.style.display = 'none';
   el('footer-copy').textContent = modelState.manifest.generated_utc ? `Updated ${initLabel(modelState.manifest.generated_utc)} · ${model.source}` : model.source;
