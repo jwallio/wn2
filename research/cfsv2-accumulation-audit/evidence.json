@@ -1,0 +1,1920 @@
+{
+  "run": "cfsv2-2026090512-snowfall_accumulation",
+  "formula": "mean(SRWEQ) * calendar_days * 86400 / 25.4 * CWA_SLR",
+  "sources": [
+    {
+      "target": "202701",
+      "url": "https://nomads.ncep.noaa.gov/pub/data/nccf/com/cfs/prod/cfs.20260905/12/monthly_grib_01/flxf.01.2026090512.202701.avrg.grib.grb2",
+      "sha256": "45de4169c08574fac3b6174d55bc1819b84cfdf0051bf324917ea2d3d50836ba",
+      "metadata": {
+        "discipline": 0,
+        "parameterCategory": 1,
+        "parameterNumber": 12,
+        "typeOfLevel": "surface",
+        "units": "kg m**-2 s**-1",
+        "stepType": "avg",
+        "dataDate": 20260905,
+        "dataTime": 1200,
+        "forecastTime": 4,
+        "indicatorOfUnitOfTimeRange": 3
+      },
+      "max_rate": 0.00010920000000000003,
+      "finite": true,
+      "min_rate": 0.0
+    },
+    {
+      "target": "202702",
+      "url": "https://nomads.ncep.noaa.gov/pub/data/nccf/com/cfs/prod/cfs.20260905/12/monthly_grib_01/flxf.01.2026090512.202702.avrg.grib.grb2",
+      "sha256": "61389784b294dd9fe132f2dde8d8fa5e7907649197ad14083c35a407de4b7144",
+      "metadata": {
+        "discipline": 0,
+        "parameterCategory": 1,
+        "parameterNumber": 12,
+        "typeOfLevel": "surface",
+        "units": "kg m**-2 s**-1",
+        "stepType": "avg",
+        "dataDate": 20260905,
+        "dataTime": 1200,
+        "forecastTime": 5,
+        "indicatorOfUnitOfTimeRange": 3
+      },
+      "max_rate": 0.00010320000000000003,
+      "finite": true,
+      "min_rate": 0.0
+    },
+    {
+      "target": "202703",
+      "url": "https://nomads.ncep.noaa.gov/pub/data/nccf/com/cfs/prod/cfs.20260905/12/monthly_grib_01/flxf.01.2026090512.202703.avrg.grib.grb2",
+      "sha256": "ff362235f9658bda1a96c69e038fc4252a02963bec940050e06feebd2255b995",
+      "metadata": {
+        "discipline": 0,
+        "parameterCategory": 1,
+        "parameterNumber": 12,
+        "typeOfLevel": "surface",
+        "units": "kg m**-2 s**-1",
+        "stepType": "avg",
+        "dataDate": 20260905,
+        "dataTime": 1200,
+        "forecastTime": 6,
+        "indicatorOfUnitOfTimeRange": 3
+      },
+      "max_rate": 0.0002753000000000001,
+      "finite": true,
+      "min_rate": 0.0
+    }
+  ],
+  "months": {
+    "202701": {
+      "ratio_conversion_max_error_in": 0.0,
+      "Denton_approx_bilinear_lwe_in": 1.15400380486718,
+      "Denton_approx_depth_in": 15.925252507167084,
+      "Denton_10_to_1_sensitivity_in": 11.5400380486718,
+      "cycles": 24
+    },
+    "202702": {
+      "ratio_conversion_max_error_in": 0.0,
+      "Denton_approx_bilinear_lwe_in": 1.2217812048846666,
+      "Denton_approx_depth_in": 16.8605806274084,
+      "Denton_10_to_1_sensitivity_in": 12.217812048846666,
+      "cycles": 24
+    },
+    "202703": {
+      "ratio_conversion_max_error_in": 0.0,
+      "Denton_approx_bilinear_lwe_in": 1.217101433548763,
+      "Denton_approx_depth_in": 16.79599978297293,
+      "Denton_10_to_1_sensitivity_in": 12.17101433548763,
+      "cycles": 24
+    },
+    "202701-202703": {
+      "ratio_conversion_max_error_in": 2.842170943040401e-14,
+      "Denton_approx_bilinear_lwe_in": 3.5928864433006096,
+      "Denton_approx_depth_in": 49.58183291754842,
+      "Denton_10_to_1_sensitivity_in": 35.9288644330061,
+      "cycles": 24
+    }
+  },
+  "seasonal_sum_max_error_in": 0.0,
+  "historical_screen": {
+    "December": {
+      "improved_stations": 15,
+      "total_stations": 15,
+      "cases_per_station": [
+        6,
+        7
+      ],
+      "stations": [
+        {
+          "station": "KRDU",
+          "cases": 7,
+          "raw_mae": 2.9012909786276717,
+          "adjusted_mae": 2.019054652927023
+        },
+        {
+          "station": "KAVL",
+          "cases": 7,
+          "raw_mae": 4.683530753655793,
+          "adjusted_mae": 3.827972879394437
+        },
+        {
+          "station": "KOKC",
+          "cases": 7,
+          "raw_mae": 8.032269336332961,
+          "adjusted_mae": 2.104842706604203
+        },
+        {
+          "station": "KORD",
+          "cases": 7,
+          "raw_mae": 16.35679273340833,
+          "adjusted_mae": 4.672104595830788
+        },
+        {
+          "station": "KBOS",
+          "cases": 7,
+          "raw_mae": 12.792983374578181,
+          "adjusted_mae": 4.515209882105717
+        },
+        {
+          "station": "KDFW",
+          "cases": 7,
+          "raw_mae": 4.842849988751408,
+          "adjusted_mae": 0.3291157056913045
+        },
+        {
+          "station": "KDEN",
+          "cases": 6,
+          "raw_mae": 17.690492230971135,
+          "adjusted_mae": 5.699098053607997
+        },
+        {
+          "station": "KMSP",
+          "cases": 7,
+          "raw_mae": 12.709753318335215,
+          "adjusted_mae": 6.523126095725206
+        },
+        {
+          "station": "KDTW",
+          "cases": 7,
+          "raw_mae": 10.506216287964008,
+          "adjusted_mae": 7.241211319741564
+        },
+        {
+          "station": "KCLE",
+          "cases": 7,
+          "raw_mae": 22.09246029246345,
+          "adjusted_mae": 7.382994402615355
+        },
+        {
+          "station": "KBUF",
+          "cases": 7,
+          "raw_mae": 21.076213970753663,
+          "adjusted_mae": 18.934448679319438
+        },
+        {
+          "station": "KALB",
+          "cases": 7,
+          "raw_mae": 23.518967469066375,
+          "adjusted_mae": 6.353414677909556
+        },
+        {
+          "station": "KBTV",
+          "cases": 6,
+          "raw_mae": 27.73981338582678,
+          "adjusted_mae": 6.114828335678851
+        },
+        {
+          "station": "KPIT",
+          "cases": 7,
+          "raw_mae": 20.34973732283465,
+          "adjusted_mae": 7.681160768901015
+        },
+        {
+          "station": "KSTL",
+          "cases": 7,
+          "raw_mae": 12.384795500562435,
+          "adjusted_mae": 1.1372158014600209
+        }
+      ]
+    },
+    "January": {
+      "improved_stations": 13,
+      "total_stations": 15,
+      "cases_per_station": [
+        3,
+        4
+      ],
+      "stations": [
+        {
+          "station": "KRDU",
+          "cases": 4,
+          "raw_mae": 2.628261102362205,
+          "adjusted_mae": 2.7371367691266624
+        },
+        {
+          "station": "KAVL",
+          "cases": 4,
+          "raw_mae": 5.7629183464566935,
+          "adjusted_mae": 4.5413324530422
+        },
+        {
+          "station": "KOKC",
+          "cases": 4,
+          "raw_mae": 9.497474960629924,
+          "adjusted_mae": 1.581266637348855
+        },
+        {
+          "station": "KORD",
+          "cases": 4,
+          "raw_mae": 7.80906669291339,
+          "adjusted_mae": 6.330375956333622
+        },
+        {
+          "station": "KBOS",
+          "cases": 4,
+          "raw_mae": 11.922130826771657,
+          "adjusted_mae": 11.495534058592106
+        },
+        {
+          "station": "KDFW",
+          "cases": 4,
+          "raw_mae": 5.536724409448821,
+          "adjusted_mae": 0.3967540678799271
+        },
+        {
+          "station": "KDEN",
+          "cases": 4,
+          "raw_mae": 13.263113464566937,
+          "adjusted_mae": 2.5172482857619314
+        },
+        {
+          "station": "KMSP",
+          "cases": 4,
+          "raw_mae": 11.837659055118117,
+          "adjusted_mae": 5.106172871734348
+        },
+        {
+          "station": "KDTW",
+          "cases": 4,
+          "raw_mae": 7.5367036614173255,
+          "adjusted_mae": 5.3240616652727155
+        },
+        {
+          "station": "KCLE",
+          "cases": 4,
+          "raw_mae": 16.410075787401585,
+          "adjusted_mae": 4.424264147054088
+        },
+        {
+          "station": "KBUF",
+          "cases": 4,
+          "raw_mae": 10.545775748031499,
+          "adjusted_mae": 22.132615313171232
+        },
+        {
+          "station": "KALB",
+          "cases": 4,
+          "raw_mae": 20.449448582677174,
+          "adjusted_mae": 6.20373065461272
+        },
+        {
+          "station": "KBTV",
+          "cases": 4,
+          "raw_mae": 16.60794015748032,
+          "adjusted_mae": 9.813634071667982
+        },
+        {
+          "station": "KPIT",
+          "cases": 3,
+          "raw_mae": 15.03462929133859,
+          "adjusted_mae": 3.550595710641606
+        },
+        {
+          "station": "KSTL",
+          "cases": 4,
+          "raw_mae": 8.707866141732287,
+          "adjusted_mae": 4.238042472471495
+        }
+      ]
+    },
+    "February": {
+      "improved_stations": 13,
+      "total_stations": 15,
+      "cases_per_station": [
+        6,
+        7
+      ],
+      "stations": [
+        {
+          "station": "KRDU",
+          "cases": 7,
+          "raw_mae": 3.6301411923509574,
+          "adjusted_mae": 1.8238873653129237
+        },
+        {
+          "station": "KAVL",
+          "cases": 7,
+          "raw_mae": 6.828021777277842,
+          "adjusted_mae": 2.2811479945070774
+        },
+        {
+          "station": "KOKC",
+          "cases": 7,
+          "raw_mae": 6.706701372328461,
+          "adjusted_mae": 3.4802639409677103
+        },
+        {
+          "station": "KORD",
+          "cases": 7,
+          "raw_mae": 11.07412884139483,
+          "adjusted_mae": 8.156507213036955
+        },
+        {
+          "station": "KBOS",
+          "cases": 7,
+          "raw_mae": 9.58576821147357,
+          "adjusted_mae": 13.717180540571693
+        },
+        {
+          "station": "KDFW",
+          "cases": 7,
+          "raw_mae": 3.195663667041621,
+          "adjusted_mae": 1.1841793142225219
+        },
+        {
+          "station": "KDEN",
+          "cases": 7,
+          "raw_mae": 17.2695444544432,
+          "adjusted_mae": 5.69247624236093
+        },
+        {
+          "station": "KMSP",
+          "cases": 7,
+          "raw_mae": 13.935906074240725,
+          "adjusted_mae": 9.102271651933282
+        },
+        {
+          "station": "KDTW",
+          "cases": 7,
+          "raw_mae": 9.237351158605176,
+          "adjusted_mae": 9.710623636775551
+        },
+        {
+          "station": "KCLE",
+          "cases": 7,
+          "raw_mae": 21.890964566929142,
+          "adjusted_mae": 8.893200542303388
+        },
+        {
+          "station": "KBUF",
+          "cases": 7,
+          "raw_mae": 24.941815073115873,
+          "adjusted_mae": 10.036603593430055
+        },
+        {
+          "station": "KALB",
+          "cases": 7,
+          "raw_mae": 20.78699307086615,
+          "adjusted_mae": 6.1423441343707035
+        },
+        {
+          "station": "KBTV",
+          "cases": 6,
+          "raw_mae": 18.868974750656175,
+          "adjusted_mae": 6.410150423656508
+        },
+        {
+          "station": "KPIT",
+          "cases": 7,
+          "raw_mae": 19.66793934758156,
+          "adjusted_mae": 6.382411308770815
+        },
+        {
+          "station": "KSTL",
+          "cases": 7,
+          "raw_mae": 9.358021147356583,
+          "adjusted_mae": 4.6447010625261544
+        }
+      ]
+    },
+    "DJF": {
+      "improved_stations": 15,
+      "total_stations": 15,
+      "cases_per_station": [
+        3,
+        4
+      ],
+      "stations": [
+        {
+          "station": "KRDU",
+          "cases": 4,
+          "raw_mae": 4.729396850393702,
+          "adjusted_mae": 4.172518831761357
+        },
+        {
+          "station": "KAVL",
+          "cases": 4,
+          "raw_mae": 10.615458110236226,
+          "adjusted_mae": 5.530690354747467
+        },
+        {
+          "station": "KOKC",
+          "cases": 4,
+          "raw_mae": 24.346874488188988,
+          "adjusted_mae": 2.914621251577803
+        },
+        {
+          "station": "KORD",
+          "cases": 4,
+          "raw_mae": 34.41654377952757,
+          "adjusted_mae": 2.587361928525926
+        },
+        {
+          "station": "KBOS",
+          "cases": 4,
+          "raw_mae": 27.782615551181113,
+          "adjusted_mae": 16.5333637805892
+        },
+        {
+          "station": "KDFW",
+          "cases": 4,
+          "raw_mae": 14.257342992125988,
+          "adjusted_mae": 0.9044660264171459
+        },
+        {
+          "station": "KDEN",
+          "cases": 3,
+          "raw_mae": 42.20041821522312,
+          "adjusted_mae": 5.711898748670518
+        },
+        {
+          "station": "KMSP",
+          "cases": 4,
+          "raw_mae": 30.57400433070868,
+          "adjusted_mae": 13.122398182064192
+        },
+        {
+          "station": "KDTW",
+          "cases": 4,
+          "raw_mae": 21.45700106299214,
+          "adjusted_mae": 11.824268337058466
+        },
+        {
+          "station": "KCLE",
+          "cases": 4,
+          "raw_mae": 61.24940866141734,
+          "adjusted_mae": 9.110485393760321
+        },
+        {
+          "station": "KBUF",
+          "cases": 4,
+          "raw_mae": 43.98740511811026,
+          "adjusted_mae": 21.755229005426244
+        },
+        {
+          "station": "KALB",
+          "cases": 4,
+          "raw_mae": 73.59141165354333,
+          "adjusted_mae": 8.995113443939948
+        },
+        {
+          "station": "KBTV",
+          "cases": 3,
+          "raw_mae": 64.1484036745407,
+          "adjusted_mae": 16.359674494473474
+        },
+        {
+          "station": "KPIT",
+          "cases": 3,
+          "raw_mae": 59.181579002624694,
+          "adjusted_mae": 8.334682371264464
+        },
+        {
+          "station": "KSTL",
+          "cases": 4,
+          "raw_mae": 29.49802204724411,
+          "adjusted_mae": 4.004747496304528
+        }
+      ]
+    }
+  },
+  "historical_report_sha256": "b4aff913f88e8a25554b66aa5e2890c1f2dc17fc03e170ab35f8d7d07e3b2d9c",
+  "offline_replay": {
+    "station_results_identical": true,
+    "available_records": 930,
+    "requested_records": 936,
+    "complete_model_months": 33
+  },
+  "published_manifest_sha256": "c5771a63a884d193bf9056aa6f0a3c9263213b7ee0a6f34ee9c43a8e2a9f7953",
+  "audit_scope": "2026090512 JFM published grids; three actual anchor SRWEQ records; replay of existing 15-station DJF study. No new national calibration.",
+  "denton_coordinate": {
+    "longitude": -97.1331,
+    "latitude": 33.2148,
+    "SLR": 13.8,
+    "method": "bilinear native LWE times FWD ratio; approximate displayed value, not an observed station value"
+  },
+  "dfw_historical": {
+    "December": {
+      "rows": [
+        {
+          "initialization_year": 2011,
+          "targets": [
+            "201112"
+          ],
+          "raw": 3.249932598425198,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2012,
+          "targets": [
+            "201212"
+          ],
+          "raw": 3.443958425196852,
+          "observed": 0.5
+        },
+        {
+          "initialization_year": 2013,
+          "targets": [
+            "201312"
+          ],
+          "raw": 7.0152462992126,
+          "observed": 2.1
+        },
+        {
+          "initialization_year": 2014,
+          "targets": [
+            "201412"
+          ],
+          "raw": 7.021309606299215,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2015,
+          "targets": [
+            "201512"
+          ],
+          "raw": 5.935977637795278,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2016,
+          "targets": [
+            "201612"
+          ],
+          "raw": 5.008291653543309,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2017,
+          "targets": [
+            "201712"
+          ],
+          "raw": 8.74328881889764,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2018,
+          "targets": [
+            "201812"
+          ],
+          "raw": 5.062861417322837,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2020,
+          "targets": [
+            "202012"
+          ],
+          "raw": 3.219616062992127,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2021,
+          "targets": [
+            "202112"
+          ],
+          "raw": 3.8077568503937016,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2022,
+          "targets": [
+            "202212"
+          ],
+          "raw": 4.007845984251969,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2023,
+          "targets": [
+            "202312"
+          ],
+          "raw": 4.050289133858269,
+          "observed": 0.0
+        }
+      ],
+      "excluded_initialization_years": [
+        2019
+      ],
+      "unmatched_observations": [
+        {
+          "initialization_year": 2019,
+          "targets": [
+            "201912"
+          ],
+          "observed": 0.0,
+          "reason": "incomplete model ensemble"
+        }
+      ],
+      "scores": {
+        "walk_forward": {
+          "cases": [
+            {
+              "initialization_year": 2016,
+              "factor": 0.09750088518520168,
+              "raw": 5.008291653543309,
+              "corrected": 0.48831286948613006,
+              "climatology": 0.52,
+              "observed": 0.0
+            },
+            {
+              "initialization_year": 2017,
+              "factor": 0.08208439759657676,
+              "raw": 8.74328881889764,
+              "corrected": 0.7176875957120978,
+              "climatology": 0.43333333333333335,
+              "observed": 0.0
+            },
+            {
+              "initialization_year": 2018,
+              "factor": 0.06432776673335089,
+              "raw": 5.062861417322837,
+              "corrected": 0.3256825682568257,
+              "climatology": 0.37142857142857144,
+              "observed": 0.0
+            },
+            {
+              "initialization_year": 2020,
+              "factor": 0.05716689681969299,
+              "raw": 3.219616062992127,
+              "corrected": 0.18405545927209707,
+              "climatology": 0.325,
+              "observed": 0.0
+            },
+            {
+              "initialization_year": 2021,
+              "factor": 0.05338756138502455,
+              "raw": 3.8077568503937016,
+              "corrected": 0.20328685258964146,
+              "climatology": 0.2888888888888889,
+              "observed": 0.0
+            },
+            {
+              "initialization_year": 2022,
+              "factor": 0.04951603845779644,
+              "raw": 4.007845984251969,
+              "corrected": 0.19845265588914554,
+              "climatology": 0.26,
+              "observed": 0.0
+            },
+            {
+              "initialization_year": 2023,
+              "factor": 0.04600460176424387,
+              "raw": 4.050289133858269,
+              "corrected": 0.1863319386331939,
+              "climatology": 0.23636363636363636,
+              "observed": 0.0
+            }
+          ],
+          "groups": {
+            "all": {
+              "count": 7,
+              "raw": {
+                "mae": 4.842849988751408,
+                "rmse": 5.133827056394261,
+                "mean_error": 4.842849988751408
+              },
+              "corrected": {
+                "mae": 0.3291157056913045,
+                "rmse": 0.3796425166839903,
+                "mean_error": 0.3291157056913045
+              },
+              "climatology": {
+                "mae": 0.3478592042877757,
+                "rmse": 0.36029482375444877,
+                "mean_error": 0.3478592042877757
+              }
+            },
+            "zero_or_trace": {
+              "count": 7,
+              "raw": {
+                "mae": 4.842849988751408,
+                "rmse": 5.133827056394261,
+                "mean_error": 4.842849988751408
+              },
+              "corrected": {
+                "mae": 0.3291157056913045,
+                "rmse": 0.3796425166839903,
+                "mean_error": 0.3291157056913045
+              },
+              "climatology": {
+                "mae": 0.3478592042877757,
+                "rmse": 0.36029482375444877,
+                "mean_error": 0.3478592042877757
+              }
+            }
+          },
+          "min_training_winters": 5
+        },
+        "sensitivity": {
+          "baseline_mae_difference": -0.018743498596471224,
+          "drop_one_snowy_validation_case_differences": [],
+          "drop_one_validation_case_differences": [
+            {
+              "initialization_year": 2016,
+              "difference": -0.016586226610238102
+            },
+            {
+              "initialization_year": 2017,
+              "difference": -0.06925979209234384
+            },
+            {
+              "initialization_year": 2018,
+              "difference": -0.0142430811672588
+            },
+            {
+              "initialization_year": 2020,
+              "difference": 0.0016233417587673965
+            },
+            {
+              "initialization_year": 2021,
+              "difference": -0.007600408979341851
+            },
+            {
+              "initialization_year": 2022,
+              "difference": -0.011609524344074015
+            },
+            {
+              "initialization_year": 2023,
+              "difference": -0.013528798740809348
+            }
+          ],
+          "drop_one_training_winter": [
+            {
+              "omitted_training_initialization_year": 2011,
+              "corrected_mae": 0.3621825711447628,
+              "climatology_mae": 0.40695011337868475,
+              "difference": -0.04476754223392193,
+              "snowy_difference": null
+            },
+            {
+              "omitted_training_initialization_year": 2012,
+              "corrected_mae": 0.294310068160562,
+              "climatology_mae": 0.3286904761904762,
+              "difference": -0.03438040802991421,
+              "snowy_difference": null
+            },
+            {
+              "omitted_training_initialization_year": 2013,
+              "corrected_mae": 0.07899701358843636,
+              "climatology_mae": 0.07825963718820862,
+              "difference": 0.0007373764002277378,
+              "snowy_difference": null
+            },
+            {
+              "omitted_training_initialization_year": 2014,
+              "corrected_mae": 0.410874219414013,
+              "climatology_mae": 0.40695011337868475,
+              "difference": 0.003924106035328223,
+              "snowy_difference": null
+            },
+            {
+              "omitted_training_initialization_year": 2015,
+              "corrected_mae": 0.3954603906852605,
+              "climatology_mae": 0.40695011337868475,
+              "difference": -0.011489722693424242,
+              "snowy_difference": null
+            },
+            {
+              "omitted_training_initialization_year": 2016,
+              "corrected_mae": 0.3671121441423714,
+              "climatology_mae": 0.3883786848072562,
+              "difference": -0.02126654066488476,
+              "snowy_difference": null
+            },
+            {
+              "omitted_training_initialization_year": 2017,
+              "corrected_mae": 0.3651063409538245,
+              "climatology_mae": 0.3759977324263039,
+              "difference": -0.010891391472479417,
+              "snowy_difference": null
+            },
+            {
+              "omitted_training_initialization_year": 2018,
+              "corrected_mae": 0.34142313642123023,
+              "climatology_mae": 0.36715419501133784,
+              "difference": -0.025731058590107603,
+              "snowy_difference": null
+            },
+            {
+              "omitted_training_initialization_year": 2020,
+              "corrected_mae": 0.33463146034262486,
+              "climatology_mae": 0.36052154195011343,
+              "difference": -0.02589008160748857,
+              "snowy_difference": null
+            },
+            {
+              "omitted_training_initialization_year": 2021,
+              "corrected_mae": 0.33325534366692944,
+              "climatology_mae": 0.35536281179138324,
+              "difference": -0.0221074681244538,
+              "snowy_difference": null
+            },
+            {
+              "omitted_training_initialization_year": 2022,
+              "corrected_mae": 0.3311474676747513,
+              "climatology_mae": 0.3512358276643991,
+              "difference": -0.020088359989647808,
+              "snowy_difference": null
+            },
+            {
+              "omitted_training_initialization_year": 2023,
+              "corrected_mae": 0.3291157056913045,
+              "climatology_mae": 0.3478592042877757,
+              "difference": -0.01874349859647123,
+              "snowy_difference": null
+            }
+          ]
+        },
+        "fixed_split": {
+          "factor": 0.05716689681969299,
+          "training_initialization_years": [
+            2011,
+            2012,
+            2013,
+            2014,
+            2015,
+            2016,
+            2017,
+            2018
+          ],
+          "validation_initialization_years": [
+            2020,
+            2021,
+            2022,
+            2023
+          ],
+          "raw": {
+            "mae": 3.7713770078740163,
+            "rmse": 3.78591505867908,
+            "mean_error": 3.7713770078740163
+          },
+          "corrected": {
+            "mae": 0.21559792027729638,
+            "rmse": 0.2164290155276289,
+            "mean_error": 0.21559792027729638
+          },
+          "training_observed_climatology": {
+            "mae": 0.325,
+            "rmse": 0.325,
+            "mean_error": 0.325
+          },
+          "validation_measurable_snow_winters": 0
+        }
+      }
+    },
+    "January": {
+      "rows": [
+        {
+          "initialization_year": 2011,
+          "targets": [
+            "201201"
+          ],
+          "raw": 5.669192125984253,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2012,
+          "targets": [
+            "201301"
+          ],
+          "raw": 9.458759055118113,
+          "observed": 0.3
+        },
+        {
+          "initialization_year": 2013,
+          "targets": [
+            "201401"
+          ],
+          "raw": 8.027818582677169,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2015,
+          "targets": [
+            "201601"
+          ],
+          "raw": 12.405526299212601,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2016,
+          "targets": [
+            "201701"
+          ],
+          "raw": 11.580916535433074,
+          "observed": 0.1
+        },
+        {
+          "initialization_year": 2017,
+          "targets": [
+            "201801"
+          ],
+          "raw": 6.675701102362208,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2018,
+          "targets": [
+            "201901"
+          ],
+          "raw": 6.330092598425199,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2021,
+          "targets": [
+            "202201"
+          ],
+          "raw": 3.8623266141732295,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2023,
+          "targets": [
+            "202401"
+          ],
+          "raw": 6.778777322834647,
+          "observed": 1.5
+        }
+      ],
+      "excluded_initialization_years": [
+        2014,
+        2019,
+        2020,
+        2022
+      ],
+      "unmatched_observations": [
+        {
+          "initialization_year": 2014,
+          "targets": [
+            "201501"
+          ],
+          "observed": 0.0,
+          "reason": "incomplete model ensemble"
+        },
+        {
+          "initialization_year": 2019,
+          "targets": [
+            "202001"
+          ],
+          "observed": 0.2,
+          "reason": "incomplete model ensemble"
+        },
+        {
+          "initialization_year": 2020,
+          "targets": [
+            "202101"
+          ],
+          "observed": 0.0,
+          "reason": "incomplete model ensemble"
+        },
+        {
+          "initialization_year": 2022,
+          "targets": [
+            "202301"
+          ],
+          "observed": 1.3,
+          "reason": "incomplete model ensemble"
+        }
+      ],
+      "scores": {
+        "walk_forward": {
+          "cases": [
+            {
+              "initialization_year": 2017,
+              "factor": 0.008484964492594945,
+              "raw": 6.675701102362208,
+              "corrected": 0.05664308681672026,
+              "climatology": 0.08,
+              "observed": 0.0
+            },
+            {
+              "initialization_year": 2018,
+              "factor": 0.0074324694603341256,
+              "raw": 6.330092598425199,
+              "corrected": 0.04704821991888238,
+              "climatology": 0.06666666666666667,
+              "observed": 0.0
+            },
+            {
+              "initialization_year": 2021,
+              "factor": 0.006650261988903802,
+              "raw": 3.8623266141732295,
+              "corrected": 0.025685483870967748,
+              "climatology": 0.05714285714285715,
+              "observed": 0.0
+            },
+            {
+              "initialization_year": 2023,
+              "factor": 0.006248991089317582,
+              "raw": 6.778777322834647,
+              "corrected": 0.0423605190868618,
+              "climatology": 0.05,
+              "observed": 1.5
+            }
+          ],
+          "groups": {
+            "all": {
+              "count": 4,
+              "raw": {
+                "mae": 5.536724409448821,
+                "rmse": 5.643981626727307,
+                "mean_error": 5.536724409448821
+              },
+              "corrected": {
+                "mae": 0.3967540678799271,
+                "rmse": 0.7298620716752019,
+                "mean_error": -0.33206567257664193
+              },
+              "climatology": {
+                "mae": 0.41345238095238096,
+                "rmse": 0.7274286478010907,
+                "mean_error": -0.311547619047619
+              }
+            },
+            "measurable_snow": {
+              "count": 1,
+              "raw": {
+                "mae": 5.278777322834647,
+                "rmse": 5.278777322834647,
+                "mean_error": 5.278777322834647
+              },
+              "corrected": {
+                "mae": 1.457639480913138,
+                "rmse": 1.457639480913138,
+                "mean_error": -1.457639480913138
+              },
+              "climatology": {
+                "mae": 1.45,
+                "rmse": 1.45,
+                "mean_error": -1.45
+              }
+            },
+            "zero_or_trace": {
+              "count": 3,
+              "raw": {
+                "mae": 5.622706771653546,
+                "rmse": 5.760573593756914,
+                "mean_error": 5.622706771653546
+              },
+              "corrected": {
+                "mae": 0.0431255968688568,
+                "rmse": 0.04502487595151439,
+                "mean_error": 0.0431255968688568
+              },
+              "climatology": {
+                "mae": 0.06793650793650795,
+                "rmse": 0.06858024634663012,
+                "mean_error": 0.06793650793650795
+              }
+            }
+          },
+          "min_training_winters": 5
+        },
+        "sensitivity": {
+          "baseline_mae_difference": -0.016698313072453817,
+          "drop_one_snowy_validation_case_differences": [],
+          "drop_one_validation_case_differences": [
+            {
+              "initialization_year": 2017,
+              "difference": -0.014478779702178509
+            },
+            {
+              "initialization_year": 2018,
+              "difference": -0.015724935180676993
+            },
+            {
+              "initialization_year": 2021,
+              "difference": -0.011778626339308623
+            },
+            {
+              "initialization_year": 2023,
+              "difference": -0.02481091106765114
+            }
+          ],
+          "drop_one_training_winter": [
+            {
+              "omitted_training_initialization_year": 2011,
+              "corrected_mae": 0.399713837830486,
+              "climatology_mae": 0.42238095238095236,
+              "difference": -0.022667114550466383,
+              "snowy_difference": 0.010666033197731517
+            },
+            {
+              "omitted_training_initialization_year": 2012,
+              "corrected_mae": 0.3817946377442523,
+              "climatology_mae": 0.38684523809523813,
+              "difference": -0.005050600350985812,
+              "snowy_difference": 0.001859349942044064
+            },
+            {
+              "omitted_training_initialization_year": 2013,
+              "corrected_mae": 0.40119295698393276,
+              "climatology_mae": 0.42238095238095236,
+              "difference": -0.0211879953970196,
+              "snowy_difference": 0.008707895591898662
+            },
+            {
+              "omitted_training_initialization_year": 2015,
+              "corrected_mae": 0.40445749319674806,
+              "climatology_mae": 0.42238095238095236,
+              "difference": -0.017923459184204293,
+              "snowy_difference": 0.004599090252950022
+            },
+            {
+              "omitted_training_initialization_year": 2016,
+              "corrected_mae": 0.396587008699114,
+              "climatology_mae": 0.4105357142857143,
+              "difference": -0.013948705586600274,
+              "snowy_difference": 0.004069123891027537
+            },
+            {
+              "omitted_training_initialization_year": 2017,
+              "corrected_mae": 0.39798828454935903,
+              "climatology_mae": 0.4173809523809524,
+              "difference": -0.01939266783159338,
+              "snowy_difference": 0.00985013294657966
+            },
+            {
+              "omitted_training_initialization_year": 2018,
+              "corrected_mae": 0.39634714393066345,
+              "climatology_mae": 0.41404761904761905,
+              "difference": -0.017700475116955605,
+              "snowy_difference": 0.010133501524230093
+            },
+            {
+              "omitted_training_initialization_year": 2021,
+              "corrected_mae": 0.39607403636132,
+              "climatology_mae": 0.4116666666666667,
+              "difference": -0.015592630305346689,
+              "snowy_difference": 0.012062211981566762
+            },
+            {
+              "omitted_training_initialization_year": 2023,
+              "corrected_mae": 0.3967540678799271,
+              "climatology_mae": 0.41345238095238096,
+              "difference": -0.01669831307245384,
+              "snowy_difference": 0.0076394809131381525
+            }
+          ]
+        },
+        "fixed_split": {
+          "status": "insufficient_data",
+          "reason": "Insufficient complete training/validation data"
+        }
+      }
+    },
+    "February": {
+      "rows": [
+        {
+          "initialization_year": 2011,
+          "targets": [
+            "201202"
+          ],
+          "raw": 3.3295379527559064,
+          "observed": 0.3
+        },
+        {
+          "initialization_year": 2012,
+          "targets": [
+            "201302"
+          ],
+          "raw": 5.465582362204725,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2013,
+          "targets": [
+            "201402"
+          ],
+          "raw": 6.434929133858269,
+          "observed": 0.7
+        },
+        {
+          "initialization_year": 2014,
+          "targets": [
+            "201502"
+          ],
+          "raw": 10.202785511811028,
+          "observed": 2.3
+        },
+        {
+          "initialization_year": 2015,
+          "targets": [
+            "201602"
+          ],
+          "raw": 9.461106141732287,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2016,
+          "targets": [
+            "201702"
+          ],
+          "raw": 5.876322519685041,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2017,
+          "targets": [
+            "201802"
+          ],
+          "raw": 5.6189253543307105,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2018,
+          "targets": [
+            "201902"
+          ],
+          "raw": 2.8149392125984263,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2020,
+          "targets": [
+            "202102"
+          ],
+          "raw": 5.361528188976379,
+          "observed": 5.0
+        },
+        {
+          "initialization_year": 2021,
+          "targets": [
+            "202202"
+          ],
+          "raw": 2.667072755905513,
+          "observed": 1.7
+        },
+        {
+          "initialization_year": 2022,
+          "targets": [
+            "202302"
+          ],
+          "raw": 2.9135168503937017,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2023,
+          "targets": [
+            "202402"
+          ],
+          "raw": 3.817340787401576,
+          "observed": 0.0
+        }
+      ],
+      "excluded_initialization_years": [
+        2019
+      ],
+      "unmatched_observations": [
+        {
+          "initialization_year": 2019,
+          "targets": [
+            "202002"
+          ],
+          "observed": 0.0,
+          "reason": "incomplete model ensemble"
+        }
+      ],
+      "scores": {
+        "walk_forward": {
+          "cases": [
+            {
+              "initialization_year": 2016,
+              "factor": 0.09457229237360636,
+              "raw": 5.876322519685041,
+              "corrected": 0.5557372914132609,
+              "climatology": 0.6599999999999999,
+              "observed": 0.0
+            },
+            {
+              "initialization_year": 2017,
+              "factor": 0.08094134564819114,
+              "raw": 5.6189253543307105,
+              "corrected": 0.4548033792762669,
+              "climatology": 0.5499999999999999,
+              "observed": 0.0
+            },
+            {
+              "initialization_year": 2018,
+              "factor": 0.07113726436735954,
+              "raw": 2.8149392125984263,
+              "corrected": 0.20024707494466115,
+              "climatology": 0.4714285714285714,
+              "observed": 0.0
+            },
+            {
+              "initialization_year": 2020,
+              "factor": 0.06706754334363607,
+              "raw": 5.361528188976379,
+              "corrected": 0.3595845242022999,
+              "climatology": 0.4125,
+              "observed": 5.0
+            },
+            {
+              "initialization_year": 2021,
+              "factor": 0.15211033003084357,
+              "raw": 2.667072755905513,
+              "corrected": 0.4056893171170591,
+              "climatology": 0.9222222222222223,
+              "observed": 1.7
+            },
+            {
+              "initialization_year": 2022,
+              "factor": 0.17472519922318547,
+              "raw": 2.9135168503937017,
+              "corrected": 0.5090648121251474,
+              "climatology": 1.0,
+              "observed": 0.0
+            },
+            {
+              "initialization_year": 2023,
+              "factor": 0.16626141559388904,
+              "raw": 3.817340787401576,
+              "corrected": 0.6346764831176771,
+              "climatology": 0.9090909090909091,
+              "observed": 0.0
+            }
+          ],
+          "groups": {
+            "all": {
+              "count": 7,
+              "raw": {
+                "mae": 3.195663667041621,
+                "rmse": 3.744595624455697,
+                "mean_error": 3.195663667041621
+              },
+              "corrected": {
+                "mae": 1.1841793142225219,
+                "rmse": 1.8680182813003685,
+                "mean_error": -0.5114567311148039
+              },
+              "climatology": {
+                "mae": 1.2793996083281798,
+                "rmse": 1.8684174243214442,
+                "mean_error": -0.2535368996083282
+              }
+            },
+            "measurable_snow": {
+              "count": 2,
+              "raw": {
+                "mae": 0.6643004724409461,
+                "rmse": 0.7300453227845599,
+                "mean_error": 0.6643004724409461
+              },
+              "corrected": {
+                "mae": 2.9673630793403203,
+                "rmse": 3.4065155167595886,
+                "mean_error": -2.9673630793403203
+              },
+              "climatology": {
+                "mae": 2.682638888888889,
+                "rmse": 3.290143957458772,
+                "mean_error": -2.682638888888889
+              }
+            },
+            "zero_or_trace": {
+              "count": 5,
+              "raw": {
+                "mae": 4.208208944881891,
+                "rmse": 4.406541555192916,
+                "mean_error": 4.208208944881891
+              },
+              "corrected": {
+                "mae": 0.47090580817540273,
+                "rmse": 0.4935078850553427,
+                "mean_error": 0.47090580817540273
+              },
+              "climatology": {
+                "mae": 0.7181038961038961,
+                "rmse": 0.7465642877811555,
+                "mean_error": 0.7181038961038961
+              }
+            }
+          },
+          "min_training_winters": 5
+        },
+        "sensitivity": {
+          "baseline_mae_difference": -0.09522029410565772,
+          "drop_one_snowy_validation_case_differences": [
+            {
+              "initialization_year": 2020,
+              "difference": 0.5165329051051633
+            },
+            {
+              "initialization_year": 2021,
+              "difference": 0.05291547579769951
+            }
+          ],
+          "drop_one_validation_case_differences": [
+            {
+              "initialization_year": 2016,
+              "difference": -0.09371322502547752
+            },
+            {
+              "initialization_year": 2017,
+              "difference": -0.09522423966931186
+            },
+            {
+              "initialization_year": 2018,
+              "difference": -0.06589342704261564
+            },
+            {
+              "initialization_year": 2020,
+              "difference": -0.11990958908955059
+            },
+            {
+              "initialization_year": 2021,
+              "difference": -0.19717916064079455
+            },
+            {
+              "initialization_year": 2022,
+              "difference": -0.02926781181079192
+            },
+            {
+              "initialization_year": 2023,
+              "difference": -0.06535460546106202
+            }
+          ],
+          "drop_one_training_winter": [
+            {
+              "omitted_training_initialization_year": 2011,
+              "corrected_mae": 1.1876860960063962,
+              "climatology_mae": 1.309886621315193,
+              "difference": -0.12220052530879677,
+              "snowy_difference": 0.3307571507194229
+            },
+            {
+              "omitted_training_initialization_year": 2012,
+              "corrected_mae": 1.2166736271501606,
+              "climatology_mae": 1.3338832199546484,
+              "difference": -0.11720959280448784,
+              "snowy_difference": 0.32678078310642
+            },
+            {
+              "omitted_training_initialization_year": 2013,
+              "corrected_mae": 1.184688196912941,
+              "climatology_mae": 1.2778911564625852,
+              "difference": -0.0932029595496442,
+              "snowy_difference": 0.28717707484079513
+            },
+            {
+              "omitted_training_initialization_year": 2014,
+              "corrected_mae": 1.1095670082913307,
+              "climatology_mae": 1.149909297052154,
+              "difference": -0.04034228876082335,
+              "snowy_difference": 0.19733495503071108
+            },
+            {
+              "omitted_training_initialization_year": 2015,
+              "corrected_mae": 1.2476173917740903,
+              "climatology_mae": 1.3338832199546484,
+              "difference": -0.08626582818055817,
+              "snowy_difference": 0.28647796531285064
+            },
+            {
+              "omitted_training_initialization_year": 2016,
+              "corrected_mae": 1.2034473714691578,
+              "climatology_mae": 1.3103117913832196,
+              "difference": -0.10686441991406181,
+              "snowy_difference": 0.32296173542901707
+            },
+            {
+              "omitted_training_initialization_year": 2017,
+              "corrected_mae": 1.1921065136497884,
+              "climatology_mae": 1.294597505668934,
+              "difference": -0.10249099201914569,
+              "snowy_difference": 0.3253629661310464
+            },
+            {
+              "omitted_training_initialization_year": 2018,
+              "corrected_mae": 1.1861233550045864,
+              "climatology_mae": 1.2833730158730159,
+              "difference": -0.09724966086842946,
+              "snowy_difference": 0.34988382874957047
+            },
+            {
+              "omitted_training_initialization_year": 2020,
+              "corrected_mae": 1.143080763875058,
+              "climatology_mae": 1.2302834467120183,
+              "difference": -0.08720268283696031,
+              "snowy_difference": 0.143270729070188
+            },
+            {
+              "omitted_training_initialization_year": 2021,
+              "corrected_mae": 1.162844916313045,
+              "climatology_mae": 1.2569897959183673,
+              "difference": -0.09414487960532236,
+              "snowy_difference": 0.28472419045143127
+            },
+            {
+              "omitted_training_initialization_year": 2022,
+              "corrected_mae": 1.1887949065745012,
+              "climatology_mae": 1.2923866213151929,
+              "difference": -0.10359171474069173,
+              "snowy_difference": 0.28472419045143127
+            },
+            {
+              "omitted_training_initialization_year": 2023,
+              "corrected_mae": 1.1841793142225219,
+              "climatology_mae": 1.2793996083281798,
+              "difference": -0.09522029410565791,
+              "snowy_difference": 0.28472419045143127
+            }
+          ]
+        },
+        "fixed_split": {
+          "factor": 0.06706754334363607,
+          "training_initialization_years": [
+            2011,
+            2012,
+            2013,
+            2014,
+            2015,
+            2016,
+            2017,
+            2018
+          ],
+          "validation_initialization_years": [
+            2020,
+            2021,
+            2022,
+            2023
+          ],
+          "raw": {
+            "mae": 2.0148646456692925,
+            "rmse": 2.455941951234136,
+            "mean_error": 2.0148646456692925
+          },
+          "corrected": {
+            "mae": 1.6532408861257637,
+            "rmse": 2.4469883641822063,
+            "mean_error": -1.4275298429444243
+          },
+          "training_observed_climatology": {
+            "mae": 1.6749999999999998,
+            "rmse": 2.4001627548980924,
+            "mean_error": -1.2625000000000002
+          },
+          "validation_measurable_snow_winters": 2
+        }
+      }
+    },
+    "DJF": {
+      "rows": [
+        {
+          "initialization_year": 2011,
+          "targets": [
+            "201112",
+            "201201",
+            "201202"
+          ],
+          "raw": 12.248662677165358,
+          "observed": 0.3
+        },
+        {
+          "initialization_year": 2012,
+          "targets": [
+            "201212",
+            "201301",
+            "201302"
+          ],
+          "raw": 18.36829984251969,
+          "observed": 0.8
+        },
+        {
+          "initialization_year": 2013,
+          "targets": [
+            "201312",
+            "201401",
+            "201402"
+          ],
+          "raw": 21.47799401574804,
+          "observed": 2.8
+        },
+        {
+          "initialization_year": 2015,
+          "targets": [
+            "201512",
+            "201601",
+            "201602"
+          ],
+          "raw": 27.802610078740166,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2016,
+          "targets": [
+            "201612",
+            "201701",
+            "201702"
+          ],
+          "raw": 22.465530708661426,
+          "observed": 0.1
+        },
+        {
+          "initialization_year": 2017,
+          "targets": [
+            "201712",
+            "201801",
+            "201802"
+          ],
+          "raw": 21.037915275590557,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2018,
+          "targets": [
+            "201812",
+            "201901",
+            "201902"
+          ],
+          "raw": 14.207893228346462,
+          "observed": 0.0
+        },
+        {
+          "initialization_year": 2021,
+          "targets": [
+            "202112",
+            "202201",
+            "202202"
+          ],
+          "raw": 10.337156220472444,
+          "observed": 1.7
+        },
+        {
+          "initialization_year": 2023,
+          "targets": [
+            "202312",
+            "202401",
+            "202402"
+          ],
+          "raw": 14.646407244094492,
+          "observed": 1.5
+        }
+      ],
+      "excluded_initialization_years": [
+        2014,
+        2019,
+        2020,
+        2022
+      ],
+      "unmatched_observations": [
+        {
+          "initialization_year": 2014,
+          "targets": [
+            "201412",
+            "201501",
+            "201502"
+          ],
+          "observed": 2.3,
+          "reason": "incomplete model ensemble"
+        },
+        {
+          "initialization_year": 2019,
+          "targets": [
+            "201912",
+            "202001",
+            "202002"
+          ],
+          "observed": 0.2,
+          "reason": "incomplete model ensemble"
+        },
+        {
+          "initialization_year": 2020,
+          "targets": [
+            "202012",
+            "202101",
+            "202102"
+          ],
+          "observed": 5.0,
+          "reason": "incomplete model ensemble"
+        },
+        {
+          "initialization_year": 2022,
+          "targets": [
+            "202212",
+            "202301",
+            "202302"
+          ],
+          "observed": 1.3,
+          "reason": "incomplete model ensemble"
+        }
+      ],
+      "scores": {
+        "walk_forward": {
+          "cases": [
+            {
+              "initialization_year": 2017,
+              "factor": 0.039076582329125156,
+              "raw": 21.037915275590557,
+              "corrected": 0.8220898282997742,
+              "climatology": 0.8,
+              "observed": 0.0
+            },
+            {
+              "initialization_year": 2018,
+              "factor": 0.03241464487019165,
+              "raw": 14.207893228346462,
+              "corrected": 0.4605438133504513,
+              "climatology": 0.6666666666666666,
+              "observed": 0.0
+            },
+            {
+              "initialization_year": 2021,
+              "factor": 0.029067886093327278,
+              "raw": 10.337156220472444,
+              "corrected": 0.30047927954562254,
+              "climatology": 0.5714285714285714,
+              "observed": 1.7
+            },
+            {
+              "initialization_year": 2023,
+              "factor": 0.03852755471233698,
+              "raw": 14.646407244094492,
+              "corrected": 0.5642902564360193,
+              "climatology": 0.7125,
+              "observed": 1.5
+            }
+          ],
+          "groups": {
+            "all": {
+              "count": 4,
+              "raw": {
+                "mae": 14.257342992125988,
+                "rmse": 14.932235265822108,
+                "mean_error": 14.257342992125988
+              },
+              "corrected": {
+                "mae": 0.9044660264171459,
+                "rmse": 0.9646428433610853,
+                "mean_error": -0.26314920559203314
+              },
+              "climatology": {
+                "mae": 0.8456845238095239,
+                "rmse": 0.8628838513716953,
+                "mean_error": -0.11235119047619044
+              }
+            },
+            "measurable_snow": {
+              "count": 2,
+              "raw": {
+                "mae": 10.89178173228347,
+                "rmse": 11.122690569381717,
+                "mean_error": 10.89178173228347
+              },
+              "corrected": {
+                "mae": 1.167615232009179,
+                "rmse": 1.1904223979709283,
+                "mean_error": -1.167615232009179
+              },
+              "climatology": {
+                "mae": 0.9580357142857143,
+                "rmse": 0.973095503891513,
+                "mean_error": -0.9580357142857143
+              }
+            },
+            "zero_or_trace": {
+              "count": 2,
+              "raw": {
+                "mae": 17.62290425196851,
+                "rmse": 17.950739666250797,
+                "mean_error": 17.62290425196851
+              },
+              "corrected": {
+                "mae": 0.6413168208251128,
+                "rmse": 0.6663078454473306,
+                "mean_error": 0.6413168208251128
+              },
+              "climatology": {
+                "mae": 0.7333333333333334,
+                "rmse": 0.7363574011458174,
+                "mean_error": 0.7333333333333334
+              }
+            }
+          },
+          "min_training_winters": 5
+        },
+        "sensitivity": {
+          "baseline_mae_difference": 0.05878150260762209,
+          "drop_one_snowy_validation_case_differences": [
+            {
+              "initialization_year": 2021,
+              "difference": 0.14820974356398076
+            },
+            {
+              "initialization_year": 2023,
+              "difference": 0.2709492918829488
+            }
+          ],
+          "drop_one_validation_case_differences": [
+            {
+              "initialization_year": 2017,
+              "difference": 0.07101206071023808
+            },
+            {
+              "initialization_year": 2018,
+              "difference": 0.14708295458223455
+            },
+            {
+              "initialization_year": 2021,
+              "difference": -0.011941093817486814
+            },
+            {
+              "initialization_year": 2023,
+              "difference": 0.028972088955502535
+            }
+          ],
+          "drop_one_training_winter": [
+            {
+              "omitted_training_initialization_year": 2011,
+              "corrected_mae": 0.9121987937214531,
+              "climatology_mae": 0.8692261904761905,
+              "difference": 0.04297260324526253,
+              "snowy_difference": 0.2500746702314969
+            },
+            {
+              "omitted_training_initialization_year": 2012,
+              "corrected_mae": 0.9007731954643342,
+              "climatology_mae": 0.8516666666666666,
+              "difference": 0.04910652879766764,
+              "snowy_difference": 0.20103224151667842
+            },
+            {
+              "omitted_training_initialization_year": 2013,
+              "corrected_mae": 0.8091814279679151,
+              "climatology_mae": 0.7814285714285714,
+              "difference": 0.027752856539343784,
+              "snowy_difference": 0.08580897265727927
+            },
+            {
+              "omitted_training_initialization_year": 2015,
+              "corrected_mae": 0.9629213101879965,
+              "climatology_mae": 0.8797619047619047,
+              "difference": 0.08315940542609179,
+              "snowy_difference": 0.2047595100232652
+            },
+            {
+              "omitted_training_initialization_year": 2016,
+              "corrected_mae": 0.9430278431046879,
+              "climatology_mae": 0.87625,
+              "difference": 0.06677784310468793,
+              "snowy_difference": 0.22311291287937518
+            },
+            {
+              "omitted_training_initialization_year": 2017,
+              "corrected_mae": 0.8911859618997328,
+              "climatology_mae": 0.8297619047619047,
+              "difference": 0.06142405713782806,
+              "snowy_difference": 0.23420524539531884
+            },
+            {
+              "omitted_training_initialization_year": 2018,
+              "corrected_mae": 0.8808299596251715,
+              "climatology_mae": 0.7964285714285715,
+              "difference": 0.08440138819660004,
+              "snowy_difference": 0.2608192889014208
+            },
+            {
+              "omitted_training_initialization_year": 2021,
+              "corrected_mae": 0.9391035661641951,
+              "climatology_mae": 0.8809523809523809,
+              "difference": 0.05815118521181417,
+              "snowy_difference": 0.2083188829318492
+            },
+            {
+              "omitted_training_initialization_year": 2023,
+              "corrected_mae": 0.9044660264171459,
+              "climatology_mae": 0.8456845238095239,
+              "difference": 0.05878150260762205,
+              "snowy_difference": 0.20957951772346473
+            }
+          ]
+        },
+        "fixed_split": {
+          "status": "insufficient_data",
+          "reason": "Insufficient complete training/validation data"
+        }
+      }
+    }
+  }
+}
