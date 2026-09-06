@@ -174,7 +174,7 @@ def decode(args, init, target, members, rolling_inits, cache_dir, state_dir, wgr
         snow_to_liquid_ratio=meta, native_departure_status='unavailable',
         bias_correction='none', unsupported_cwas=meta['unsupported_cwas'],
         display_method='Bilinear native LWE then exact CWA ratio; no added smoothing',
-        display_style={'white_below_inches':0.1},
+        display_style={'white_below_inches':1.0},
         _native_lwe=lwe)
     count = len(pairs)
     label = f'{count}/{count}-cycle rolling mean' if rolling_inits else f'{count}-member mean'
@@ -182,10 +182,10 @@ def decode(args, init, target, members, rolling_inits, cache_dir, state_dir, wgr
 
 
 def accumulation_style(seasonal=False):
-    # Separate zero/trace from measurable snow without whitening the full
+    # Show amounts below one inch as white without whitening the full
     # old 0–2 inch monthly or 0–5 inch seasonal color band.
     bounds,ticks,palette=cf.absolute_style(cf.get_product_spec(cf.PRODUCT_SNOWFALL_ACCUMULATION),seasonal)
-    return [bounds[0],0.1,*bounds[1:]], ticks, ['#ffffff',*palette]
+    return [bounds[0],1.0,*bounds[1:]], sorted(set([*ticks,1.0])), ['#ffffff',*palette]
 
 
 def render(lwe, init, target, lead, output, seasonal=False, period_label='', ensemble_label=''):

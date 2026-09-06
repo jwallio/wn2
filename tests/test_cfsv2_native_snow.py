@@ -55,11 +55,12 @@ class NativeSnowTests(unittest.TestCase):
         from matplotlib.colors import BoundaryNorm, ListedColormap
         for seasonal in [False,True]:
             bounds,ticks,palette=native.accumulation_style(seasonal)
+            self.assertIn(1.0,ticks)
             norm=BoundaryNorm(bounds,len(palette),clip=False)
             cmap=ListedColormap(palette)
             self.assertEqual(cmap(norm(0.)),(1.,1.,1.,1.))
-            self.assertEqual(cmap(norm(0.099)),(1.,1.,1.,1.))
-            self.assertNotEqual(cmap(norm(0.1)),(1.,1.,1.,1.))
+            self.assertEqual(cmap(norm(0.999)),(1.,1.,1.,1.))
+            self.assertNotEqual(cmap(norm(1.0)),(1.,1.,1.,1.))
             old=cf.absolute_style(cf.get_product_spec('snowfall_accumulation'),seasonal)
             oldnorm=BoundaryNorm(old[0],len(old[2]),clip=False)
             oldcmap=ListedColormap(old[2])

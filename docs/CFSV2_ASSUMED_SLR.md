@@ -30,10 +30,10 @@ manifest metadata lists every assumed CWA and its value.
 
 ## White areas on accumulation images
 
-A white bin covers 0 to less than 0.1 inch. Higher amounts retain their prior
-colors, including the remaining portion of the original lowest band. Native
+A white bin covers 0 to less than 1 inch. Higher amounts retain their prior
+colors, including the remaining portion of the original lowest band. The colorbar labels the 1-inch start of shading. Native
 snowfall and numeric downloads are unchanged by this color choice.
 
 The same value-based color rule applies across CONUS, including Florida and the
 far South. There is no state-specific white mask. Positive modeled snowfall is
-colored when it reaches 0.1 inch; values below that threshold are white.
+colored when it reaches 1 inch; values below that threshold are white.
