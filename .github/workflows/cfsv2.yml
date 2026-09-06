@@ -311,6 +311,15 @@ jobs:
           done
           exit "$overall_status"
 
+      - name: Repair retained snowfall departures from paired native totals
+        if: ${{ inputs.product == 'snowfall_suite' || inputs.product == 'snowfall_anomaly' }}
+        run: >-
+          python scripts/refresh_cfsv2_native_departures.py
+          --manifest public/seasonal/cfsv2_manifest.json
+          --site-url https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/
+          --cache .cache/cfsv2-snow-reference
+          --reference-dir .cache/cfsv2-snow-reference/bundles
+
       - name: Trim transient CFSv2 source cache
         if: always()
         shell: bash
