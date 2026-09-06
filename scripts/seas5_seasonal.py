@@ -458,9 +458,8 @@ SNOW_DISPLAY_RATIO = 10.0
 def snowfall_display(grid: Grid, product: dict[str, Any], seasonal: bool = False):
     if product["name"] != SNOWFALL_ANOMALY:
         return grid, product
-    positive = ([0.1, 0.5, 1, 2, 3, 5, 7, 10, 20, 30, 40] if seasonal else
-                [0.1, 0.25, 0.5, 1, 2, 3, 5, 7, 10, 15, 20])
-    ticks = [-value for value in reversed(positive)] + [0.0] + positive
+    # Match the owner-provided CFSv2 departure graphic in snow-depth inches.
+    ticks = list(SNOWFALL_ANOMALY_TICKS)
     spec = dict(product)
     for key in list(spec):
         if key.startswith(("monthly_anomaly_", "seasonal_anomaly_")):
@@ -468,7 +467,7 @@ def snowfall_display(grid: Grid, product: dict[str, Any], seasonal: bool = False
     spec.update(
         title="SEAS5 Estimated Snowfall Departure (in)",
         anomaly_min=ticks[0], anomaly_max=ticks[-1], anomaly_ticks=ticks,
-        anomaly_endpoint_labels={"minimum": f"≤−{positive[-1]}", "maximum": f"≥+{positive[-1]}"},
+        anomaly_endpoint_labels={"minimum": "≤−4.0", "maximum": "≥+4.0"},
         native_snow_depth_display=True,
         header_detail="{source_label}  •  Estimated snowfall departure (in)  •  10:1 snow-to-liquid ratio",
     )
@@ -888,7 +887,7 @@ def run(args: argparse.Namespace) -> int:
         "conversion": product["conversion"],
         "lead_convention": "CDS forecast month 1 is the initialization month",
         "display": ({"quantity": "estimated snowfall depth departure", "units": "in",
-                     "snow_to_liquid_ratio": SNOW_DISPLAY_RATIO, "white_band_inches": [-0.1, 0.1],
+                     "snow_to_liquid_ratio": SNOW_DISPLAY_RATIO, "white_band_inches": [-0.5, 0.5],
                      "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"}
                     if args.product == SNOWFALL_ANOMALY else None),
         "climatology": {
