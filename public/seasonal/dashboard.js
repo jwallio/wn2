@@ -1247,7 +1247,7 @@ function renderControls(model, run, targets) {
   const controls = el('target-controls'); controls.replaceChildren();
   const winterSnow = selection.model === 'cansips' && selection.product === 'snowfall_anomaly';
   targets.forEach((target, index) => {
-    if (winterSnow && index === 2) { const breakRow = document.createElement('span'); breakRow.style.flexBasis = '100%'; breakRow.setAttribute('aria-hidden', 'true'); controls.appendChild(breakRow); }
+    if (winterSnow && index > 0 && !String(target.value?.target_month || '').includes('-') && String(targets[index - 1].value?.target_month || '').includes('-')) { const breakRow = document.createElement('span'); breakRow.style.flexBasis = '100%'; breakRow.setAttribute('aria-hidden', 'true'); controls.appendChild(breakRow); }
     const button = document.createElement('button'); button.type = 'button'; button.textContent = target.label; button.dataset.targetIndex = String(index);
     const active = String(target.key) === String(selection.target); button.classList.toggle('active', active); button.setAttribute('aria-pressed', String(active));
     button.addEventListener('click', () => { selection.target = target.key; renderAll(); });
