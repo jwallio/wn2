@@ -161,7 +161,7 @@ def render_run(args, init, leads, seasonal_leads, cache_dir, output_dir, border_
     import cansips_seasonal as can
     root = Path(__file__).resolve().parents[1]
     leads = winter_leads(init)
-    windows = [('DJF', leads[:3]), ('JFM', leads[1:])]
+    windows = [('DJF', leads[:3]), ('JFM', leads[1:]), ('D+J', leads[:2])]
     run_id = f'cansips-{init}-snowfall_anomaly'
     entry = {'id': run_id, 'model': 'CanSIPS v3', 'product': 'snowfall_anomaly',
              'presentation': 'winter_djf_jfm_v1', 'method': METHOD, 'source': 'ECCC CanSIPS v3 / Copernicus C3S', 'source_url': SOURCE_URL,
@@ -169,7 +169,7 @@ def render_run(args, init, leads, seasonal_leads, cache_dir, output_dir, border_
              'generated_utc': can.iso_utc(dt.datetime.now(dt.timezone.utc)),
              'field': 'snowfall_anomaly', 'units': 'in', 'raw_field': VARIABLE, 'raw_units': 'm s-1',
              'statistic': 'ensemble_mean', 'ensemble_members': 40,
-             'aggregation': 'ensemble-mean seasonal total departure; sum monthly departures',
+             'aggregation': 'ensemble-mean period total departure; sum included monthly departures',
              'ensemble_scope': '20 CanESM5 + 20 GEM5.2-NEMO members; equal component weights',
              'climatology': {'source': BASELINE, 'years': '1993-2016', 'method': 'provider postprocessed; no second subtraction'},
              'display': {'quantity': 'estimated snowfall depth departure', 'units': 'in',
@@ -202,7 +202,7 @@ def render_run(args, init, leads, seasonal_leads, cache_dir, output_dir, border_
             imagepath = output_dir / init[:8] / f'cansips_native_snowfalla_winter_{target}.jpg'
             can.render_standalone(grid, init, target[:6], lead, list(range(1, 41)), imagepath,
                 anomaly=True, baseline_label=BASELINE, border_paths=border_paths,
-                ensemble_label='40-member mean' + ('  •  Seasonal total departure' if seasonal else ''), product_spec=product,
+                ensemble_label='40-member mean' + (f"  •  {len(t['monthly_leads'])}-month total departure" if seasonal else ''), product_spec=product,
                 seasonal=seasonal,
                 period_label=can.seasonal_period_label(*target.split('-')) if seasonal else None)
             t.update(image=relative_path(imagepath, root), status='rendered')
@@ -230,7 +230,9 @@ def render_run(args, init, leads, seasonal_leads, cache_dir, output_dir, border_
         t = target_entry(target, f'{seasonal_leads[0]}–{seasonal_leads[-1]}')
         t['monthly_leads'] = seasonal_leads
         t['season'] = season
-        t['aggregation'] = 'ensemble-mean seasonal total departure'
+        t['aggregation'] = f'ensemble-mean {len(seasonal_leads)}-month total departure'
+        if season == 'D+J':
+            t['label'] = f'D+J {target[:4]}–{target[-4:-2]}'
         if all(l in grids for l in seasonal_leads):
             try:
                 output(sum_grids([grids[l] for l in seasonal_leads]), t, t['lead_month'], True)
@@ -244,10 +246,10 @@ def render_run(args, init, leads, seasonal_leads, cache_dir, output_dir, border_
             t.update(status='failed' if any(monthly[l]['status'] == 'failed' for l in missing) else 'pending',
                      missing_months=[can.target_month(init, l) for l in missing],
                      error=f'{season} unavailable: missing {labels}. ' +
-                           ('This initialization does not cover the complete season; use a run covering all three months.' if outside else
+                           ('This initialization does not cover the complete period; use a run covering every included month.' if outside else
                             'Awaiting native snowfall from both Canadian models.'))
         entry['targets'].append(t)
-    entry['targets'] = entry['targets'][-2:] + entry['targets'][:-2]
+    entry['targets'] = entry['targets'][-len(windows):] + entry['targets'][:-len(windows)]
     states = {t['status'] for t in entry['targets']}
     entry['status'] = ('failed' if failures else 'pending' if states == {'pending'}
                        else 'partial' if 'pending' in states else 'decoded' if args.decode_only else 'rendered')

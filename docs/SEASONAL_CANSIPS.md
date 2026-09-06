@@ -206,3 +206,5 @@ until a production run is timed.
 Native snowfall always presents DJF and JFM first, followed by December–March monthly maps. These calendar periods override the generic lead/window inputs for snowfall only. For January–March initializations, the winter begins in the preceding December; otherwise it begins in the initialization year. A season is the ensemble-mean **three-month total departure**, not a monthly average. No division by three is applied.
 
 All three months must come from the same initialization and both Canadian models. Months outside CDS leads 1–6 appear as unavailable with an explanation. August supports December and January only; September covers DJF; October covers both DJF and JFM. November is not substituted. The map title is “CanSIPS v3 Snowfall Departure (in)”; the subtitle retains “10:1 snow-depth estimate.”
+
+D+J is also available as an explicitly labeled December–January two-month total departure. It uses the same initialization and both Canadian components, sums the two monthly LWE departures, and applies 10:1 once for display. It is not labeled DJF and is not scaled to stand in for February.

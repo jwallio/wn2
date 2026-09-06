@@ -109,10 +109,13 @@ class NativeSnowTests(unittest.TestCase):
                 october, other_errors = native.render_run(args,'2026100100',[],[],Path(tmp),Path(tmp)/'out',[])
             self.assertEqual(errors + other_errors, 0)
             self.assertEqual([t['target_month'] for t in august['targets']],
-                             ['202612-202702','202701-202703','202612','202701','202702','202703'])
+                             ['202612-202702','202701-202703','202612-202701','202612','202701','202702','202703'])
             self.assertEqual(august['targets'][0]['missing_months'],['202702'])
             self.assertEqual(august['targets'][1]['missing_months'],['202702','202703'])
             self.assertTrue(all('image' not in t for t in august['targets'][:2]))
+            self.assertEqual(august['targets'][2]['label'],'D+J 2026–27')
+            self.assertEqual(august['targets'][2]['quality_control']['maximum'],9.)
+            self.assertEqual(august['targets'][2]['aggregation'],'ensemble-mean 2-month total departure')
             self.assertEqual(october['targets'][0]['quality_control']['maximum'],9.)
             self.assertEqual(october['targets'][1]['quality_control']['maximum'],12.)
 
