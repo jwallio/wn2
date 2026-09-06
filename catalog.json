@@ -2,7 +2,7 @@
   "schema_version": 1,
   "registry_version": 1,
   "kind": "seasonal_dashboard_catalog",
-  "generated_utc": "2026-09-06T21:56:55Z",
+  "generated_utc": "2026-09-06T22:00:00Z",
   "source_revision": "b52d624be342bd835140ef3a4f14a8194e6f8785",
   "model_order": [
     "superensemble",
@@ -52140,7 +52140,7 @@
   },
   "health": {
     "status": "attention",
-    "generated_utc": "2026-09-06T21:56:55Z",
+    "generated_utc": "2026-09-06T22:00:00Z",
     "freshness_policy_days": {
       "default": {
         "fresh_days": 35,
