@@ -2,7 +2,7 @@
   "schema_version": 1,
   "registry_version": 1,
   "kind": "seasonal_dashboard_catalog",
-  "generated_utc": "2026-09-06T17:01:15Z",
+  "generated_utc": "2026-09-06T17:18:53Z",
   "source_revision": "f687aecaeeae7035de4f0cf80099d7cee683b096",
   "model_order": [
     "superensemble",
@@ -37482,14 +37482,14 @@
           "targets": [
             {
               "id": "seas5-2026090100-mslp_anomaly-lead04",
-              "target_month": "202701",
-              "valid_start_utc": "2027-01-01T00:00:00Z",
-              "valid_end_utc": "2027-02-01T00:00:00Z",
+              "target_month": "202612",
+              "valid_start_utc": "2026-12-01T00:00:00Z",
+              "valid_end_utc": "2027-01-01T00:00:00Z",
               "lead_month": 4,
               "field": "mslp_anomaly",
               "units": "hPa",
               "status": "rendered",
-              "image": "seas5/20260901/seas5_slp_202701.jpg",
+              "image": "seas5/20260901/seas5_slp_202612.jpg",
               "baseline": {
                 "status": "official_postprocessed",
                 "source": "C3S official postprocessed anomaly; ECMWF/System 51",
@@ -37530,14 +37530,14 @@
             },
             {
               "id": "seas5-2026090100-mslp_anomaly-lead05",
-              "target_month": "202702",
-              "valid_start_utc": "2027-02-01T00:00:00Z",
-              "valid_end_utc": "2027-03-01T00:00:00Z",
+              "target_month": "202701",
+              "valid_start_utc": "2027-01-01T00:00:00Z",
+              "valid_end_utc": "2027-02-01T00:00:00Z",
               "lead_month": 5,
               "field": "mslp_anomaly",
               "units": "hPa",
               "status": "rendered",
-              "image": "seas5/20260901/seas5_slp_202702.jpg",
+              "image": "seas5/20260901/seas5_slp_202701.jpg",
               "baseline": {
                 "status": "official_postprocessed",
                 "source": "C3S official postprocessed anomaly; ECMWF/System 51",
@@ -37578,14 +37578,14 @@
             },
             {
               "id": "seas5-2026090100-mslp_anomaly-lead06",
-              "target_month": "202703",
-              "valid_start_utc": "2027-03-01T00:00:00Z",
-              "valid_end_utc": "2027-04-01T00:00:00Z",
+              "target_month": "202702",
+              "valid_start_utc": "2027-02-01T00:00:00Z",
+              "valid_end_utc": "2027-03-01T00:00:00Z",
               "lead_month": 6,
               "field": "mslp_anomaly",
               "units": "hPa",
               "status": "rendered",
-              "image": "seas5/20260901/seas5_slp_202703.jpg",
+              "image": "seas5/20260901/seas5_slp_202702.jpg",
               "baseline": {
                 "status": "official_postprocessed",
                 "source": "C3S official postprocessed anomaly; ECMWF/System 51",
@@ -37625,10 +37625,10 @@
               }
             },
             {
-              "id": "seas5-2026090100-mslp_anomaly-202701-202703",
-              "target_month": "202701-202703",
-              "valid_start_utc": "2027-01-01T00:00:00Z",
-              "valid_end_utc": "2027-04-01T00:00:00Z",
+              "id": "seas5-2026090100-mslp_anomaly-202612-202702",
+              "target_month": "202612-202702",
+              "valid_start_utc": "2026-12-01T00:00:00Z",
+              "valid_end_utc": "2027-03-01T00:00:00Z",
               "lead_month": "4-6",
               "monthly_leads": [
                 4,
@@ -37638,7 +37638,7 @@
               "field": "mslp_anomaly",
               "units": "hPa",
               "status": "rendered",
-              "image": "seas5/20260901/seas5_slp_202701-202703.jpg",
+              "image": "seas5/20260901/seas5_slp_202612-202702.jpg",
               "baseline": {
                 "status": "official_postprocessed",
                 "source": "C3S official postprocessed anomaly; ECMWF/System 51",
@@ -39751,7 +39751,7 @@
       "status": "degraded",
       "schema_version": 1,
       "manifest_kind": "seas5_seasonal_manifest",
-      "generated_utc": "2026-09-06T17:00:29Z",
+      "generated_utc": "2026-09-06T17:18:01Z",
       "source_url": "https://cds.climate.copernicus.eu/datasets/seasonal-postprocessed-single-levels",
       "product_labels": {},
       "validation": {
@@ -66379,7 +66379,7 @@
   },
   "health": {
     "status": "attention",
-    "generated_utc": "2026-09-06T17:01:15Z",
+    "generated_utc": "2026-09-06T17:18:53Z",
     "freshness_policy_days": {
       "default": {
         "fresh_days": 35,
