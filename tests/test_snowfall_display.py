@@ -45,3 +45,33 @@ class SnowfallDisplay(unittest.TestCase):
         separately = cf.sum_grids([depth_departure(g, spec, cf.SNOWFALL_ANOMALY_PALETTE)[0] for g in months])
         self.assertEqual(combined.values, separately.values)
         self.assertEqual(combined.values, [[10, -10]])
+
+    def test_catalog_holds_unverified_images(self):
+        import json
+        import tempfile
+        import build_seasonal_catalog as catalog
+        from snowfall_display import DISPLAY
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            image = root / 'cfsv2' / 'snow.jpg'
+            image.parent.mkdir()
+            image.write_bytes(b'image fixture')
+            target = {'id': 'snow', 'target_month': '202701', 'status': 'rendered',
+                      'field': 'snowfall_lwe', 'units': 'in',
+                      'valid_start_utc': '2027-01-01T00:00:00Z',
+                      'valid_end_utc': '2027-02-01T00:00:00Z',
+                      'image': 'public/seasonal/cfsv2/snow.jpg'}
+            def normalize():
+                return catalog._target_catalog_state('snowfall_anomaly', target,
+                    site_root=root, check_assets=True, collector=catalog.IssueCollector(), path='test')[0]
+            self.assertNotIn('image', normalize())
+            self.assertEqual(normalize()['status'], 'pending')
+            image.with_suffix('.snow.json').write_text(json.dumps(DISPLAY))
+            verified = normalize()
+            self.assertIn('image', verified)
+            self.assertEqual(verified['display']['snow_to_liquid_ratio'], 10)
+            self.assertTrue(verified['numeric_grid'].endswith('.snow.csv.gz'))
+
+
+if __name__ == '__main__':
+    unittest.main()

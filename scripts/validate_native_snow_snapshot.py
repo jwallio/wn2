@@ -8,7 +8,7 @@ import math
 from pathlib import Path
 from PIL import Image
 
-RUN = '20260904T1200Z-style-a'
+RUN = '20260904T1200Z-10-to-1'
 MONTHS = ('202701', '202702', '202703')
 
 
@@ -26,7 +26,7 @@ def validate(site_root):
             raise ValueError(f'Asset hash mismatch: {name}')
         if name.endswith('.png'):
             with Image.open(path) as image:
-                if image.size != (1080, 914):
+                if image.size != (1080, 882):
                     raise ValueError(f'Incorrect graphic dimensions: {name}')
                 image.verify()
     if provenance['automatic_refresh'] or provenance['departure_status'] != 'unavailable':
@@ -53,10 +53,12 @@ def validate(site_root):
                     raise ValueError('Seasonal missingness mismatch')
             elif not math.isclose(a + b + c, total, rel_tol=1e-8, abs_tol=1e-6):
                 raise ValueError('JFM does not equal monthly sum')
-    if len(provenance['supported_cwas']) != 97 or len(provenance['unsupported_cwas']) != 19:
-        raise ValueError('Coverage differs from reviewed product')
-    if not any(math.isnan(v) for v in grids['JFM', 'total']):
-        raise ValueError('Missing ratios were filled')
+    if provenance.get('snow_to_liquid_ratio') != 10:
+        raise ValueError('Snapshot must use the fixed 10:1 snowfall conversion')
+    for period in (*MONTHS, 'JFM'):
+        for depth, lwe in zip(grids[period, 'total'], grids[period, 'lwe']):
+            if math.isfinite(depth) and not math.isclose(depth, 10 * lwe, rel_tol=1e-10):
+                raise ValueError('Snowfall depth is not exactly 10 times water equivalent')
     html = (page / 'index.html').read_text(encoding='utf-8')
     if RUN not in html or 'does not refresh automatically' not in html:
         raise ValueError('Viewer references wrong run or omits snapshot status')
