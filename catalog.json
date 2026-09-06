@@ -2,8 +2,8 @@
   "schema_version": 1,
   "registry_version": 1,
   "kind": "seasonal_dashboard_catalog",
-  "generated_utc": "2026-09-06T13:34:50Z",
-  "source_revision": "c4f2398f4c398d7c2f018506ad73180811b73f2c",
+  "generated_utc": "2026-09-06T14:22:57Z",
+  "source_revision": "3cab58408dd6fa4cd9284ec0db6e75941543c5a5",
   "model_order": [
     "superensemble",
     "c3s",
@@ -18073,7 +18073,7 @@
             "status": "not_applicable",
             "reason": "unadjusted native snowfall × CIPS/assumed CWA ratio; native departure unavailable"
           },
-          "source_warning": "Unadjusted native snowfall × CIPS/assumed CWA ratios; 19 assumed CWAs; Florida displayed white without changing numeric values. The separate phase-derived departure is not a reference for this accumulation.",
+          "source_warning": "Unadjusted native snowfall × CIPS/assumed CWA ratios; 19 assumed CWAs. The separate phase-derived departure is not a reference for this accumulation.",
           "conversion": "Native SRWEQ integrated over calendar months, complete-cycle mean, multiplied by CIPS CWA mean SLR with explicit owner-assumed fills; unadjusted estimate",
           "targets": [
             {
@@ -18350,7 +18350,6 @@
                   "unsupported_cwas": [],
                   "lookup_sha256": "ef71a7cb26d6378f587bf29783efc0a89ace96c3fd562682568f41b8027f83f5",
                   "description": "Measured CIPS CWA ratios with explicit owner-assumed fills; no ratio smoothing.",
-                  "florida_display_policy": "owner_requested_white_mask; underlying values retained",
                   "measured_supported_cwas": [
                     "ABQ",
                     "ABR",
@@ -18482,12 +18481,11 @@
                 "bias_correction": "none",
                 "unsupported_cwas": [],
                 "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing",
-                "display_overrides": {
-                  "Florida": "white mask; numeric values retained",
+                "display_style": {
                   "white_below_inches": 0.1
                 }
               },
-              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs; Florida displayed white without changing numeric values. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
               "numeric_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_202612.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_lwe_202612.csv.gz",
               "_catalog": {
@@ -18770,7 +18768,6 @@
                   "unsupported_cwas": [],
                   "lookup_sha256": "ef71a7cb26d6378f587bf29783efc0a89ace96c3fd562682568f41b8027f83f5",
                   "description": "Measured CIPS CWA ratios with explicit owner-assumed fills; no ratio smoothing.",
-                  "florida_display_policy": "owner_requested_white_mask; underlying values retained",
                   "measured_supported_cwas": [
                     "ABQ",
                     "ABR",
@@ -18902,12 +18899,11 @@
                 "bias_correction": "none",
                 "unsupported_cwas": [],
                 "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing",
-                "display_overrides": {
-                  "Florida": "white mask; numeric values retained",
+                "display_style": {
                   "white_below_inches": 0.1
                 }
               },
-              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs; Florida displayed white without changing numeric values. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
               "numeric_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_202701.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_lwe_202701.csv.gz",
               "_catalog": {
@@ -19190,7 +19186,6 @@
                   "unsupported_cwas": [],
                   "lookup_sha256": "ef71a7cb26d6378f587bf29783efc0a89ace96c3fd562682568f41b8027f83f5",
                   "description": "Measured CIPS CWA ratios with explicit owner-assumed fills; no ratio smoothing.",
-                  "florida_display_policy": "owner_requested_white_mask; underlying values retained",
                   "measured_supported_cwas": [
                     "ABQ",
                     "ABR",
@@ -19322,12 +19317,11 @@
                 "bias_correction": "none",
                 "unsupported_cwas": [],
                 "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing",
-                "display_overrides": {
-                  "Florida": "white mask; numeric values retained",
+                "display_style": {
                   "white_below_inches": 0.1
                 }
               },
-              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs; Florida displayed white without changing numeric values. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
               "numeric_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_202702.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_lwe_202702.csv.gz",
               "_catalog": {
@@ -19610,7 +19604,6 @@
                   "unsupported_cwas": [],
                   "lookup_sha256": "ef71a7cb26d6378f587bf29783efc0a89ace96c3fd562682568f41b8027f83f5",
                   "description": "Measured CIPS CWA ratios with explicit owner-assumed fills; no ratio smoothing.",
-                  "florida_display_policy": "owner_requested_white_mask; underlying values retained",
                   "measured_supported_cwas": [
                     "ABQ",
                     "ABR",
@@ -19742,12 +19735,11 @@
                 "bias_correction": "none",
                 "unsupported_cwas": [],
                 "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing",
-                "display_overrides": {
-                  "Florida": "white mask; numeric values retained",
+                "display_style": {
                   "white_below_inches": 0.1
                 }
               },
-              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs; Florida displayed white without changing numeric values. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
               "numeric_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_202703.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_lwe_202703.csv.gz",
               "_catalog": {
@@ -20039,7 +20031,6 @@
                   "unsupported_cwas": [],
                   "lookup_sha256": "ef71a7cb26d6378f587bf29783efc0a89ace96c3fd562682568f41b8027f83f5",
                   "description": "Measured CIPS CWA ratios with explicit owner-assumed fills; no ratio smoothing.",
-                  "florida_display_policy": "owner_requested_white_mask; underlying values retained",
                   "measured_supported_cwas": [
                     "ABQ",
                     "ABR",
@@ -20171,12 +20162,11 @@
                 "bias_correction": "none",
                 "unsupported_cwas": [],
                 "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing",
-                "display_overrides": {
-                  "Florida": "white mask; numeric values retained",
+                "display_style": {
                   "white_below_inches": 0.1
                 }
               },
-              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs; Florida displayed white without changing numeric values. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
               "numeric_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_202612-202702.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_lwe_202612-202702.csv.gz",
               "_catalog": {
@@ -20468,7 +20458,6 @@
                   "unsupported_cwas": [],
                   "lookup_sha256": "ef71a7cb26d6378f587bf29783efc0a89ace96c3fd562682568f41b8027f83f5",
                   "description": "Measured CIPS CWA ratios with explicit owner-assumed fills; no ratio smoothing.",
-                  "florida_display_policy": "owner_requested_white_mask; underlying values retained",
                   "measured_supported_cwas": [
                     "ABQ",
                     "ABR",
@@ -20600,12 +20589,11 @@
                 "bias_correction": "none",
                 "unsupported_cwas": [],
                 "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing",
-                "display_overrides": {
-                  "Florida": "white mask; numeric values retained",
+                "display_style": {
                   "white_below_inches": 0.1
                 }
               },
-              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs; Florida displayed white without changing numeric values. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
               "numeric_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_202701-202703.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_lwe_202701-202703.csv.gz",
               "_catalog": {
@@ -36792,7 +36780,7 @@
       "status": "online",
       "schema_version": 1,
       "manifest_kind": "cfsv2_seasonal_manifest",
-      "generated_utc": "2026-09-06T13:33:21Z",
+      "generated_utc": "2026-09-06T14:21:37Z",
       "source_url": "https://nomads.ncep.noaa.gov/pub/data/nccf/com/cfs/prod/",
       "product_labels": {},
       "validation": {
@@ -64601,7 +64589,7 @@
   },
   "health": {
     "status": "attention",
-    "generated_utc": "2026-09-06T13:34:50Z",
+    "generated_utc": "2026-09-06T14:22:57Z",
     "freshness_policy_days": {
       "default": {
         "fresh_days": 35,
