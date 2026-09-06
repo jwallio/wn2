@@ -643,6 +643,7 @@ function leadText(model, target) {
 function fieldText(target) {
   const value = target?.value;
   if (!value) return '—';
+  if (value.display?.quantity) return `${value.display.quantity} (${value.display.units})`;
   return value.units ? `${value.field || 'Field'} (${value.units})` : (value.field || '—');
 }
 function setMessage(message) {

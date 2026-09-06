@@ -3849,6 +3849,7 @@ def _run_single_window(args: argparse.Namespace) -> int:
         "targets": [],
     }
     if product_name == PRODUCT_SNOWFALL_ACCUMULATION:
+        run_entry["display"] = {"quantity": "estimated accumulated snowfall depth", "units": "in", "snow_to_liquid_ratio": 10, "white_below_inches": 1}
         run_entry["source_warning"] = "Unadjusted native snowfall × fixed 10:1 ratio. The separate phase-derived departure is not a reference for this accumulation."
     common_reference_enabled = bool(common_reference_dir or args.common_reference_url) and product_name == PRODUCT_HEIGHT_ANOMALY
     if common_reference_enabled:

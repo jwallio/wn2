@@ -90,6 +90,14 @@ jobs:
             scripts/build_seasonal_share_images.py
             scripts/build_seasonal_thumbnails.py
             scripts/validate_native_snow_snapshot.py
+            scripts/refresh_published_snowfall.py
+            scripts/cfsv2_seasonal.py
+            scripts/cfsv2_native_snow.py
+            scripts/cfsv2_slr_assumptions.py
+            scripts/snowfall_display.py
+            scripts/data/cfsv2_cwa_slr_v1.npz
+            scripts/data/cfsv2_cwa_slr_v1.json
+            scripts/data/cfsv2_slr_assumptions_v1.json
             scripts/purge_retired_seasonal_products.py
           sparse-checkout-cone-mode: false
 
@@ -109,7 +117,7 @@ jobs:
           python-version: "3.11"
 
       - name: Install thumbnail dependency
-        run: python -m pip install --disable-pip-version-check --quiet Pillow
+        run: python -m pip install --disable-pip-version-check --quiet Pillow numpy matplotlib requests
 
       - name: Download WN2 payload
         if: ${{ env.SOURCE_WORKFLOW == 'WeatherNext Runner' || env.SOURCE_WORKFLOW == 'WeatherNext Runner Custom' }}
@@ -462,6 +470,9 @@ jobs:
           cp -R dashboard-source/public/seasonal/cfsv2/native-snowfall/. site/cfsv2/native-snowfall/
 
           rm -rf site/.git
+
+      - name: Refresh retained native snowfall accumulations at 10-to-1
+        run: python dashboard-source/scripts/refresh_published_snowfall.py --site-root site
 
       - name: Validate reviewed native snowfall snapshot
         run: python dashboard-source/scripts/validate_native_snow_snapshot.py --site-root site

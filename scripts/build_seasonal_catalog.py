@@ -270,6 +270,12 @@ def _target_catalog_state(
                     normalized["display"] = json.loads(metadata_path.read_text(encoding="utf-8"))
                     normalized["numeric_grid"] = str(PurePosixPath(normalized_image).with_suffix(".snow.csv.gz"))
                     normalized["native_lwe_grid"] = str(PurePosixPath(normalized_image).with_suffix(".lwe.csv.gz"))
+                elif check_assets:
+                    normalized.pop("image", None)
+                    normalized["status"] = "pending"
+                    normalized["error"] = "Awaiting snowfall-depth refresh; retained image units have not been verified."
+                    comparable = False
+
 
     elif status in {"partial", "rendered"}:
         collector.add("rendered_image_missing", "error", "Rendered target does not declare an image.", path)
@@ -295,6 +301,14 @@ def _target_catalog_state(
                     f"Rendered comparison {reference!r} does not declare an image.", path,
                 )
             normalized_comparison[str(reference)] = copied
+        if canonical_product(product) == "snowfall_anomaly" and check_assets:
+            for copied in normalized_comparison.values():
+                if copied.get("image"):
+                    local = site_root / _published_asset_path(site_root, copied["image"])
+                    if not local.with_suffix(".snow.json").exists():
+                        copied.pop("image", None)
+                        copied["status"] = "pending"
+                        copied["error"] = "Awaiting verified snowfall-depth image."
         normalized["comparison"] = normalized_comparison
 
     quality = target.get("quality_control")
@@ -398,6 +412,10 @@ def validate_manifest(
             normalized_targets.append(normalized_target)
             comparable_targets.append(comparable)
         normalized_run["targets"] = normalized_targets
+        verified_display = next((t["display"] for t in normalized_targets if t.get("display")), None)
+        if verified_display:
+            normalized_run["display"] = verified_display
+
         normalized_run["_catalog"] = {
             "canonical_product": canonical,
             "comparable": bool(comparable_targets) and all(comparable_targets),
