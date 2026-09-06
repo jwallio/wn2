@@ -103,26 +103,27 @@ PRODUCTS: dict[str, dict[str, Any]] = {
         "comparison": True,
     },
     "snowfall_anomaly": {
-        "label": "CONUS Snowfall Water-Equivalent Departure",
+        "label": "CONUS Snowfall Departure (in)",
         "aliases": [],
         # C3S/SEAS5 expose snowfall as a rate of liquid-water equivalent.  The
-        # public unit is therefore inches of water equivalent, not snow depth.
+        # canonical grids retain water equivalent; maps display depth at 10:1.
         "units": "in",
         "compatible_units": (),
         "field_tokens": ("snowfall", "sf"),
         "forbidden_field_tokens": ("snow_depth", "snow water equivalent", "swe"),
         "level": {"type": "surface"},
         "aggregation": {"monthly": "total", "seasonal": "total"},
+        "display_scale_factor": 10.0,
         "display": {
             "monthly": {
-                "minimum": -2.0,
-                "maximum": 2.0,
-                "breakpoints": SNOWFALL_MONTHLY_DISPLAY_BREAKPOINTS,
+                "minimum": -10.0,
+                "maximum": 10.0,
+                "breakpoints": list(range(-10, 11)),
             },
             "seasonal": {
-                "minimum": -4.0,
-                "maximum": 4.0,
-                "breakpoints": SNOWFALL_SEASONAL_DISPLAY_BREAKPOINTS,
+                "minimum": -10.0,
+                "maximum": 10.0,
+                "breakpoints": list(range(-10, 11)),
             },
         },
         "hard_range": {"minimum": -100.0, "maximum": 100.0},
@@ -726,8 +727,8 @@ def grid_quality_control(
             if display:
                 display_minimum = float(display["minimum"])
                 display_maximum = float(display["maximum"])
-                below_fraction = float(np.count_nonzero(finite < display_minimum) / finite_points)
-                above_fraction = float(np.count_nonzero(finite > display_maximum) / finite_points)
+                below_fraction = float(np.count_nonzero(finite * definition.get("display_scale_factor", 1.0) < display_minimum) / finite_points)
+                above_fraction = float(np.count_nonzero(finite * definition.get("display_scale_factor", 1.0) > display_maximum) / finite_points)
                 clipped_fraction = below_fraction + above_fraction
                 result["display"] = {
                     **deepcopy(display),

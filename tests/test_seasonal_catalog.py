@@ -67,12 +67,12 @@ def main() -> int:
     check("snow_water_equivalent_anomaly" not in public_product_registry(), "quarantined CFSv2 SWE must not appear in the public product registry")
     snowfall_display = PRODUCTS["snowfall_anomaly"]["display"]
     check(
-        (snowfall_display["monthly"]["minimum"], snowfall_display["monthly"]["maximum"]) == (-2.0, 2.0),
-        "monthly snowfall catalog display should use the tighter ±2.0 inch range",
+        (snowfall_display["monthly"]["minimum"], snowfall_display["monthly"]["maximum"]) == (-10.0, 10.0),
+        "monthly snowfall catalog display should use the ±10 inch snowfall-depth range",
     )
     check(
-        (snowfall_display["seasonal"]["minimum"], snowfall_display["seasonal"]["maximum"]) == (-4.0, 4.0),
-        "seasonal snowfall catalog display should retain the ±4.0 inch range",
+        (snowfall_display["seasonal"]["minimum"], snowfall_display["seasonal"]["maximum"]) == (-10.0, 10.0),
+        "seasonal snowfall catalog display should use the ±10 inch snowfall-depth range",
     )
     passed = grid_quality_control(
         "2m_temperature_anomaly",

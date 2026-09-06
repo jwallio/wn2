@@ -47,7 +47,7 @@ RUN_FIELDS = (
     "id", "model", "component", "component_label", "model_role", "source", "source_url", "source_urls",
     "product", "base_product", "init_utc", "generated_utc", "status", "statistic", "aggregation", "ensemble_scope",
     "ensemble_members", "field", "units", "raw_field", "raw_units", "climatology", "baseline",
-    "source_warning", "conversion",
+    "source_warning", "conversion", "display", "method", "presentation",
 )
 TARGET_FIELDS = (
     "id", "target_month", "label", "period_label", "valid_start_utc", "valid_end_utc", "lead_month",
@@ -263,6 +263,14 @@ def _target_catalog_state(
         )
         if normalized_image:
             normalized["image"] = normalized_image
+            if canonical_product(product) == "snowfall_anomaly":
+                local_image = site_root / _published_asset_path(site_root, normalized_image)
+                metadata_path = local_image.with_suffix(".snow.json")
+                if metadata_path.exists():
+                    normalized["display"] = json.loads(metadata_path.read_text(encoding="utf-8"))
+                    normalized["numeric_grid"] = str(PurePosixPath(normalized_image).with_suffix(".snow.csv.gz"))
+                    normalized["native_lwe_grid"] = str(PurePosixPath(normalized_image).with_suffix(".lwe.csv.gz"))
+
     elif status in {"partial", "rendered"}:
         collector.add("rendered_image_missing", "error", "Rendered target does not declare an image.", path)
 
