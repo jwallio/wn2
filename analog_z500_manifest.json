@@ -1,7 +1,7 @@
 {
   "schema_version": "seasonal_z500_analogs_v1",
   "kind": "seasonal_z500_analog_manifest",
-  "generated_utc": "2026-09-05T21:17:45Z",
+  "generated_utc": "2026-09-06T01:32:42Z",
   "models": [
     {
       "key": "cfsv2",
@@ -679,49 +679,49 @@
     {
       "model": "cfsv2",
       "model_label": "CFSv2",
-      "run_id": "cfsv2-2026090506-snowfall_accumulation",
-      "init_utc": "2026-09-05T06:00:00Z",
+      "run_id": "cfsv2-2026090512-snowfall_accumulation",
+      "init_utc": "2026-09-05T12:00:00Z",
       "target": "202702",
       "target_label": "February 2027",
-      "image": "public/seasonal/cfsv2/2026090506/cfsv2_snowfall_202702.jpg",
+      "image": "public/seasonal/cfsv2/2026090512/cfsv2_snowfall_202702.jpg",
       "results": []
     },
     {
       "model": "cfsv2",
       "model_label": "CFSv2",
-      "run_id": "cfsv2-2026090506-snowfall_accumulation",
-      "init_utc": "2026-09-05T06:00:00Z",
+      "run_id": "cfsv2-2026090512-snowfall_accumulation",
+      "init_utc": "2026-09-05T12:00:00Z",
       "target": "202701",
       "target_label": "January 2027",
-      "image": "public/seasonal/cfsv2/2026090506/cfsv2_snowfall_202701.jpg",
+      "image": "public/seasonal/cfsv2/2026090512/cfsv2_snowfall_202701.jpg",
       "results": []
     },
     {
       "model": "cfsv2",
       "model_label": "CFSv2",
-      "run_id": "cfsv2-2026090506-snowfall_accumulation",
-      "init_utc": "2026-09-05T06:00:00Z",
+      "run_id": "cfsv2-2026090512-snowfall_accumulation",
+      "init_utc": "2026-09-05T12:00:00Z",
       "target": "202612-202702",
       "target_label": "DJF 2026-27",
-      "image": "public/seasonal/cfsv2/2026090506/cfsv2_snowfall_202612-202702.jpg",
+      "image": "public/seasonal/cfsv2/2026090512/cfsv2_snowfall_202612-202702.jpg",
       "results": []
     },
     {
       "model": "cfsv2",
       "model_label": "CFSv2",
-      "run_id": "cfsv2-2026090506-snowfall_accumulation",
-      "init_utc": "2026-09-05T06:00:00Z",
+      "run_id": "cfsv2-2026090512-snowfall_accumulation",
+      "init_utc": "2026-09-05T12:00:00Z",
       "target": "202612",
       "target_label": "December 2026",
-      "image": "public/seasonal/cfsv2/2026090506/cfsv2_snowfall_202612.jpg",
+      "image": "public/seasonal/cfsv2/2026090512/cfsv2_snowfall_202612.jpg",
       "results": []
     }
   ],
   "skipped": [
-    "cfsv2:cfsv2-2026090506-snowfall_anomaly:202612:numeric_grid_missing",
-    "cfsv2:cfsv2-2026090506-snowfall_anomaly:202701:numeric_grid_missing",
-    "cfsv2:cfsv2-2026090506-snowfall_anomaly:202702:numeric_grid_missing",
-    "cfsv2:cfsv2-2026090506-snowfall_anomaly:202612-202702:numeric_grid_missing",
+    "cfsv2:cfsv2-2026090512-snowfall_anomaly:202612:numeric_grid_missing",
+    "cfsv2:cfsv2-2026090512-snowfall_anomaly:202701:numeric_grid_missing",
+    "cfsv2:cfsv2-2026090512-snowfall_anomaly:202702:numeric_grid_missing",
+    "cfsv2:cfsv2-2026090512-snowfall_anomaly:202612-202702:numeric_grid_missing",
     "superensemble:superensemble-2026080100-snowfall_anomaly:202612:numeric_grid_missing",
     "superensemble:superensemble-2026080100-snowfall_anomaly:202701:numeric_grid_missing",
     "superensemble:superensemble-2026080100-snowfall_anomaly:202702:numeric_grid_missing",
