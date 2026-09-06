@@ -1,0 +1,105 @@
+name: CFSv2 March Calibration Research Pilot
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: cfsv2-march-calibration-research
+  cancel-in-progress: false
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install isolated research dependencies
+        run: python -m pip install -r research/cfsv2-march-pilot/requirements.txt
+      - uses: actions/cache/restore@v4
+        with:
+          path: .cache/cfsv2-march-pilot
+          key: cfsv2-march-pilot-v1-${{ github.run_id }}
+          restore-keys: cfsv2-march-pilot-v1-
+      - name: Check numerical and source contracts
+        run: python -m unittest discover -s research/cfsv2-march-pilot -p 'test_*.py'
+      - name: Rebuild the research reference
+        run: >-
+          python -u scripts/cfsv2_march_pilot.py
+          --cache .cache/cfsv2-march-pilot
+          --output research-output
+      - name: Compare with the existing reference
+        run: >-
+          python scripts/cfsv2_march_compare.py
+          --cache .cache/cfsv2-march-pilot
+          --pilot research-output
+      - name: Test August and September lead proportions
+        run: >-
+          python -u scripts/cfsv2_march_lead_mix.py
+          --cache .cache/cfsv2-march-pilot
+          --pilot research-output
+          --output research-output
+      - name: Review the CONUS reference candidate
+        run: >-
+          python -u scripts/cfsv2_reference_review.py
+          --cache .cache/cfsv2-march-pilot
+          --pilot research-output
+          --output research-output
+      - name: Interpolate the historical reference to requested cycle dates
+        run: >-
+          python -u scripts/cfsv2_reference_interpolation.py
+          --cache .cache/cfsv2-march-pilot
+          --pilot research-output
+          --output research-output
+      - name: Package the reviewed reference and before-after preview
+        run: >-
+          python scripts/package_cfsv2_snow_reference.py
+          --study research-output
+          --pilot research-output
+          --output research-output/reference-preview
+      - name: Render comparison
+        run: python scripts/plot_cfsv2_march_pilot.py research-output
+      - name: Screen native totals against observations
+        run: >-
+          python -u scripts/cfsv2_native_bias_screen.py
+          --cache .cache/cfsv2-march-pilot
+          --output research-output/native-ensemble-screen.json
+          --ensemble
+          --stations KRDU,KAVL,KOKC,KORD,KBOS,KDFW,KDEN,KMSP,KDTW,KCLE,KBUF,KALB,KBTV,KPIT,KSTL
+      - name: Plot chronological station validation
+        run: >-
+          python scripts/plot_cfsv2_native_validation.py
+          research-output/native-ensemble-screen.json
+          research-output/native-ensemble-validation.png
+      - name: Validate December through February and DJF
+        run: >-
+          python -u scripts/cfsv2_winter_validation.py
+          --cache .cache/cfsv2-march-pilot
+          --output research-output
+      - name: Render winter validation
+        run: >-
+          python scripts/plot_cfsv2_winter_validation.py
+          research-output/winter-validation.json
+          research-output/cfsv2-winter-validation.png
+      - name: Preserve source downloads after every attempt
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: .cache/cfsv2-march-pilot
+          key: cfsv2-march-pilot-v1-${{ github.run_id }}
+      - name: Upload research results only
+        uses: actions/upload-artifact@v4
+        with:
+          name: cfsv2-march-research-${{ github.run_id }}
+          path: research-output/
+          if-no-files-found: error
+          retention-days: 30
+
+# Deliberately absent from publish-pages.yml. This workflow cannot deploy maps.
+# The fixed operational anchor needs its cached source records after NOMADS's
+# archive rotates; missing records fail instead of substituting another run.

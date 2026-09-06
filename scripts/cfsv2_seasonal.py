@@ -2345,6 +2345,13 @@ def load_snowfall_baseline(
 ) -> tuple[Grid, dict[str, object], float]:
     """Load and derive a matching snowfall baseline from all three fields."""
 
+    if getattr(args, "snowfall_reference_dir", None):
+        from cfsv2_snow_reference import load_reference
+        grid, info = load_reference(
+            resolve_repo_path(args.snowfall_reference_dir, repo_root), init, target,
+            rolling_cycle_inits(init, args.rolling_days * 4), args.rolling_member,
+        )
+        return grid, info, last_request
     if args.baseline_file:
         raise CFSv2Error(
             "CFSv2 snowfall derivation cannot use one baseline file; provide "
@@ -2460,6 +2467,9 @@ def load_snowfall_baseline(
 
 
 def configured_baseline_label(args: argparse.Namespace) -> str:
+    if getattr(args, "snowfall_reference_dir", None):
+        from cfsv2_snow_reference import LABEL
+        return LABEL
     if args.baseline_label:
         return args.baseline_label
     if args.ncei_calibration:
@@ -2495,6 +2505,17 @@ def seasonal_baseline_manifest(
     if rolling_init:
         metadata["rolling_policy"] = "anchor_initialization"
         metadata["anchor_init"] = rolling_init
+
+    if monthly_baselines and all(item.get("method") in {"derive_each_forecast_then_same_hour_interpolate_v1",
+                                                          "derive_each_forecast_daily_rate_then_same_hour_interpolate_v2"}
+                                 for item in monthly_baselines):
+        metadata["rolling_policy"] = "reference_matched_to_each_forecast_cycle"
+        reference_years = sorted({year for item in monthly_baselines for year in item["historical_years"]})
+        metadata["years"] = f"{reference_years[0]}-{reference_years[-1]}"
+        counts = [len(item["historical_years"]) for item in monthly_baselines]
+        count_label = str(min(counts)) if min(counts) == max(counts) else f"{min(counts)}-{max(counts)}"
+        metadata["label"] = f"{metadata['years']} CFS reforecasts ({count_label} years/month)"
+        metadata["monthly_references"] = list(monthly_baselines)
 
     baseline_urls = [item.get("url") for item in provenance_records if item.get("url")]
     if baseline_urls:
@@ -3630,6 +3651,8 @@ def build_parser() -> argparse.ArgumentParser:
         default=4,
         help="number of current and historical runs to retain per product in the manifest",
     )
+    parser.add_argument("--snowfall-reference-dir", type=Path,
+                        help="explicit model-only, per-forecast snowfall reference bundles; exact cycle/target matching required")
     parser.add_argument("--baseline-file", type=Path, help="one CFSv2/reforecast baseline CSV or GRIB2 grid")
     parser.add_argument("--baseline-dir", type=Path, help="directory containing a baseline grid for each YYYYMM target")
     parser.add_argument("--ncei-calibration", action="store_true", help="fetch the matching official NCEI CFS reforecast calibration baseline (1982-2010)")
@@ -3682,10 +3705,11 @@ def _run_single_window(args: argparse.Namespace) -> int:
         raise CFSv2Error("--rolling-member must be between 1 and 4")
     rolling_inits = rolling_cycle_inits(init, args.rolling_days * 4) if args.rolling_days else []
     configured_baselines = sum(
-        bool(value) for value in (args.baseline_file, args.baseline_dir, args.ncei_calibration)
+        bool(value) for value in (args.baseline_file, args.baseline_dir, args.ncei_calibration,
+                                  getattr(args, "snowfall_reference_dir", None))
     )
     if configured_baselines > 1:
-        raise CFSv2Error("use only one of --baseline-file, --baseline-dir, and --ncei-calibration")
+        raise CFSv2Error("use only one of --baseline-file, --baseline-dir, --ncei-calibration, and --snowfall-reference-dir")
     if args.allow_stale_calibration and not args.ncei_calibration:
         raise CFSv2Error("--allow-stale-calibration requires --ncei-calibration")
     if args.ncei_calibration and args.baseline_years and args.baseline_years != NCEI_CALIBRATION_YEARS:
@@ -3697,6 +3721,13 @@ def _run_single_window(args: argparse.Namespace) -> int:
             "production anomaly rendering needs a CFSv2/reforecast baseline; "
             "provide --baseline-file/--baseline-dir, use --ncei-calibration, or use --absolute for smoke testing"
         )
+    if getattr(args, "snowfall_reference_dir", None):
+        from cfsv2_snow_reference import validate_options
+        try:
+            validate_options(args, product_name, init, [target_month(init, lead) for lead in leads], repo_root)
+        except RuntimeError as exc:
+            # The CLI runs as __main__; imported adapters have a distinct error class.
+            raise CFSv2Error(str(exc)) from exc
     wgrib2 = find_wgrib2(args.wgrib2)
     cache_dir = resolve_repo_path(args.cache_dir, repo_root)
     state_dir = resolve_repo_path(args.rolling_state_dir, repo_root)
@@ -3820,7 +3851,9 @@ def _run_single_window(args: argparse.Namespace) -> int:
             "required": True,
         }
     if rolling_mode and requires_baseline:
-        run_entry["baseline"]["rolling_policy"] = "anchor_initialization"
+        run_entry["baseline"]["rolling_policy"] = (
+            "reference_matched_to_each_forecast_cycle" if getattr(args, "snowfall_reference_dir", None)
+            else "anchor_initialization")
 
     last_request = 0.0
     failures = 0
@@ -3917,12 +3950,15 @@ def _run_single_window(args: argparse.Namespace) -> int:
                         wgrib2,
                         last_request,
                     )
+                    if getattr(args, "snowfall_reference_dir", None):
+                        from cfsv2_snow_reference import match_forecast_grid
+                        baseline_grid = match_forecast_grid(baseline_grid, ensemble)
                     baseline_grids[lead] = baseline_grid
                     anomaly_grid = subtract_grids(ensemble, baseline_grid)
                     baseline_label = str(baseline_info["label"])
                     target_entry["baseline"] = baseline_info
                     if rolling_mode:
-                        target_entry["baseline"]["rolling_policy"] = "anchor_initialization"
+                        target_entry["baseline"].setdefault("rolling_policy", "anchor_initialization")
                         target_entry["baseline"]["anchor_init"] = init
                     baseline_url = None
                     baseline_downloaded = False
@@ -4174,6 +4210,7 @@ def _run_single_window(args: argparse.Namespace) -> int:
                     NCEI_CALIBRATION_YEARS if args.ncei_calibration else (args.baseline_years or None),
                     rolling_init=init if rolling_mode else None,
                 )
+                baseline_label = str(seasonal_entry["baseline"]["label"])
             else:
                 seasonal_entry["baseline"] = {
                     "status": "not_applicable",
