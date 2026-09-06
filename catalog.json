@@ -2,7 +2,7 @@
   "schema_version": 1,
   "registry_version": 1,
   "kind": "seasonal_dashboard_catalog",
-  "generated_utc": "2026-09-06T14:49:30Z",
+  "generated_utc": "2026-09-06T14:53:32Z",
   "source_revision": "f04b5c82db268c4525453405d067639d56edaf19",
   "model_order": [
     "superensemble",
@@ -18482,7 +18482,7 @@
                 "unsupported_cwas": [],
                 "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing",
                 "display_style": {
-                  "white_below_inches": 0.1
+                  "white_below_inches": 1.0
                 }
               },
               "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
@@ -18900,7 +18900,7 @@
                 "unsupported_cwas": [],
                 "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing",
                 "display_style": {
-                  "white_below_inches": 0.1
+                  "white_below_inches": 1.0
                 }
               },
               "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
@@ -19318,7 +19318,7 @@
                 "unsupported_cwas": [],
                 "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing",
                 "display_style": {
-                  "white_below_inches": 0.1
+                  "white_below_inches": 1.0
                 }
               },
               "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
@@ -19736,7 +19736,7 @@
                 "unsupported_cwas": [],
                 "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing",
                 "display_style": {
-                  "white_below_inches": 0.1
+                  "white_below_inches": 1.0
                 }
               },
               "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
@@ -20163,7 +20163,7 @@
                 "unsupported_cwas": [],
                 "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing",
                 "display_style": {
-                  "white_below_inches": 0.1
+                  "white_below_inches": 1.0
                 }
               },
               "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
@@ -20590,7 +20590,7 @@
                 "unsupported_cwas": [],
                 "display_method": "Bilinear native LWE then exact CWA ratio; no added smoothing",
                 "display_style": {
-                  "white_below_inches": 0.1
+                  "white_below_inches": 1.0
                 }
               },
               "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
@@ -36774,7 +36774,7 @@
       "status": "online",
       "schema_version": 1,
       "manifest_kind": "cfsv2_seasonal_manifest",
-      "generated_utc": "2026-09-06T14:30:34Z",
+      "generated_utc": "2026-09-06T14:52:24Z",
       "source_url": "https://nomads.ncep.noaa.gov/pub/data/nccf/com/cfs/prod/",
       "product_labels": {},
       "validation": {
@@ -64583,7 +64583,7 @@
   },
   "health": {
     "status": "attention",
-    "generated_utc": "2026-09-06T14:49:30Z",
+    "generated_utc": "2026-09-06T14:53:32Z",
     "freshness_policy_days": {
       "default": {
         "fresh_days": 35,
