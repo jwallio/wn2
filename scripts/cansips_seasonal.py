@@ -662,14 +662,14 @@ def snowfall_depth_display(grid: Grid, product: dict[str, Any]):
         if key.startswith(("monthly_anomaly_", "seasonal_anomaly_")):
             del spec[key]
     spec.update(
-        title="CanSIPS v3 Estimated Snowfall Departure (in)",
+        title="CanSIPS v3 Snowfall Departure (in)",
         anomaly_min=-10., anomaly_max=10., anomaly_ticks=list(range(-10,11)),
         anomaly_palette=[*SNOWFALL_ANOMALY_PALETTE[:9],"#ffffff","#ffffff",
                          *SNOWFALL_ANOMALY_PALETTE[13:]],
         anomaly_endpoint_labels={"minimum":"≤−10", "maximum":"≥+10"},
         native_snow_depth_display=True,
         anomaly_tick_decimals=0,
-        header_detail="{source_label}  •  Native snowfall departure  •  10:1 snow-to-liquid ratio",
+        header_detail="{source_label}  •  Native model snowfall  •  10:1 snow-depth estimate",
     )
     return Grid(grid.lons[:],grid.lats[:],
                 [[value*10. for value in row] for row in grid.values]), spec
