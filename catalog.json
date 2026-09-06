@@ -2,8 +2,8 @@
   "schema_version": 1,
   "registry_version": 1,
   "kind": "seasonal_dashboard_catalog",
-  "generated_utc": "2026-09-06T20:54:48Z",
-  "source_revision": "b8598bafd1d60ddba9c425f0e9b4fb023100d77e",
+  "generated_utc": "2026-09-06T21:15:55Z",
+  "source_revision": "d4382c17f6a50340b520cc82df5c6903e95f1f1c",
   "model_order": [
     "superensemble",
     "c3s",
@@ -41039,10 +41039,10 @@
           "source_url": "https://cds.climate.copernicus.eu/datasets/seasonal-postprocessed-single-levels",
           "product": "snowfall_anomaly",
           "init_utc": "2026-09-01T00:00:00Z",
-          "generated_utc": "2026-09-06T20:40:01Z",
+          "generated_utc": "2026-09-06T21:14:52Z",
           "status": "pending",
           "statistic": "ensemble_mean",
-          "aggregation": "ensemble-mean seasonal total departure; sum monthly departures",
+          "aggregation": "ensemble-mean period total departure; sum included monthly departures",
           "ensemble_scope": "20 CanESM5 + 20 GEM5.2-NEMO members; equal component weights",
           "ensemble_members": 40,
           "field": "snowfall_anomaly",
@@ -41077,7 +41077,7 @@
               },
               "ensemble_members": 40,
               "statistic": "ensemble_mean",
-              "aggregation": "ensemble-mean seasonal total departure",
+              "aggregation": "ensemble-mean 3-month total departure",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
                 "comparable": true,
@@ -41098,14 +41098,42 @@
               "field": "snowfall_anomaly",
               "units": "in",
               "status": "pending",
-              "error": "JFM unavailable: missing Jan 2027, Feb 2027, Mar 2027. This initialization does not cover the complete season; use a run covering all three months.",
+              "error": "JFM unavailable: missing Jan 2027, Feb 2027, Mar 2027. This initialization does not cover the complete period; use a run covering every included month.",
               "baseline": {
                 "source": "C3S 1993–2016 system-matched hindcast climatology",
                 "method": "eccc_native_snowfall_c3s_v1"
               },
               "ensemble_members": 40,
               "statistic": "ensemble_mean",
-              "aggregation": "ensemble-mean seasonal total departure",
+              "aggregation": "ensemble-mean 3-month total departure",
+              "_catalog": {
+                "canonical_product": "snowfall_anomaly",
+                "comparable": true,
+                "quality_control": "legacy"
+              }
+            },
+            {
+              "id": "cansips-2026090100-snowfall_anomaly-202612-202701",
+              "target_month": "202612-202701",
+              "label": "D+J 2026–27",
+              "valid_start_utc": "2026-12-01T00:00:00Z",
+              "valid_end_utc": "2027-02-01T00:00:00Z",
+              "lead_month": "3–4",
+              "monthly_leads": [
+                3,
+                4
+              ],
+              "field": "snowfall_anomaly",
+              "units": "in",
+              "status": "pending",
+              "error": "D+J unavailable: missing Dec 2026, Jan 2027. Awaiting native snowfall from both Canadian models.",
+              "baseline": {
+                "source": "C3S 1993–2016 system-matched hindcast climatology",
+                "method": "eccc_native_snowfall_c3s_v1"
+              },
+              "ensemble_members": 40,
+              "statistic": "ensemble_mean",
+              "aggregation": "ensemble-mean 2-month total departure",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
                 "comparable": true,
@@ -55662,7 +55690,7 @@
       "status": "degraded",
       "schema_version": 1,
       "manifest_kind": "cansips_seasonal_manifest",
-      "generated_utc": "2026-09-06T20:45:47Z",
+      "generated_utc": "2026-09-06T21:14:55Z",
       "source_url": "https://eccc-msc.github.io/open-data/msc-data/nwp_cansips/readme_cansips-datamart_en/",
       "product_labels": {
         "500mb_height_anomaly": "500-mb Height Anomaly",
@@ -59053,7 +59081,7 @@
   },
   "health": {
     "status": "attention",
-    "generated_utc": "2026-09-06T20:54:48Z",
+    "generated_utc": "2026-09-06T21:15:55Z",
     "freshness_policy_days": {
       "default": {
         "fresh_days": 35,

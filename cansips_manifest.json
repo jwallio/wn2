@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "cansips_seasonal_manifest",
-  "generated_utc": "2026-09-06T20:45:47Z",
+  "generated_utc": "2026-09-06T21:14:55Z",
   "source": "ECCC MSC CanSIPS v3 / Datamart",
   "source_url": "https://eccc-msc.github.io/open-data/msc-data/nwp_cansips/readme_cansips-datamart_en/",
   "source_urls": [
@@ -33,14 +33,14 @@
       "source": "ECCC CanSIPS v3 / Copernicus C3S",
       "source_url": "https://cds.climate.copernicus.eu/datasets/seasonal-postprocessed-single-levels",
       "init_utc": "2026-09-01T00:00:00Z",
-      "generated_utc": "2026-09-06T20:40:01Z",
+      "generated_utc": "2026-09-06T21:14:52Z",
       "field": "snowfall_anomaly",
       "units": "in",
       "raw_field": "snowfall_anomalous_rate_of_accumulation",
       "raw_units": "m s-1",
       "statistic": "ensemble_mean",
       "ensemble_members": 40,
-      "aggregation": "ensemble-mean seasonal total departure; sum monthly departures",
+      "aggregation": "ensemble-mean period total departure; sum included monthly departures",
       "ensemble_scope": "20 CanESM5 + 20 GEM5.2-NEMO members; equal component weights",
       "climatology": {
         "source": "C3S 1993\u20132016 system-matched hindcast climatology",
@@ -83,7 +83,7 @@
             5
           ],
           "season": "DJF",
-          "aggregation": "ensemble-mean seasonal total departure",
+          "aggregation": "ensemble-mean 3-month total departure",
           "status": "pending",
           "missing_months": [
             "202612",
@@ -112,14 +112,42 @@
             6
           ],
           "season": "JFM",
-          "aggregation": "ensemble-mean seasonal total departure",
+          "aggregation": "ensemble-mean 3-month total departure",
           "status": "pending",
           "missing_months": [
             "202701",
             "202702",
             "202703"
           ],
-          "error": "JFM unavailable: missing Jan 2027, Feb 2027, Mar 2027. This initialization does not cover the complete season; use a run covering all three months."
+          "error": "JFM unavailable: missing Jan 2027, Feb 2027, Mar 2027. This initialization does not cover the complete period; use a run covering every included month."
+        },
+        {
+          "id": "cansips-2026090100-snowfall_anomaly-202612-202701",
+          "target_month": "202612-202701",
+          "lead_month": "3\u20134",
+          "field": "snowfall_anomaly",
+          "units": "in",
+          "valid_start_utc": "2026-12-01T00:00:00Z",
+          "valid_end_utc": "2027-02-01T00:00:00Z",
+          "ensemble_members": 40,
+          "statistic": "ensemble_mean",
+          "baseline": {
+            "source": "C3S 1993\u20132016 system-matched hindcast climatology",
+            "method": "eccc_native_snowfall_c3s_v1"
+          },
+          "monthly_leads": [
+            3,
+            4
+          ],
+          "season": "D+J",
+          "aggregation": "ensemble-mean 2-month total departure",
+          "label": "D+J 2026\u201327",
+          "status": "pending",
+          "missing_months": [
+            "202612",
+            "202701"
+          ],
+          "error": "D+J unavailable: missing Dec 2026, Jan 2027. Awaiting native snowfall from both Canadian models."
         },
         {
           "id": "cansips-2026090100-snowfall_anomaly-lead03",
