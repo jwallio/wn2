@@ -609,6 +609,12 @@ PRODUCT_SPECS = {
         "anomaly_max": SNOWFALL_ANOMALY_MAX_IN,
         "anomaly_ticks": SNOWFALL_ANOMALY_TICKS,
         "anomaly_palette": SNOWFALL_ANOMALY_PALETTE,
+        # Wider CFS seasonal departures; keep other models' shared scale intact.
+        "seasonal_anomaly_min": -7.0,
+        "seasonal_anomaly_max": 7.0,
+        "seasonal_anomaly_ticks": [-7., -6., -5., -4., -3., -2.5, -2., -1.5, -1., -.75, -.5,
+                                   0., .5, .75, 1., 1.5, 2., 2.5, 3., 4., 5., 6., 7.],
+        "seasonal_anomaly_palette": SNOWFALL_ANOMALY_PALETTE,
         "monthly_anomaly_min": SNOWFALL_MONTHLY_ANOMALY_MIN_IN,
         "monthly_anomaly_max": SNOWFALL_MONTHLY_ANOMALY_MAX_IN,
         "monthly_anomaly_ticks": SNOWFALL_MONTHLY_ANOMALY_TICKS,
