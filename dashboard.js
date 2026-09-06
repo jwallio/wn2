@@ -138,7 +138,7 @@ const COMPARE_PRODUCTS = [
   { value: '850mb_temperature_anomaly', label: '850-mb Temperature Anomaly', aliases: ['850mb_temperature_anomaly'] },
   { value: '2m_temperature_anomaly', label: '2-m Temperature Anomaly', aliases: ['2m_temperature_anomaly', 'surface_temperature_anomaly', 'temperature_anomaly'] },
   { value: 'precipitation_anomaly', label: 'Precipitation Anomaly', aliases: ['precipitation_anomaly'] },
-  { value: 'snowfall_anomaly', label: 'CONUS Snowfall Water-Equivalent Departure', aliases: ['snowfall_anomaly'] },
+  { value: 'snowfall_anomaly', label: 'CONUS Snowfall Departure (in)', aliases: ['snowfall_anomaly'] },
   { value: 'mslp_anomaly', label: 'MSLP Anomaly', aliases: ['mslp_anomaly'] },
 ];
 const OVERVIEW_FILTERS = ['all', 'fresh', 'aging', 'partial', 'attention'];
@@ -160,7 +160,7 @@ const PRODUCT_LABELS = {
   '500mb_height_anomaly_nh': '500-mb Height Anomaly · Northern Hemisphere',
   '2m_temperature_anomaly': '2-m Temperature Anomaly', '850mb_temperature_anomaly': '850-mb Temperature Anomaly',
   'precipitation_anomaly': 'CONUS Precipitation Anomaly',
-  'snow_depth_anomaly': 'CONUS Snow-Depth Anomaly', 'snowfall_anomaly': 'CONUS Snowfall Water-Equivalent Departure',
+  'snow_depth_anomaly': 'CONUS Snow-Depth Anomaly', 'snowfall_anomaly': 'CONUS Snowfall Departure (in)',
   'snowfall_accumulation': 'CONUS Estimated Snowfall Accumulation',
   'mslp_anomaly': 'CONUS MSLP Anomaly', '200mb_height_anomaly': '200-mb Height Anomaly',
   'probability_above_normal': 'Above Normal Probability', 'probability_near_normal': 'Near Normal Probability', 'probability_below_normal': 'Below Normal Probability',

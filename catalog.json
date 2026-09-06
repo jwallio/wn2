@@ -2,8 +2,8 @@
   "schema_version": 1,
   "registry_version": 1,
   "kind": "seasonal_dashboard_catalog",
-  "generated_utc": "2026-09-06T21:22:26Z",
-  "source_revision": "d4382c17f6a50340b520cc82df5c6903e95f1f1c",
+  "generated_utc": "2026-09-06T21:44:55Z",
+  "source_revision": "24750a6fb8a732ae075dd667e6876ef08ecfcea0",
   "model_order": [
     "superensemble",
     "c3s",
@@ -205,7 +205,7 @@
       "comparison": true
     },
     "snowfall_anomaly": {
-      "label": "CONUS Snowfall Water-Equivalent Departure",
+      "label": "CONUS Snowfall Departure (in)",
       "aliases": [],
       "units": "in",
       "compatible_units": [],
@@ -225,55 +225,60 @@
         "monthly": "total",
         "seasonal": "total"
       },
+      "display_scale_factor": 10.0,
       "display": {
         "monthly": {
-          "minimum": -2.0,
-          "maximum": 2.0,
+          "minimum": -10.0,
+          "maximum": 10.0,
           "breakpoints": [
-            -2.0,
-            -1.75,
-            -1.5,
-            -1.25,
-            -1.0,
-            -0.75,
-            -0.5,
-            0.0,
-            0.5,
-            0.75,
-            1.0,
-            1.25,
-            1.5,
-            1.75,
-            2.0
+            -10,
+            -9,
+            -8,
+            -7,
+            -6,
+            -5,
+            -4,
+            -3,
+            -2,
+            -1,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
           ]
         },
         "seasonal": {
-          "minimum": -4.0,
-          "maximum": 4.0,
+          "minimum": -10.0,
+          "maximum": 10.0,
           "breakpoints": [
-            -4.0,
-            -3.5,
-            -3.0,
-            -2.5,
-            -2.0,
-            -1.75,
-            -1.5,
-            -1.25,
-            -1.0,
-            -0.75,
-            -0.5,
-            0.0,
-            0.5,
-            0.75,
-            1.0,
-            1.25,
-            1.5,
-            1.75,
-            2.0,
-            2.5,
-            3.0,
-            3.5,
-            4.0
+            -10,
+            -9,
+            -8,
+            -7,
+            -6,
+            -5,
+            -4,
+            -3,
+            -2,
+            -1,
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10
           ]
         }
       },
@@ -15020,6 +15025,7 @@
           "product": "precipitation_anomaly",
           "init_utc": "2026-08-18T00:00:00Z",
           "status": "rendered",
+          "method": "SCM",
           "targets": [
             {
               "id": "apcc-202609-preca-202612-202702",
@@ -15058,6 +15064,7 @@
           "product": "mslp_anomaly",
           "init_utc": "2026-08-18T00:00:00Z",
           "status": "rendered",
+          "method": "SCM",
           "targets": [
             {
               "id": "apcc-202609-slpa-202612-202702",
@@ -15096,6 +15103,7 @@
           "product": "850mb_temperature_anomaly",
           "init_utc": "2026-08-18T00:00:00Z",
           "status": "rendered",
+          "method": "SCM",
           "targets": [
             {
               "id": "apcc-202609-t850a-202612-202702",
@@ -15134,6 +15142,7 @@
           "product": "500mb_height_anomaly",
           "init_utc": "2026-08-18T00:00:00Z",
           "status": "rendered",
+          "method": "SCM",
           "targets": [
             {
               "id": "apcc-202609-z500a-202612-202702",
@@ -15172,6 +15181,7 @@
           "product": "2m_temperature_anomaly",
           "init_utc": "2026-08-18T00:00:00Z",
           "status": "rendered",
+          "method": "SCM",
           "targets": [
             {
               "id": "apcc-202609-t2ma-202612-202702",
@@ -15210,6 +15220,7 @@
           "product": "precipitation_anomaly",
           "init_utc": "2026-08-01T00:00:00Z",
           "status": "rendered",
+          "method": "SCM",
           "targets": [
             {
               "id": "apcc-202608-preca-202608-202610",
@@ -15248,6 +15259,7 @@
           "product": "mslp_anomaly",
           "init_utc": "2026-08-01T00:00:00Z",
           "status": "rendered",
+          "method": "SCM",
           "targets": [
             {
               "id": "apcc-202608-slpa-202608-202610",
@@ -15286,6 +15298,7 @@
           "product": "850mb_temperature_anomaly",
           "init_utc": "2026-08-01T00:00:00Z",
           "status": "rendered",
+          "method": "SCM",
           "targets": [
             {
               "id": "apcc-202608-t850a-202608-202610",
@@ -15324,6 +15337,7 @@
           "product": "500mb_height_anomaly",
           "init_utc": "2026-08-01T00:00:00Z",
           "status": "rendered",
+          "method": "SCM",
           "targets": [
             {
               "id": "apcc-202608-z500a-202608-202610",
@@ -15362,6 +15376,7 @@
           "product": "2m_temperature_anomaly",
           "init_utc": "2026-08-01T00:00:00Z",
           "status": "rendered",
+          "method": "SCM",
           "targets": [
             {
               "id": "apcc-202608-t2ma-202608-202610",
@@ -38044,6 +38059,16 @@
             "status": "not_used"
           },
           "conversion": "CDS anomalous snowfall water rate multiplied by target-month seconds and converted from metres to inches",
+          "display": {
+            "quantity": "estimated snowfall depth departure",
+            "units": "in",
+            "snow_to_liquid_ratio": 10.0,
+            "white_band_inches": [
+              -1.0,
+              1.0
+            ],
+            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+          },
           "targets": [
             {
               "id": "seas5-2026090100-snowfall_anomaly-lead04",
@@ -38077,32 +38102,54 @@
                 "p01": -1.040151,
                 "p99": 0.217711,
                 "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.000313,
+                  "below_fraction": 0.011562,
                   "above_fraction": 0.0,
-                  "clipped_fraction": 0.000313
+                  "clipped_fraction": 0.011562
                 },
                 "issues": [],
                 "status": "passed"
               },
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+              },
+              "numeric_grid": "seas5/20260901/seas5_sf_202612.snow.csv.gz",
+              "native_lwe_grid": "seas5/20260901/seas5_sf_202612.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
                 "comparable": true,
@@ -38141,32 +38188,54 @@
                 "p01": -1.303253,
                 "p99": 0.454896,
                 "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.001875,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.001875
+                  "below_fraction": 0.017188,
+                  "above_fraction": 0.002188,
+                  "clipped_fraction": 0.019375
                 },
                 "issues": [],
                 "status": "passed"
               },
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+              },
+              "numeric_grid": "seas5/20260901/seas5_sf_202701.snow.csv.gz",
+              "native_lwe_grid": "seas5/20260901/seas5_sf_202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
                 "comparable": true,
@@ -38205,32 +38274,54 @@
                 "p01": -1.248086,
                 "p99": 0.388007,
                 "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.003438,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.003438
+                  "below_fraction": 0.018125,
+                  "above_fraction": 0.001875,
+                  "clipped_fraction": 0.02
                 },
                 "issues": [],
                 "status": "passed"
               },
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+              },
+              "numeric_grid": "seas5/20260901/seas5_sf_202702.snow.csv.gz",
+              "native_lwe_grid": "seas5/20260901/seas5_sf_202702.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
                 "comparable": true,
@@ -38274,44 +38365,64 @@
                 "p01": -3.440505,
                 "p99": 0.765347,
                 "display": {
-                  "minimum": -4.0,
-                  "maximum": 4.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -4.0,
-                    -3.5,
-                    -3.0,
-                    -2.5,
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0,
-                    2.5,
-                    3.0,
-                    3.5,
-                    4.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.00625,
-                  "above_fraction": 0.000313,
-                  "clipped_fraction": 0.006563
+                  "below_fraction": 0.095,
+                  "above_fraction": 0.005625,
+                  "clipped_fraction": 0.100625
                 },
-                "issues": [],
-                "status": "passed"
+                "issues": [
+                  {
+                    "code": "display_scale_clipping",
+                    "severity": "warning",
+                    "message": "10.1% of finite cells exceed the fixed display scale."
+                  }
+                ],
+                "status": "warning"
               },
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+              },
+              "numeric_grid": "seas5/20260901/seas5_sf_202612-202702.snow.csv.gz",
+              "native_lwe_grid": "seas5/20260901/seas5_sf_202612-202702.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
                 "comparable": true,
-                "quality_control": "passed"
+                "quality_control": "warning"
               }
             }
           ],
@@ -38582,6 +38693,7 @@
             "status": "not_used"
           },
           "conversion": "Pa divided by 100 to convert mean sea-level pressure to hPa",
+          "display": null,
           "targets": [
             {
               "id": "seas5-2026090100-mslp_anomaly-lead04",
@@ -40854,7 +40966,7 @@
       "status": "degraded",
       "schema_version": 1,
       "manifest_kind": "seas5_seasonal_manifest",
-      "generated_utc": "2026-09-06T17:18:01Z",
+      "generated_utc": "2026-09-06T21:44:02Z",
       "source_url": "https://cds.climate.copernicus.eu/datasets/seasonal-postprocessed-single-levels",
       "product_labels": {},
       "validation": {
@@ -41055,6 +41167,22 @@
             "method": "provider postprocessed; no second subtraction"
           },
           "conversion": "Native snowfall anomalous rate × target-month seconds ÷ 0.0254; equal component mean; sum months; display only ×10.",
+          "display": {
+            "quantity": "estimated snowfall depth departure",
+            "units": "in",
+            "snow_to_liquid_ratio": 10,
+            "scale_inches": [
+              -10,
+              10
+            ],
+            "white_band_inches": [
+              -1,
+              1
+            ],
+            "numeric_grid_quantity": "snowfall LWE departure"
+          },
+          "method": "eccc_native_snowfall_c3s_v1",
+          "presentation": "winter_djf_jfm_v1",
           "targets": [
             {
               "id": "cansips-2026090100-snowfall_anomaly-202612-202702",
@@ -48559,6 +48687,22 @@
             "method": "provider postprocessed; no second subtraction"
           },
           "conversion": "Native snowfall anomalous rate × target-month seconds ÷ 0.0254; equal component mean; sum months; display only ×10.",
+          "display": {
+            "quantity": "estimated snowfall depth departure",
+            "units": "in",
+            "snow_to_liquid_ratio": 10,
+            "scale_inches": [
+              -10,
+              10
+            ],
+            "white_band_inches": [
+              -1,
+              1
+            ],
+            "numeric_grid_quantity": "snowfall LWE departure"
+          },
+          "method": "eccc_native_snowfall_c3s_v1",
+          "presentation": "winter_djf_jfm_v1",
           "targets": [
             {
               "id": "cansips-2026080100-snowfall_anomaly-202612-202702",
@@ -59130,7 +59274,7 @@
   },
   "health": {
     "status": "attention",
-    "generated_utc": "2026-09-06T21:22:26Z",
+    "generated_utc": "2026-09-06T21:44:55Z",
     "freshness_policy_days": {
       "default": {
         "fresh_days": 35,
@@ -59232,7 +59376,7 @@
         "model": "superensemble",
         "model_label": "Super Ensemble",
         "product": "snowfall_anomaly",
-        "product_label": "CONUS Snowfall Water-Equivalent Departure",
+        "product_label": "CONUS Snowfall Departure (in)",
         "surface_state": "available",
         "available": true,
         "comparable": true,
@@ -59340,7 +59484,7 @@
         "model": "c3s",
         "model_label": "C3S multi-system",
         "product": "snowfall_anomaly",
-        "product_label": "CONUS Snowfall Water-Equivalent Departure",
+        "product_label": "CONUS Snowfall Departure (in)",
         "surface_state": "available",
         "available": true,
         "comparable": true,
@@ -59448,7 +59592,7 @@
         "model": "apcc",
         "model_label": "APCC MME",
         "product": "snowfall_anomaly",
-        "product_label": "CONUS Snowfall Water-Equivalent Departure",
+        "product_label": "CONUS Snowfall Departure (in)",
         "surface_state": "unsupported",
         "available": false,
         "comparable": false,
@@ -59556,7 +59700,7 @@
         "model": "nmme",
         "model_label": "NOAA NMME",
         "product": "snowfall_anomaly",
-        "product_label": "CONUS Snowfall Water-Equivalent Departure",
+        "product_label": "CONUS Snowfall Departure (in)",
         "surface_state": "unsupported",
         "available": false,
         "comparable": false,
@@ -59598,7 +59742,7 @@
         "comparable": true,
         "health_state": "healthy",
         "freshness": "fresh",
-        "age_days": 0.6,
+        "age_days": 0.7,
         "latest_status": "rendered",
         "latest_init_utc": "2026-09-06T06:00:00Z",
         "selected_init_utc": "2026-09-06T06:00:00Z",
@@ -59616,7 +59760,7 @@
         "comparable": true,
         "health_state": "healthy",
         "freshness": "fresh",
-        "age_days": 0.6,
+        "age_days": 0.7,
         "latest_status": "rendered",
         "latest_init_utc": "2026-09-06T06:00:00Z",
         "selected_init_utc": "2026-09-06T06:00:00Z",
@@ -59634,7 +59778,7 @@
         "comparable": true,
         "health_state": "healthy",
         "freshness": "fresh",
-        "age_days": 0.6,
+        "age_days": 0.7,
         "latest_status": "rendered",
         "latest_init_utc": "2026-09-06T06:00:00Z",
         "selected_init_utc": "2026-09-06T06:00:00Z",
@@ -59652,7 +59796,7 @@
         "comparable": true,
         "health_state": "healthy",
         "freshness": "fresh",
-        "age_days": 0.6,
+        "age_days": 0.7,
         "latest_status": "rendered",
         "latest_init_utc": "2026-09-06T06:00:00Z",
         "selected_init_utc": "2026-09-06T06:00:00Z",
@@ -59664,13 +59808,13 @@
         "model": "cfsv2",
         "model_label": "CFSv2",
         "product": "snowfall_anomaly",
-        "product_label": "CONUS Snowfall Water-Equivalent Departure",
+        "product_label": "CONUS Snowfall Departure (in)",
         "surface_state": "available",
         "available": true,
         "comparable": true,
         "health_state": "healthy",
         "freshness": "fresh",
-        "age_days": 0.6,
+        "age_days": 0.7,
         "latest_status": "rendered",
         "latest_init_utc": "2026-09-06T06:00:00Z",
         "selected_init_utc": "2026-09-06T06:00:00Z",
@@ -59688,7 +59832,7 @@
         "comparable": true,
         "health_state": "healthy",
         "freshness": "fresh",
-        "age_days": 0.6,
+        "age_days": 0.7,
         "latest_status": "rendered",
         "latest_init_utc": "2026-09-06T06:00:00Z",
         "selected_init_utc": "2026-09-06T06:00:00Z",
@@ -59772,7 +59916,7 @@
         "model": "seas5",
         "model_label": "ECMWF SEAS5",
         "product": "snowfall_anomaly",
-        "product_label": "CONUS Snowfall Water-Equivalent Departure",
+        "product_label": "CONUS Snowfall Departure (in)",
         "surface_state": "available",
         "available": true,
         "comparable": true,
@@ -59880,7 +60024,7 @@
         "model": "cansips",
         "model_label": "CanSIPS v3",
         "product": "snowfall_anomaly",
-        "product_label": "CONUS Snowfall Water-Equivalent Departure",
+        "product_label": "CONUS Snowfall Departure (in)",
         "surface_state": "partial",
         "available": true,
         "comparable": true,
@@ -59988,7 +60132,7 @@
         "model": "cma_cpsv3",
         "model_label": "CMA CPSv3",
         "product": "snowfall_anomaly",
-        "product_label": "CONUS Snowfall Water-Equivalent Departure",
+        "product_label": "CONUS Snowfall Departure (in)",
         "surface_state": "unsupported",
         "available": false,
         "comparable": false,
@@ -60096,7 +60240,7 @@
         "model": "geos_s2s3",
         "model_label": "NASA GEOS-S2S-3",
         "product": "snowfall_anomaly",
-        "product_label": "CONUS Snowfall Water-Equivalent Departure",
+        "product_label": "CONUS Snowfall Departure (in)",
         "surface_state": "unsupported",
         "available": false,
         "comparable": false,
@@ -60204,7 +60348,7 @@
         "model": "jma",
         "model_label": "JMA",
         "product": "snowfall_anomaly",
-        "product_label": "CONUS Snowfall Water-Equivalent Departure",
+        "product_label": "CONUS Snowfall Departure (in)",
         "surface_state": "unsupported",
         "available": false,
         "comparable": false,
@@ -60314,7 +60458,7 @@
         "model": "superensemble",
         "model_label": "Super Ensemble",
         "product": "snowfall_anomaly",
-        "product_label": "CONUS Snowfall Water-Equivalent Departure",
+        "product_label": "CONUS Snowfall Departure (in)",
         "surface_state": "available",
         "available": true,
         "comparable": true,
@@ -60422,7 +60566,7 @@
         "model": "c3s",
         "model_label": "C3S multi-system",
         "product": "snowfall_anomaly",
-        "product_label": "CONUS Snowfall Water-Equivalent Departure",
+        "product_label": "CONUS Snowfall Departure (in)",
         "surface_state": "available",
         "available": true,
         "comparable": true,
@@ -60476,7 +60620,7 @@
         "model": "cansips",
         "model_label": "CanSIPS v3",
         "product": "snowfall_anomaly",
-        "product_label": "CONUS Snowfall Water-Equivalent Departure",
+        "product_label": "CONUS Snowfall Departure (in)",
         "surface_state": "partial",
         "available": true,
         "comparable": true,
