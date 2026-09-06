@@ -2,8 +2,8 @@
   "schema_version": 1,
   "registry_version": 1,
   "kind": "seasonal_dashboard_catalog",
-  "generated_utc": "2026-09-06T16:38:25Z",
-  "source_revision": "7ab2a88bc017101a68f090560e2ae7821a57c1e7",
+  "generated_utc": "2026-09-06T17:01:15Z",
+  "source_revision": "f687aecaeeae7035de4f0cf80099d7cee683b096",
   "model_order": [
     "superensemble",
     "c3s",
@@ -39751,7 +39751,7 @@
       "status": "degraded",
       "schema_version": 1,
       "manifest_kind": "seas5_seasonal_manifest",
-      "generated_utc": "2026-09-06T16:37:40Z",
+      "generated_utc": "2026-09-06T17:00:29Z",
       "source_url": "https://cds.climate.copernicus.eu/datasets/seasonal-postprocessed-single-levels",
       "product_labels": {},
       "validation": {
@@ -66379,7 +66379,7 @@
   },
   "health": {
     "status": "attention",
-    "generated_utc": "2026-09-06T16:38:25Z",
+    "generated_utc": "2026-09-06T17:01:15Z",
     "freshness_policy_days": {
       "default": {
         "fresh_days": 35,
