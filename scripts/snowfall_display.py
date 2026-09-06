@@ -8,6 +8,7 @@ DISPLAY = {
     "white_band_inches": [-1, 1],
     "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
     "calendar_alignment_version": 2,
+    "native_blend_version": 1,
 }
 
 
@@ -30,6 +31,7 @@ def depth_departure(grid, product, palette):
     source = str(spec.get("source_label", "NOAA CFSv2 / NOMADS"))
     kind = ("Native/derived blend" if "super ensemble" in source.lower() else
             "Derived snowfall" if "CFSv2" in source else "Native model snowfall")
+    kind = spec.get("snowfall_input_kind", kind)
     spec["header_detail"] = "{source_label}  •  " + kind + "  •  10:1 snow-depth estimate"
     title = spec.get("title", "Snowfall Departure").replace("Estimated Snowfall", "Snowfall")
     spec["title"] = title

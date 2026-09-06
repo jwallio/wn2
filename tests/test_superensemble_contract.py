@@ -86,9 +86,9 @@ def main() -> int:
     check("c3s_jma_system4" in height_keys, "JMA should be represented once through C3S")
     check("eccc_cansips_v3" in height_keys, "CanSIPS should represent the ECCC family once")
     snowfall_keys = [member.key for member in module.canonical_members("snowfall_anomaly")]
-    check("eccc_cansips_v3" in snowfall_keys, "snowfall roster should include the CanSIPS-derived family vote")
-    check(module.CFSV2_MEMBER_KEY in snowfall_keys, "snowfall roster should include the standalone rolling CFSv2 family vote")
-    check(len(snowfall_keys) == 7 and len(snowfall_keys) == len(set(snowfall_keys)), "snowfall roster must contain seven supported unique source families")
+    check("eccc_cansips_v3" in snowfall_keys, "snowfall roster should include the CanSIPS native family vote")
+    check(module.CFSV2_MEMBER_KEY not in snowfall_keys, "native snowfall blend must exclude the incompatible legacy CFSv2 derived reference")
+    check(len(snowfall_keys) == 6 and len(snowfall_keys) == len(set(snowfall_keys)), "snowfall roster must contain six native snowfall source families")
     check("c3s_ncep_system2" not in snowfall_keys, "snowfall roster must not duplicate rolling CFSv2 through C3S NCEP")
     check("c3s_jma_system4" not in snowfall_keys and "c3s_bom_system2" not in snowfall_keys, "provider-unsupported C3S snowfall systems must not create permanent partial coverage")
     check(module.CFSV2_MEMBER_KEY in height_keys, "500-mb roster should use the standalone rolling CFSv2 family")
@@ -208,8 +208,8 @@ def main() -> int:
     surface_exclusions = module.membership_ledger("2m_temperature_anomaly")["excluded"]
     check(any(item["package"] == "NMME NASA_GEOS5v2" and item["represented_by"] == module.GEOS_MEMBER_KEY for item in surface_exclusions), "surface ledger must document the NASA deduplication")
     snowfall_ledger = module.membership_ledger("snowfall_anomaly")
-    check(snowfall_ledger["expected_count"] == 7, "snowfall membership should expect only the seven supported families")
-    check(any(item["package"] == "C3S NCEP System 2" and item["represented_by"] == module.CFSV2_MEMBER_KEY for item in snowfall_ledger["excluded"]), "snowfall ledger must document the C3S NCEP substitution")
+    check(snowfall_ledger["expected_count"] == 6, "snowfall membership should expect six native snowfall families")
+    check(any(item["package"].startswith("NOAA CFSv2 snowfall") and item["represented_by"] is None for item in snowfall_ledger["excluded"]), "snowfall ledger must document the incompatible CFSv2 reference exclusion")
     check(any(item["package"].startswith("C3S JMA") and item["represented_by"] is None for item in snowfall_ledger["excluded"]), "snowfall ledger must document unavailable JMA data")
     check(any(item["package"] == "C3S BOM System 2" and item["represented_by"] is None for item in snowfall_ledger["excluded"]), "snowfall ledger must document unavailable BOM data")
     check(module.c3s.target_month("2026080100", 4) == "202612", "lead 4 should align to December")
@@ -347,11 +347,9 @@ def main() -> int:
                 root=ROOT, wgrib2="wgrib2", member_grids=grids,
                 height_grids=heights, provenance=provenance, errors=errors,
             )
-            check(snowfall_calls == {"forecast": 1, "baseline": 1}, "rolling CFSv2 snowfall should use both derived forecast and derived baseline adapters")
-            check(grids[4][module.CFSV2_MEMBER_KEY].values == [[2.5]], "rolling CFSv2 snowfall should subtract the matching derived climatology")
-            check(provenance[4][module.CFSV2_MEMBER_KEY]["derivation"]["method"] == "temperature phase gate", "snowfall provenance should retain the derivation method")
-            check(not heights[4], "derived snowfall should not populate 500-mb height contours")
-            check(not errors[4], "mock rolling CFSv2 snowfall load should not record an error")
+            check(snowfall_calls == {"forecast": 0, "baseline": 0}, "native snowfall blend must not call the incompatible derived-reference path")
+            check(not grids[4] and not provenance[4], "excluded CFSv2 must not contribute a snowfall grid or provenance vote")
+            check(not heights[4] and not errors[4], "planned source exclusion should not become a decoding failure")
         finally:
             for name, value in originals.items():
                 setattr(module.cfsv2, name, value)

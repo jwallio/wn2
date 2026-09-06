@@ -3970,7 +3970,7 @@ def _run_single_window(args: argparse.Namespace) -> int:
                 )
                 if product_name == PRODUCT_SNOWFALL_ACCUMULATION:
                     native_lwe_grids[lead] = derivation_diagnostics.pop("_native_lwe")
-                    target_entry["source_warning"] = "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference."
+                    target_entry["source_warning"] = "Unadjusted native snowfall estimate at fixed 10:1. Separate phase-derived departures are not its reference."
                 target_entry["derivation"] = derivation_diagnostics
             else:
                 ensemble, source_files, ensemble_count, ensemble_expected_for_target, ensemble_label, last_request = decode_target_ensemble(

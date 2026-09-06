@@ -268,7 +268,8 @@ def _target_catalog_state(
                 metadata_path = local_image.with_suffix(".snow.json")
                 display = json.loads(metadata_path.read_text(encoding="utf-8")) if metadata_path.exists() else None
                 needs_calendar_check = any(part in {"c3s", "superensemble"} for part in local_image.parts)
-                if display and (not needs_calendar_check or display.get("calendar_alignment_version", 0) >= 2):
+                native_blend_ok = "superensemble" not in local_image.parts or (display or {}).get("native_blend_version", 0) >= 1
+                if display and native_blend_ok and (not needs_calendar_check or display.get("calendar_alignment_version", 0) >= 2):
                     normalized["display"] = display
                     normalized["numeric_grid"] = str(PurePosixPath(normalized_image).with_suffix(".snow.csv.gz"))
                     normalized["native_lwe_grid"] = str(PurePosixPath(normalized_image).with_suffix(".lwe.csv.gz"))
@@ -310,7 +311,8 @@ def _target_catalog_state(
                     marker = local.with_suffix(".snow.json")
                     display = json.loads(marker.read_text()) if marker.exists() else {}
                     needs_calendar_check = any(part in {"c3s", "superensemble"} for part in local.parts)
-                    if not display or (needs_calendar_check and display.get("calendar_alignment_version", 0) < 2):
+                    native_blend_ok = "superensemble" not in local.parts or display.get("native_blend_version", 0) >= 1
+                    if not display or not native_blend_ok or (needs_calendar_check and display.get("calendar_alignment_version", 0) < 2):
                         copied.pop("image", None)
                         copied["status"] = "pending"
                         copied["error"] = "Awaiting verified snowfall-depth image."

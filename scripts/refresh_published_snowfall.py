@@ -23,6 +23,9 @@ def refresh(root):
         if run.get('product') != 'snowfall_accumulation':
             continue
         if (run.get('display') or {}).get('snow_to_liquid_ratio') == 10:
+            for target in run.get('targets', []):
+                if target.get('image'):
+                    target['source_warning'] = 'Unadjusted native snowfall at fixed 10:1; native departures unavailable.'
             continue
         init = run['init_utc'].replace('-', '').replace(':', '').replace('T', '')[:10]
         for target in run.get('targets', []):
@@ -40,6 +43,7 @@ def refresh(root):
                           f"{target.get('ensemble_members') or run.get('ensemble_members') or 24}-cycle mean")
             target['quality_control'] = cf.grid_quality_control('snowfall_accumulation', depth.values, units='in', field='snowfall_accumulation', seasonal='-' in period)
             cf.require_quality_control(target['quality_control'], ValueError)
+            target['source_warning'] = 'Unadjusted native snowfall at fixed 10:1; native departures unavailable.'
             target['derivation'] = {'method': 'native_SRWEQ_times_fixed_10_to_1_v1',
                                     'snow_to_liquid_ratio': 10, 'native_departure_status': 'unavailable'}
             target['baseline'] = {'status': 'not_applicable', 'reason': 'Native snowfall accumulation at 10:1; no native departure reference'}
