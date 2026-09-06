@@ -2,7 +2,7 @@
   "schema_version": 1,
   "registry_version": 1,
   "kind": "seasonal_dashboard_catalog",
-  "generated_utc": "2026-09-06T21:44:55Z",
+  "generated_utc": "2026-09-06T21:47:32Z",
   "source_revision": "24750a6fb8a732ae075dd667e6876ef08ecfcea0",
   "model_order": [
     "superensemble",
@@ -48671,7 +48671,7 @@
           "source_url": "https://cds.climate.copernicus.eu/datasets/seasonal-postprocessed-single-levels",
           "product": "snowfall_anomaly",
           "init_utc": "2026-08-01T00:00:00Z",
-          "generated_utc": "2026-09-06T21:20:49Z",
+          "generated_utc": "2026-09-06T21:46:05Z",
           "status": "partial",
           "statistic": "ensemble_mean",
           "aggregation": "ensemble-mean period total departure; sum included monthly departures",
@@ -48802,7 +48802,22 @@
                 "issues": [],
                 "validation_scope": "data integrity and units; not observational forecast skill"
               },
-              "numeric_grid": "public/seasonal/cansips/20260801/cansips_native_snow_202612-202701.csv.gz",
+              "numeric_grid": "cansips/20260801/cansips_native_snowfalla_winter_202612-202701.snow.csv.gz",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+              },
+              "native_lwe_grid": "cansips/20260801/cansips_native_snowfalla_winter_202612-202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
                 "comparable": true,
@@ -48845,7 +48860,22 @@
                 "issues": [],
                 "validation_scope": "data integrity and units; not observational forecast skill"
               },
-              "numeric_grid": "public/seasonal/cansips/20260801/cansips_native_snow_202612.csv.gz",
+              "numeric_grid": "cansips/20260801/cansips_native_snowfalla_winter_202612.snow.csv.gz",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+              },
+              "native_lwe_grid": "cansips/20260801/cansips_native_snowfalla_winter_202612.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
                 "comparable": true,
@@ -48888,7 +48918,22 @@
                 "issues": [],
                 "validation_scope": "data integrity and units; not observational forecast skill"
               },
-              "numeric_grid": "public/seasonal/cansips/20260801/cansips_native_snow_202701.csv.gz",
+              "numeric_grid": "cansips/20260801/cansips_native_snowfalla_winter_202701.snow.csv.gz",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+              },
+              "native_lwe_grid": "cansips/20260801/cansips_native_snowfalla_winter_202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
                 "comparable": true,
@@ -55883,7 +55928,7 @@
       "status": "degraded",
       "schema_version": 1,
       "manifest_kind": "cansips_seasonal_manifest",
-      "generated_utc": "2026-09-06T21:20:53Z",
+      "generated_utc": "2026-09-06T21:46:10Z",
       "source_url": "https://eccc-msc.github.io/open-data/msc-data/nwp_cansips/readme_cansips-datamart_en/",
       "product_labels": {
         "500mb_height_anomaly": "500-mb Height Anomaly",
@@ -59274,7 +59319,7 @@
   },
   "health": {
     "status": "attention",
-    "generated_utc": "2026-09-06T21:44:55Z",
+    "generated_utc": "2026-09-06T21:47:32Z",
     "freshness_policy_days": {
       "default": {
         "fresh_days": 35,
