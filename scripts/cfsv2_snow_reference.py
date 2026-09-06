@@ -134,5 +134,8 @@ def validate_options(args, product, init, targets, repo_root):
         raise CFSv2Error('An explicit snowfall reference requires snowfall_anomaly, '
                          'a complete 1-6 day member-1 window, and its own reference labels')
     directory = resolve_repo_path(directory, repo_root)
+    loader = load_reference
+    if getattr(args, 'native_snowfall_departure', False):
+        from cfsv2_native_reference import load_reference as loader
     for target in targets:
-        load_reference(directory, init, target, rolling_cycle_inits(init, args.rolling_days * 4), 1)
+        loader(directory, init, target, rolling_cycle_inits(init, args.rolling_days * 4), 1)

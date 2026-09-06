@@ -2228,9 +2228,16 @@ def _decode_snowfall_target_ensemble(
 
     if product_name not in SNOWFALL_PRODUCTS:
         raise CFSv2Error(f"{product_name} is not a derived CFSv2 snowfall product")
-    if product_name == PRODUCT_SNOWFALL_ACCUMULATION:
+    if product_name == PRODUCT_SNOWFALL_ACCUMULATION or getattr(args, "native_snowfall_departure", False):
         from cfsv2_native_snow import decode
-        return decode(args, init, target, members, rolling_inits, cache_dir, state_dir, wgrib2)
+        result = decode(args, init, target, members, rolling_inits, cache_dir, state_dir, wgrib2)
+        if product_name == PRODUCT_SNOWFALL_ANOMALY:
+            depth, sources, count, expected, label, clock, diagnostics = result
+            lwe = diagnostics.pop("_native_lwe")
+            diagnostics.update(method="native_SRWEQ_departure_v1", native_departure_status="available",
+                               reference="matched archived operational native SRWEQ")
+            return lwe, sources, count, expected, label, clock, diagnostics
+        return result
     dependencies = PRODUCT_SPECS[product_name]["dependencies"]
     member_grids: dict[str, dict[str, Grid]] = {}
     source_files: list[dict] = []
@@ -2397,7 +2404,10 @@ def load_snowfall_baseline(
     """Load and derive a matching snowfall baseline from all three fields."""
 
     if getattr(args, "snowfall_reference_dir", None):
-        from cfsv2_snow_reference import load_reference
+        if getattr(args, "native_snowfall_departure", False):
+            from cfsv2_native_reference import load_reference
+        else:
+            from cfsv2_snow_reference import load_reference
         grid, info = load_reference(
             resolve_repo_path(args.snowfall_reference_dir, repo_root), init, target,
             rolling_cycle_inits(init, args.rolling_days * 4), args.rolling_member,
@@ -2518,6 +2528,8 @@ def load_snowfall_baseline(
 
 
 def configured_baseline_label(args: argparse.Namespace) -> str:
+    if getattr(args, "native_snowfall_departure", False):
+        return "2011–2025 native operational snowfall reference"
     if getattr(args, "snowfall_reference_dir", None):
         from cfsv2_snow_reference import LABEL
         return LABEL
@@ -2557,6 +2569,13 @@ def seasonal_baseline_manifest(
         metadata["rolling_policy"] = "anchor_initialization"
         metadata["anchor_init"] = rolling_init
 
+    if monthly_baselines and all(item.get("method") == "native_srweq_operational_2011_2025_v1" for item in monthly_baselines):
+        if any(item["historical_years"] != monthly_baselines[0]["historical_years"] for item in monthly_baselines):
+            raise CFSv2Error("Seasonal native snowfall requires identical historical years for every month")
+        metadata.update(years=monthly_baselines[0]["years"], label=monthly_baselines[0]["label"],
+                        method="native_srweq_operational_2011_2025_v1",
+                        rolling_policy="reference_matched_to_each_forecast_cycle",
+                        monthly_references=list(monthly_baselines))
     if monthly_baselines and all(item.get("method") in {"derive_each_forecast_then_same_hour_interpolate_v1",
                                                           "derive_each_forecast_daily_rate_then_same_hour_interpolate_v2"}
                                  for item in monthly_baselines):
@@ -3559,7 +3578,11 @@ def render_map(
         write_grid_state(grid, output_path.with_suffix(".snow.csv.gz"))
         lwe = Grid(grid.lons[:], grid.lats[:], [[v / 10. for v in row] for row in grid.values])
         write_grid_state(lwe, output_path.with_suffix(".lwe.csv.gz"))
-        output_path.with_suffix(".snow.json").write_text(json.dumps(DISPLAY), encoding="utf-8")
+        display_metadata = dict(DISPLAY)
+        if product_spec.get("raw_field") == "SRWEQ:surface":
+            display_metadata.update(snowfall_method="native_SRWEQ_departure_v1",
+                                    reference_kind="archived operational forecasts", reference_period="2011-2025")
+        output_path.with_suffix(".snow.json").write_text(json.dumps(display_metadata), encoding="utf-8")
 
     if crop_bottom_px is not None:
         from PIL import Image
@@ -3712,6 +3735,8 @@ def build_parser() -> argparse.ArgumentParser:
         default=4,
         help="number of current and historical runs to retain per product in the manifest",
     )
+    parser.add_argument("--native-snowfall-departure", action="store_true",
+                        help="pair native SRWEQ forecasts with matching native operational reference bundles")
     parser.add_argument("--snowfall-reference-dir", type=Path,
                         help="explicit model-only, per-forecast snowfall reference bundles; exact cycle/target matching required")
     parser.add_argument("--baseline-file", type=Path, help="one CFSv2/reforecast baseline CSV or GRIB2 grid")
@@ -3745,6 +3770,14 @@ def build_parser() -> argparse.ArgumentParser:
 def _run_single_window(args: argparse.Namespace) -> int:
     repo_root = Path(__file__).resolve().parents[1]
     product_name, product, absolute = selected_product(args)
+    if getattr(args, "native_snowfall_departure", False):
+        if product_name != PRODUCT_SNOWFALL_ANOMALY or not args.snowfall_reference_dir:
+            raise CFSv2Error("Native snowfall departures require snowfall_anomaly and a native reference directory")
+        product = dict(product, raw_field="SRWEQ:surface", raw_units="kg m-2 s-1",
+                       source_kind="flxf", dependencies=(),
+                       snowfall_input_kind="Native snowfall · 2011–2025 operational reference",
+                       monthly_aggregation="monthly native snowfall departure",
+                       conversion="Native SRWEQ forecast minus matched native reference; fixed 10:1 display")
     requires_baseline = bool(product.get("requires_baseline", not absolute))
     render_as_anomaly = bool(product.get("render_as_anomaly", requires_baseline))
     if is_retired_product(product_name):

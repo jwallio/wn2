@@ -73,12 +73,13 @@ class BuilderTests(unittest.TestCase):
     def test_workflow_uses_correction_only_for_departure(self):
         workflow = (Path(__file__).resolve().parents[1] / '.github/workflows/cfsv2.yml').read_text()
         branch = workflow.split('elif [[ "$product" == "snowfall_anomaly" ]]; then')[1].split('\n            else')[0]
-        self.assertIn('build_cfsv2_snow_reference.py', branch)
+        self.assertIn('cfsv2_native_reference.py', branch)
+        self.assertIn('--native-snowfall-departure', branch)
         self.assertIn('--seasonal-window "$product_seasonal_window"', branch)
         self.assertIn('--snowfall-reference-dir', branch)
         self.assertNotIn('--ncei-calibration', branch)
         self.assertIn('continue', branch)
-        self.assertIn('cfsv2-snow-reference-v2-', workflow)
+        self.assertIn('cfsv2-snow-reference-native-v1-', workflow)
 
     def test_missing_year_is_explicit_and_network_errors_are_fatal(self):
         cycles = cf.rolling_cycle_inits('2026090506', 24)

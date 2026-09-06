@@ -116,8 +116,8 @@ jobs:
         uses: actions/cache/restore@v4
         with:
           path: .cache/cfsv2-snow-reference
-          key: cfsv2-snow-reference-v2-${{ github.run_id }}
-          restore-keys: cfsv2-snow-reference-v2-
+          key: cfsv2-snow-reference-native-v1-${{ github.run_id }}
+          restore-keys: cfsv2-snow-reference-native-v1-
 
       - name: Restore published CFSv2 run history
         shell: bash
@@ -289,7 +289,7 @@ jobs:
             elif [[ "$product" == "snowfall_accumulation" ]]; then
               args+=(--product "$product")
             elif [[ "$product" == "snowfall_anomaly" ]]; then
-              if ! python scripts/build_cfsv2_snow_reference.py \
+              if ! python scripts/cfsv2_native_reference.py \
                 --init "$anchor_init" \
                 --lead-months "$product_lead_months" \
                 --seasonal-window "$product_seasonal_window" \
@@ -300,7 +300,7 @@ jobs:
                 overall_status=1
                 continue
               fi
-              args+=(--product "$product" --snowfall-reference-dir .cache/cfsv2-snow-reference/bundles)
+              args+=(--product "$product" --native-snowfall-departure --snowfall-reference-dir .cache/cfsv2-snow-reference/bundles)
             else
               args+=(--product "$product" --ncei-calibration --allow-stale-calibration)
             fi
@@ -332,7 +332,7 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: .cache/cfsv2-snow-reference
-          key: cfsv2-snow-reference-v2-${{ github.run_id }}
+          key: cfsv2-snow-reference-native-v1-${{ github.run_id }}
 
       - name: Package CFSv2 Pages payload
         if: success()
