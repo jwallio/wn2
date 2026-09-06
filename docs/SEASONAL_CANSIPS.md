@@ -38,7 +38,7 @@ is needed:
 | `850mb_temperature_anomaly` | `AirTemp` at `ISBL-0850` | 850-mb temperature anomaly in °C | monthly mean; seasonal mean |
 | `2m_temperature_anomaly` | `AirTemp` at `AGL-2m` | 2-m temperature anomaly in °C | monthly mean; seasonal mean |
 | `precipitation_anomaly` | `PrecipRate` at `Sfc` | precipitation anomaly in inches | calendar-month total; seasonal total |
-| `snowfall_anomaly` | derived from `AirTemp` at `AGL-2m` + `AirTemp` at `ISBL-0850` + `PrecipRate` at `Sfc` | CanSIPS-derived snowfall liquid-water-equivalent departure in inches over the CONUS | member-level monthly estimate; seasonal total |
+| `snowfall_anomaly` | native snowfall anomalies, ECCC C3S systems 4 + 5 | native LWE departure; displayed at 10:1 in inches | equal component mean; seasonal sum |
 | `mslp_anomaly` | `Pressure` at `MSL` | mean sea-level pressure anomaly in hPa | monthly mean; seasonal mean |
 | `sea_surface_height_anomaly` | `SeaSfcHeight-Geoid` | sea-surface height anomaly in metres | monthly mean; seasonal mean |
 
@@ -48,58 +48,57 @@ and then to inches before calculating the anomaly. Pressure is converted from
 Pa to hPa. Temperature anomalies are reported in °C because a temperature
 difference has the same numerical magnitude in kelvin and Celsius.
 
-## Derived snowfall estimate
+## Native snowfall (September 2026 replacement)
 
-CanSIPS v3 does not publish a native snowfall field in the raw Datamart
-bundle. The `snowfall_anomaly` product therefore derives a monthly liquid-water
-equivalent estimate member by member from the 2-m temperature, 850-hPa
-temperature, and surface precipitation-rate files:
+The snowfall product now uses `snowfall_anomalous_rate_of_accumulation` from
+[C3S seasonal postprocessed single levels](https://cds.climate.copernicus.eu/datasets/seasonal-postprocessed-single-levels).
+Both Canadian systems are required: ECCC system 4 (CanESM5.1p1bc) and system 5
+(GEM5.2-NEMO), with 20 members each and equal component weights. Their native
+snowfall includes the model's own precipitation-phase physics. No AirTemp /
+PrecipRate phase estimate is used in the standalone or super-ensemble path.
+
+For each system and target month:
 
 ```text
-precipitation rate × calendar-month seconds ÷ 25.4 × snow fraction
+LWE departure (in) = native snowfall anomalous rate (m/s) × month seconds / 0.0254
+Canadian departure = (system 4 departure + system 5 departure) / 2
+DJF departure = December departure + January departure + February departure
+Displayed snowfall departure (in) = LWE departure × 10
 ```
 
-The snow fraction uses the season-appropriate land hyperbolic-tangent fit from
-Dai (2008)—the DJF fit for December through February—and applies it to the
-warmer of the monthly mean 2-m and 850-hPa temperatures. Using the warmer level
-is a conservative warm-layer gate: it keeps the surface temperature signal in
-ordinary winter profiles while reducing an all-snow bias when a warm layer is
-present aloft. The source files provide monthly means, so
-this remains a monthly phase estimate rather than an event-by-event sounding
-diagnostic; it does not distinguish sleet from freezing rain or reconstruct a
-full vertical temperature profile. At high terrain, 850 hPa can be below the
-surface, which is another reason to treat this as a transparent estimate rather
-than a native snowfall analysis.
+C3S has already subtracted the matching system/initialization/lead hindcast
+climatology using its common **1993–2016** reference. Do not subtract the old
+1991–2020 derived climatology a second time. The `--climo-start/end` settings
+continue to govern Datamart products; they do not change the native C3S baseline.
 
-For the DJF implementation, the fitted percentage is evaluated as
-`clip(-48.2372 * (tanh(0.7449 * (T - 1.0919)) - 1.0209) / 100, 0, 1)`,
-where `T` is the warmer temperature in °C. This is the complete fitted curve,
-not the earlier piecewise -1/+2 °C approximation. MAM, JJA, and SON monthly
-requests use the corresponding land coefficients from Dai's seasonal table.
+The 10:1 ratio remains an explicit depth estimate, not an observed accumulation
+or snowpack depth. The maps use whole-inch bins through ±10, white between -1
+and +1, and report the actual displayed clipped fraction. Data-integrity QC is
+not a claim of observed seasonal snowfall forecast skill.
 
-The 40 member estimates are averaged before the matching 1991-2020 hindcast
-climatology is subtracted. Seasonal values sum the monthly departures, so the
-result is liquid-water equivalent in inches, not snow depth and not a
-snow-to-liquid-ratio product. The map uses the same tight CONUS crop and
-lower-48 land mask as the site's other snowfall maps. Monthly maps use
-nonlinear bins from -2.0 to +2.0 inches; seasonal/DJF maps use -4.0 to +4.0
-inches, with endpoint values clipped at the active range. Monthly departures
-and seasonal sums pass numeric coverage and physical-range QC before
-rendering. The labelled
-breakpoints are 0.5, 0.75, 1.0, 1.25, 1.5, 1.75, 2.0, 2.5, 3.0, 3.5, and
-4.0 inches on either side of zero; monthly maps stop at 2.0 inches.
+C3S forecast months 1–6 correspond to CanSIPS leads 0–5. September leads 3,4,5
+are DJF. The native monthly archive cannot provide February from an August
+initialization. It does not substitute a different run or a single Canadian
+component when either requested component is unavailable. Canadian releases
+normally arrive on the 10th at 12 UTC; the workflow checks on the 10th–14th.
 
-The phase relationship is based on [Dai (2008), “Temperature and pressure
-dependences of the rain-snow phase transition over land and ocean”](https://agupubs.onlinelibrary.wiley.com/doi/full/10.1029/2008GL033295).
-That study describes the land transition as a smooth function of surface
-temperature rather than a hard -1/+2 °C cutoff; the 850-hPa field is an
-additional warm-layer safeguard used here because CanSIPS publishes it for the
-same members and target months.
+On 2026-09-06 the live catalogue constraints confirmed both systems' native
+snowfall, postprocessed snowfall anomalies, and 1993–2016 hindcast snowfall;
+the newest forecast initialization was August 2026. September remains pending.
+The workflow includes a small real-data check against the newest available
+initialization before first publication of the migration.
 
-The manifest records all three input URLs, decoded variable names,
-calendar-month conversion, Dai parameters, phase-level choice, member
-completeness, and the retained derived-grid path. The raw three-file GRIB2
-inputs are intermediate files and are removed after successful decoding.
+Legacy monthly-temperature derivation functions and cached files remain for
+historical reproducibility. Their old maps are excluded from current manifest
+history. `--render-only` uses only the separate native cache. Legacy helpers
+include `derived_snowfall_lwe`, `snowfall_fraction_from_temperature_c`,
+`load_snowfall_estimate`, `snowfall_hindcast_climatology`, and the
+`SNOWFALL_DAI_LAND_DJF_PARAMS` constants; none feed the new operational path.
+
+Sources:
+- [C3S Canadian system identities and members](https://confluence.ecmwf.int/spaces/CKB/pages/77213502/Description+of+the+C3S+seasonal+multi-system)
+- [Provider confirmation of the anomaly reference period](https://forum.ecmwf.int/t/c3s-seasonal-models-anomaly/1149)
+- [Release schedule and availability](https://confluence.ecmwf.int/spaces/CKB/pages/104239050/Summary+of+available+data)
 
 CanSIPS uses `P00M` through `P11M`. Lead 0 is the initialization month. For
 example, an August 2026 initialization uses leads 4, 5, and 6 for December
@@ -156,7 +155,7 @@ full published 1991-2020 hindcast period.
 The scheduled/manual workflow is `.github/workflows/cansips.yml`. It restores
 the decoded-grid cache, retrieves the previous Pages manifest, renders the
 selected product (all scalar products by default), and uploads a scoped
-CanSIPS Pages payload. The scheduled bundle includes the derived snowfall
+CanSIPS Pages payload. The scheduled bundle includes native snowfall
 product and installs the GRIB2/xarray decoding dependencies. Retention is
 applied independently per product, so the
 default `--retain-runs 4` keeps the current run plus three prior runs for each
@@ -164,7 +163,9 @@ parameter. The central
 `.github/workflows/publish-pages.yml` workflow merges that payload with the
 other model payloads before publishing GitHub Pages.
 
-No CanSIPS credential is required for the public ECCC Datamart source.
+No credential is required for the public ECCC Datamart products. Native snowfall
+uses the existing repository `CDS_API_KEY` secret and accepted C3S/non-European
+data terms. Locally set `CDS_API_KEY` or configure `~/.cdsapirc`.
 
 
 ## Estimated snow-depth departure images
@@ -175,7 +176,7 @@ subtitle identify estimated snowfall inches and the ratio. This is not a
 calibration: forecast and hindcast reference implicitly use the same fixed ratio.
 The scale has one-inch steps from -10 to +10 inches, with white between -1
 and +1 inch. Endpoint labels indicate saturation; larger numeric values are
-retained. Native derived LWE grids and multi-model comparisons are unchanged.
+retained. Numeric grids and multi-model comparisons retain LWE units.
 Run metadata records image units, ratio, white band, and scale separately.
 Existing maps need regeneration to pick up this display change.
 
@@ -188,10 +189,11 @@ and finished climatologies. Subsequent normal runs reuse climatologies. Select
 missing or damaged grids stop the run rather than triggering model downloads.
 The same selected months and baseline years must have been prepared first.
 Borders and the published history manifest may still require small downloads.
-Native LWE, 40-member derivation and seasonal aggregation are unchanged.
+Datamart products retain these caches. Native snowfall uses a separate GRIB
+cache with metadata validation and does not reuse legacy temperature-derived grids.
 
 Actions uses `--decode-workers 2`: a persistent pair of worker processes decodes
-the snowfall temperature/precipitation inputs, while downloads retain their
+legacy temperature/precipitation inputs, while downloads retain their
 existing sequential pacing. Use 1 on memory-constrained local machines.
 Each successful Actions run saves a fresh cache key and restores the latest
 matching prefix, so additional months no longer disappear behind an immutable

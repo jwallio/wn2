@@ -541,9 +541,9 @@ SNOWFALL_SUPPORTED_MODELS = frozenset({"c3s", "seas5", "cansips", "cfsv2", "supe
 SNOWFALL_SUPPORT_REASONS = {
     "c3s": "C3S publishes native snowfall liquid-water-equivalent accumulation.",
     "seas5": "SEAS5 publishes native snowfall liquid-water-equivalent accumulation.",
-    "cansips": "CanSIPS derives member-level snowfall liquid-water equivalent from 2-m/850-hPa temperature and total precipitation using the season-appropriate Dai (2008) land phase curve (DJF for winter).",
+    "cansips": "CanSIPS combines native snowfall anomalies from CanESM5 and GEM5.2-NEMO through C3S; both models are required.",
     "cfsv2": "CFSv2 derives member/cycle-level snowfall liquid-water equivalent from 2-m/850-hPa temperature and monthly precipitation using the season-appropriate Dai (2008) land phase curve (DJF for winter).",
-    "superensemble": "The super ensemble blends eligible native and CanSIPS-derived snowfall fields in common LWE units.",
+    "superensemble": "The super ensemble blends eligible snowfall fields including native CanSIPS snowfall in common LWE units.",
 }
 SNOWFALL_UNSUPPORTED_REASON = (
     "The current seasonal adapter does not publish a native or explicitly derived "

@@ -351,7 +351,7 @@ PRODUCT_LABELS = {
     PRODUCT_850MB_TEMPERATURE_ANOMALY: "850-mb Temperature Anomaly",
     PRODUCT_2M_TEMPERATURE_ANOMALY: "2-m Temperature Anomaly",
     PRODUCT_PRECIPITATION_ANOMALY: "Precipitation Anomaly",
-    PRODUCT_SNOWFALL_ANOMALY: "Derived Snowfall Water-Equivalent Departure",
+    PRODUCT_SNOWFALL_ANOMALY: "Native Snowfall Departure (10:1 estimate)",
     PRODUCT_MSLP_ANOMALY: "MSLP Anomaly",
     PRODUCT_SEA_SURFACE_HEIGHT_ANOMALY: "Sea-Surface Height Anomaly",
 }
@@ -668,7 +668,8 @@ def snowfall_depth_display(grid: Grid, product: dict[str, Any]):
                          *SNOWFALL_ANOMALY_PALETTE[13:]],
         anomaly_endpoint_labels={"minimum":"≤−10", "maximum":"≥+10"},
         native_snow_depth_display=True,
-        header_detail="{source_label}  •  Estimated snowfall departure (in)  •  10:1 snow-to-liquid ratio",
+        anomaly_tick_decimals=0,
+        header_detail="{source_label}  •  Native snowfall departure  •  10:1 snow-to-liquid ratio",
     )
     return Grid(grid.lons[:],grid.lats[:],
                 [[value*10. for value in row] for row in grid.values]), spec
@@ -1208,6 +1209,10 @@ def write_manifest(
     incoming_product_inits = {product_init_key(run_entry) for run_entry in new_entries}
     unique_runs: dict[str, dict[str, Any]] = {}
     for run in payload["runs"]:
+        # Retain legacy files on disk, but never present the invalid monthly proxy
+        # as current native snowfall guidance or fall back to its old cached maps.
+        if run.get("product") == PRODUCT_SNOWFALL_ANOMALY and run.get("method") != "eccc_native_snowfall_c3s_v1":
+            continue
         if not isinstance(run, dict) or not run.get("id"):
             continue
         run_id = str(run["id"])
@@ -1245,8 +1250,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--product", choices=(PRODUCT_ALL, *PRODUCT_SPECS), default=PRODUCT_ALL)
     parser.add_argument("--init", default="latest", help="CanSIPS initialization as YYYYMM, YYYYMM0100, or latest")
-    parser.add_argument("--lead-months", default="4,5,6", help="comma-separated target leads; DJF default is 4,5,6")
-    parser.add_argument("--seasonal-window", default="4,5,6", help="consecutive leads for the seasonal aggregate")
+    parser.add_argument("--lead-months", default="3,4,5", help="zero-based leads; September DJF is 3,4,5; native snowfall supports 0-5")
+    parser.add_argument("--seasonal-window", default="3,4,5", help="consecutive leads for the seasonal aggregate")
     parser.add_argument("--climo-start", type=int, default=CANSIPS_HINDCAST_START)
     parser.add_argument("--climo-end", type=int, default=CANSIPS_HINDCAST_END)
     parser.add_argument("--cache-dir", default=".cache/cansips")
@@ -1294,6 +1299,9 @@ def render_product_run(
     border_paths: list[Path],
     common_reference_dir: Path | None,
 ) -> tuple[dict[str, Any], int]:
+    if product["name"] == PRODUCT_SNOWFALL_ANOMALY:
+        from cansips_native_snow import render_run
+        return render_run(args, init, leads, seasonal_leads, cache_dir, output_dir, border_paths)
     repo_root = Path(__file__).resolve().parents[1]
     init_date = dt.datetime.strptime(init, "%Y%m%d%H").replace(tzinfo=dt.timezone.utc)
     run_id = f"cansips-{init}-{product['name']}"
