@@ -51,7 +51,7 @@ class NativeSnowTests(unittest.TestCase):
             y=np.abs(data['display_lats']-lat).argmin()
             self.assertEqual(data['display_ratios'][y,x],expected)
 
-    def test_zero_style_and_florida_display_override(self):
+    def test_zero_style_applies_uniformly(self):
         from matplotlib.colors import BoundaryNorm, ListedColormap
         for seasonal in [False,True]:
             bounds,ticks,palette=native.accumulation_style(seasonal)
@@ -68,9 +68,9 @@ class NativeSnowTests(unittest.TestCase):
         data,meta=native.lookup()
         self.assertEqual(data['missing_points'].shape,(0,2))
         self.assertEqual(data['missing_offsets'].tolist(),[0])
-        self.assertIn('underlying values retained',meta['florida_display_policy'])
-        self.assertEqual(len(data['florida_display_rings']),1)
-        # Florida numeric snowfall is still positive; only the image is masked.
+        self.assertNotIn('florida_display_policy',meta)
+        self.assertNotIn('florida_display_rings',data)
+        # Positive Florida snowfall uses the same values and colors as elsewhere.
         g=native.depth_grid(self.grid(1.))
         x=np.abs(data['lons']+80.19).argmin();y=np.abs(data['lats']-25.76).argmin()
         self.assertGreater(g.values[y][x],0.)

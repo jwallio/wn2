@@ -3839,7 +3839,7 @@ def _run_single_window(args: argparse.Namespace) -> int:
         "targets": [],
     }
     if product_name == PRODUCT_SNOWFALL_ACCUMULATION:
-        run_entry["source_warning"] = "Unadjusted native snowfall × CIPS/assumed CWA ratios; 19 assumed CWAs; Florida displayed white without changing numeric values. The separate phase-derived departure is not a reference for this accumulation."
+        run_entry["source_warning"] = "Unadjusted native snowfall × CIPS/assumed CWA ratios; 19 assumed CWAs. The separate phase-derived departure is not a reference for this accumulation."
     common_reference_enabled = bool(common_reference_dir or args.common_reference_url) and product_name == PRODUCT_HEIGHT_ANOMALY
     if common_reference_enabled:
         run_entry["comparison_reference"] = {
@@ -3959,7 +3959,7 @@ def _run_single_window(args: argparse.Namespace) -> int:
                 )
                 if product_name == PRODUCT_SNOWFALL_ACCUMULATION:
                     native_lwe_grids[lead] = derivation_diagnostics.pop("_native_lwe")
-                    target_entry["source_warning"] = "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs; Florida displayed white without changing numeric values. Separate phase-derived departures are not its reference."
+                    target_entry["source_warning"] = "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference."
                 target_entry["derivation"] = derivation_diagnostics
             else:
                 ensemble, source_files, ensemble_count, ensemble_expected_for_target, ensemble_label, last_request = decode_target_ensemble(

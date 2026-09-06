@@ -26,8 +26,6 @@ def apply(data, meta):
         rings.append(data['missing_points'][a:b])
     data['missing_points']=np.concatenate(rings) if rings else np.empty((0,2))
     data['missing_offsets']=np.cumsum([0]+[len(r) for r in rings])
-    data['florida_display_rings']=[np.asarray(r) for r in fill['florida_display_rings']]
-    meta['florida_display_policy']=fill['florida_display_policy']
     meta['measured_supported_cwas']=meta['supported_cwas'][:]
     meta['assumed_ratios']=fill['ratios']
     meta['assumption_status']=fill['status']
