@@ -2,7 +2,7 @@
   "schema_version": 1,
   "registry_version": 1,
   "kind": "seasonal_dashboard_catalog",
-  "generated_utc": "2026-09-06T22:36:58Z",
+  "generated_utc": "2026-09-06T22:40:10Z",
   "source_revision": "be7fadcaeb9fef2f7a96ff3326aef371312f5a24",
   "model_order": [
     "superensemble",
@@ -708,11 +708,11 @@
           ],
           "product": "snowfall_anomaly",
           "init_utc": "2026-08-01T00:00:00Z",
-          "generated_utc": "2026-09-06T22:11:32Z",
+          "generated_utc": "2026-09-06T22:34:11Z",
           "status": "rendered",
           "statistic": "equal_weight_deduplicated_family_mean",
           "aggregation": "monthly or seasonal mean of canonical non-overlapping forecast-family anomalies",
-          "ensemble_scope": "up to 7 canonical forecast families",
+          "ensemble_scope": "up to 6 canonical forecast families",
           "field": "snowfall_anomaly",
           "units": "in",
           "targets": [
@@ -724,21 +724,21 @@
               "lead_month": 4,
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "superensemble/20260801/superensemble_sf_202612.jpg",
               "baseline": {
                 "status": "native_model_baselines",
                 "method": "equal mean of source-native anomaly fields; no common climatology imposed"
               },
-              "ensemble_scope": "7/7 canonical forecast families",
-              "member_count": 7,
-              "expected_member_count": 7,
+              "ensemble_scope": "6/6 canonical forecast families",
+              "member_count": 6,
+              "expected_member_count": 6,
               "included_members": [
                 "c3s_ecmwf_system51",
                 "c3s_ukmo_system610",
                 "c3s_meteo_france_system9",
                 "c3s_dwd_system22",
                 "c3s_cmcc_system4",
-                "noaa_cfsv2_rolling",
                 "eccc_cansips_v3"
               ],
               "missing_members": [],
@@ -752,10 +752,10 @@
                 "total_points": 3200,
                 "finite_points": 3200,
                 "finite_fraction": 1.0,
-                "minimum": -1.604326,
-                "maximum": 0.361813,
-                "p01": -0.8591,
-                "p99": 0.119013,
+                "minimum": -1.376404,
+                "maximum": 0.402625,
+                "p01": -0.800121,
+                "p99": 0.180566,
                 "display": {
                   "minimum": -10.0,
                   "maximum": 10.0,
@@ -782,17 +782,35 @@
                     9,
                     10
                   ],
-                  "below_fraction": 0.0075,
+                  "below_fraction": 0.003125,
                   "above_fraction": 0.0,
-                  "clipped_fraction": 0.0075
+                  "clipped_fraction": 0.003125
                 },
                 "issues": [],
                 "status": "passed"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "native_blend_version": 1
+              },
+              "numeric_grid": "superensemble/20260801/superensemble_sf_202612.snow.csv.gz",
+              "native_lwe_grid": "superensemble/20260801/superensemble_sf_202612.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
+                "comparable": true,
                 "quality_control": "passed"
               }
             },
@@ -804,21 +822,21 @@
               "lead_month": 5,
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "superensemble/20260801/superensemble_sf_202701.jpg",
               "baseline": {
                 "status": "native_model_baselines",
                 "method": "equal mean of source-native anomaly fields; no common climatology imposed"
               },
-              "ensemble_scope": "7/7 canonical forecast families",
-              "member_count": 7,
-              "expected_member_count": 7,
+              "ensemble_scope": "6/6 canonical forecast families",
+              "member_count": 6,
+              "expected_member_count": 6,
               "included_members": [
                 "c3s_ecmwf_system51",
                 "c3s_ukmo_system610",
                 "c3s_meteo_france_system9",
                 "c3s_dwd_system22",
                 "c3s_cmcc_system4",
-                "noaa_cfsv2_rolling",
                 "eccc_cansips_v3"
               ],
               "missing_members": [],
@@ -832,10 +850,10 @@
                 "total_points": 3200,
                 "finite_points": 3200,
                 "finite_fraction": 1.0,
-                "minimum": -2.130994,
-                "maximum": 1.069663,
-                "p01": -1.13847,
-                "p99": 0.307958,
+                "minimum": -2.104052,
+                "maximum": 1.032308,
+                "p01": -1.025601,
+                "p99": 0.289384,
                 "display": {
                   "minimum": -10.0,
                   "maximum": 10.0,
@@ -862,17 +880,35 @@
                     9,
                     10
                   ],
-                  "below_fraction": 0.01375,
-                  "above_fraction": 0.000625,
-                  "clipped_fraction": 0.014375
+                  "below_fraction": 0.011875,
+                  "above_fraction": 0.000313,
+                  "clipped_fraction": 0.012188
                 },
                 "issues": [],
                 "status": "passed"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "native_blend_version": 1
+              },
+              "numeric_grid": "superensemble/20260801/superensemble_sf_202701.snow.csv.gz",
+              "native_lwe_grid": "superensemble/20260801/superensemble_sf_202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
+                "comparable": true,
                 "quality_control": "passed"
               }
             },
@@ -888,21 +924,21 @@
               ],
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "superensemble/20260801/superensemble_sf_202612-202701.jpg",
               "baseline": {
                 "status": "native_model_baselines",
                 "method": "equal mean of source-native anomaly fields; no common climatology imposed"
               },
-              "ensemble_scope": "7/7 canonical forecast families",
-              "member_count": 7,
-              "expected_member_count": 7,
+              "ensemble_scope": "6/6 canonical forecast families",
+              "member_count": 6,
+              "expected_member_count": 6,
               "included_members": [
                 "c3s_ecmwf_system51",
                 "c3s_ukmo_system610",
                 "c3s_meteo_france_system9",
                 "c3s_dwd_system22",
                 "c3s_cmcc_system4",
-                "noaa_cfsv2_rolling",
                 "eccc_cansips_v3"
               ],
               "missing_members": [],
@@ -916,10 +952,10 @@
                 "total_points": 3200,
                 "finite_points": 3200,
                 "finite_fraction": 1.0,
-                "minimum": -3.580569,
-                "maximum": 1.411215,
-                "p01": -2.051007,
-                "p99": 0.345664,
+                "minimum": -3.480456,
+                "maximum": 1.434933,
+                "p01": -1.766052,
+                "p99": 0.398626,
                 "display": {
                   "minimum": -10.0,
                   "maximum": 10.0,
@@ -946,30 +982,65 @@
                     9,
                     10
                   ],
-                  "below_fraction": 0.050313,
-                  "above_fraction": 0.00125,
-                  "clipped_fraction": 0.051563
+                  "below_fraction": 0.0525,
+                  "above_fraction": 0.000937,
+                  "clipped_fraction": 0.053437
                 },
                 "issues": [
                   {
                     "code": "display_scale_clipping",
                     "severity": "warning",
-                    "message": "5.2% of finite cells exceed the fixed display scale."
+                    "message": "5.3% of finite cells exceed the fixed display scale."
                   }
                 ],
                 "status": "warning"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "native_blend_version": 1
+              },
+              "numeric_grid": "superensemble/20260801/superensemble_sf_202612-202701.snow.csv.gz",
+              "native_lwe_grid": "superensemble/20260801/superensemble_sf_202612-202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
+                "comparable": true,
                 "quality_control": "warning"
               }
             }
           ],
+          "display": {
+            "quantity": "estimated snowfall depth departure",
+            "units": "in",
+            "snow_to_liquid_ratio": 10.0,
+            "scale_inches": [
+              -10,
+              10
+            ],
+            "white_band_inches": [
+              -1,
+              1
+            ],
+            "canonical_grid_quantity": "snowfall liquid-water-equivalent departure",
+            "numeric_grid_quantity": "estimated snowfall depth departure",
+            "calendar_alignment_version": 2,
+            "native_blend_version": 1
+          },
           "_catalog": {
             "canonical_product": "snowfall_anomaly",
-            "comparable": false
+            "comparable": true
           }
         },
         {
@@ -2017,7 +2088,7 @@
       "status": "degraded",
       "schema_version": 1,
       "manifest_kind": "deduplicated_seasonal_superensemble_manifest",
-      "generated_utc": "2026-09-06T22:12:05Z",
+      "generated_utc": "2026-09-06T22:34:55Z",
       "source_url": "https://climate.copernicus.eu/seasonal-forecasts",
       "product_labels": {
         "500mb_height_anomaly": "500-mb Height Anomaly",
@@ -2119,11 +2190,13 @@
           "retained_fallback": false
         },
         "snowfall_anomaly": {
-          "state": "missing",
-          "reason": "No rendered target is currently published.",
-          "available": false,
-          "comparable": false,
-          "latest_init_utc": null,
+          "state": "available",
+          "reason": "Rendered target available.",
+          "available": true,
+          "comparable": true,
+          "latest_init_utc": "2026-08-01T00:00:00Z",
+          "run_id": "superensemble-2026080100-snowfall_anomaly",
+          "target_count": 3,
           "latest_run_id": "superensemble-2026080100-snowfall_anomaly",
           "latest_run_status": "rendered",
           "latest_run_init_utc": "2026-08-01T00:00:00Z",
@@ -52297,7 +52370,7 @@
   },
   "health": {
     "status": "attention",
-    "generated_utc": "2026-09-06T22:36:58Z",
+    "generated_utc": "2026-09-06T22:40:10Z",
     "freshness_policy_days": {
       "default": {
         "fresh_days": 35,
@@ -52313,11 +52386,11 @@
       "attention_surfaces": 24,
       "by_state": {
         "healthy": 26,
-        "aging": 20,
+        "aging": 21,
         "stale": 0,
         "partial": 2,
         "failed": 0,
-        "missing": 1,
+        "missing": 0,
         "noncomparable": 1,
         "not_applicable": 10
       }
@@ -52400,18 +52473,18 @@
         "model_label": "Super Ensemble",
         "product": "snowfall_anomaly",
         "product_label": "CONUS Snowfall Departure (in)",
-        "surface_state": "missing",
-        "available": false,
-        "comparable": false,
-        "health_state": "missing",
-        "freshness": "unknown",
-        "age_days": null,
+        "surface_state": "available",
+        "available": true,
+        "comparable": true,
+        "health_state": "aging",
+        "freshness": "aging",
+        "age_days": 36.9,
         "latest_status": "rendered",
         "latest_init_utc": "2026-08-01T00:00:00Z",
-        "selected_init_utc": null,
-        "selected_run_id": null,
+        "selected_init_utc": "2026-08-01T00:00:00Z",
+        "selected_run_id": "superensemble-2026080100-snowfall_anomaly",
         "retained_fallback": false,
-        "reason": "No rendered target is currently published."
+        "reason": "Rendered target available."
       },
       {
         "model": "superensemble",
@@ -53482,18 +53555,18 @@
         "model_label": "Super Ensemble",
         "product": "snowfall_anomaly",
         "product_label": "CONUS Snowfall Departure (in)",
-        "surface_state": "missing",
-        "available": false,
-        "comparable": false,
-        "health_state": "missing",
-        "freshness": "unknown",
-        "age_days": null,
+        "surface_state": "available",
+        "available": true,
+        "comparable": true,
+        "health_state": "aging",
+        "freshness": "aging",
+        "age_days": 36.9,
         "latest_status": "rendered",
         "latest_init_utc": "2026-08-01T00:00:00Z",
-        "selected_init_utc": null,
-        "selected_run_id": null,
+        "selected_init_utc": "2026-08-01T00:00:00Z",
+        "selected_run_id": "superensemble-2026080100-snowfall_anomaly",
         "retained_fallback": false,
-        "reason": "No rendered target is currently published."
+        "reason": "Rendered target available."
       },
       {
         "model": "superensemble",
@@ -53843,7 +53916,7 @@
     "models_expected": 10,
     "models_online": 10,
     "supported_surfaces": 50,
-    "available_surfaces": 49,
+    "available_surfaces": 50,
     "partial_surfaces": 2,
     "intentional_unavailable_surfaces": 10
   },
