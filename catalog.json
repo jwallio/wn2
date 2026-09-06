@@ -2,7 +2,7 @@
   "schema_version": 1,
   "registry_version": 1,
   "kind": "seasonal_dashboard_catalog",
-  "generated_utc": "2026-09-06T22:13:05Z",
+  "generated_utc": "2026-09-06T22:15:56Z",
   "source_revision": "d27887dd0af30ee8db74b007261c49f0659e21ad",
   "model_order": [
     "superensemble",
@@ -2300,64 +2300,8 @@
               "lead_month": 4,
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
-              "statistic": "ensemble_mean",
-              "quality_control": {
-                "registry_version": 1,
-                "product": "snowfall_anomaly",
-                "units": "in",
-                "field": "snowfall_anomaly",
-                "period": "monthly",
-                "total_points": 3200,
-                "finite_points": 3200,
-                "finite_fraction": 1.0,
-                "minimum": -2.399575,
-                "maximum": 0.447465,
-                "p01": -0.832698,
-                "p99": 0.086288,
-                "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
-                  "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
-                  ],
-                  "below_fraction": 0.000937,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.000937
-                },
-                "issues": [],
-                "status": "passed"
-              },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
-              "_catalog": {
-                "canonical_product": "snowfall_anomaly",
-                "comparable": false,
-                "quality_control": "passed"
-              }
-            },
-            {
-              "id": "c3s-ukmo-2026080100-snowfall_anomaly-lead05",
-              "target_month": "202701",
-              "valid_start_utc": "2027-01-01T00:00:00Z",
-              "valid_end_utc": "2027-02-01T00:00:00Z",
-              "lead_month": 5,
-              "field": "snowfall_anomaly",
-              "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "c3s/20260801/c3s_ukmo_sf_202612.jpg",
               "statistic": "ensemble_mean",
               "quality_control": {
                 "registry_version": 1,
@@ -2373,48 +2317,71 @@
                 "p01": -0.797179,
                 "p99": 0.377918,
                 "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.0,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.0
+                  "below_fraction": 0.001875,
+                  "above_fraction": 0.001563,
+                  "clipped_fraction": 0.003438
                 },
                 "issues": [],
                 "status": "passed"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "calendar_alignment_version": 2
+              },
+              "numeric_grid": "c3s/20260801/c3s_ukmo_sf_202612.snow.csv.gz",
+              "native_lwe_grid": "c3s/20260801/c3s_ukmo_sf_202612.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
+                "comparable": true,
                 "quality_control": "passed"
               }
             },
             {
-              "id": "c3s-ukmo-2026080100-snowfall_anomaly-lead06",
-              "target_month": "202702",
-              "valid_start_utc": "2027-02-01T00:00:00Z",
-              "valid_end_utc": "2027-03-01T00:00:00Z",
-              "lead_month": 6,
+              "id": "c3s-ukmo-2026080100-snowfall_anomaly-lead05",
+              "target_month": "202701",
+              "valid_start_utc": "2027-01-01T00:00:00Z",
+              "valid_end_utc": "2027-02-01T00:00:00Z",
+              "lead_month": 5,
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "c3s/20260801/c3s_ukmo_sf_202701.jpg",
               "statistic": "ensemble_mean",
               "quality_control": {
                 "registry_version": 1,
@@ -2425,58 +2392,80 @@
                 "total_points": 3200,
                 "finite_points": 3200,
                 "finite_fraction": 1.0,
-                "minimum": -1.632839,
-                "maximum": 1.433477,
-                "p01": -0.809557,
-                "p99": 0.380966,
+                "minimum": -1.807786,
+                "maximum": 1.587064,
+                "p01": -0.896295,
+                "p99": 0.421784,
                 "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.0,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.0
+                  "below_fraction": 0.005625,
+                  "above_fraction": 0.001563,
+                  "clipped_fraction": 0.007187
                 },
                 "issues": [],
                 "status": "passed"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "calendar_alignment_version": 2
+              },
+              "numeric_grid": "c3s/20260801/c3s_ukmo_sf_202701.snow.csv.gz",
+              "native_lwe_grid": "c3s/20260801/c3s_ukmo_sf_202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
+                "comparable": true,
                 "quality_control": "passed"
               }
             },
             {
-              "id": "c3s-ukmo-2026080100-snowfall_anomaly-202612-202702",
-              "target_month": "202612-202702",
+              "id": "c3s-ukmo-2026080100-snowfall_anomaly-202612-202701",
+              "target_month": "202612-202701",
               "valid_start_utc": "2026-12-01T00:00:00Z",
-              "valid_end_utc": "2027-03-01T00:00:00Z",
-              "lead_month": "4–6",
+              "valid_end_utc": "2027-02-01T00:00:00Z",
+              "lead_month": "4–5",
               "monthly_leads": [
                 4,
-                5,
-                6
+                5
               ],
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "c3s/20260801/c3s_ukmo_sf_202612-202701.jpg",
               "statistic": "ensemble_mean",
               "quality_control": {
                 "registry_version": 1,
@@ -2487,56 +2476,91 @@
                 "total_points": 3200,
                 "finite_points": 3200,
                 "finite_fraction": 1.0,
-                "minimum": -4.476514,
-                "maximum": 3.026616,
-                "p01": -2.092328,
-                "p99": 0.636717,
+                "minimum": -2.85206,
+                "maximum": 3.175194,
+                "p01": -1.568498,
+                "p99": 0.730611,
                 "display": {
-                  "minimum": -4.0,
-                  "maximum": 4.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -4.0,
-                    -3.5,
-                    -3.0,
-                    -2.5,
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0,
-                    2.5,
-                    3.0,
-                    3.5,
-                    4.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.000625,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.000625
+                  "below_fraction": 0.046875,
+                  "above_fraction": 0.0025,
+                  "clipped_fraction": 0.049375
                 },
-                "issues": [],
-                "status": "passed"
+                "issues": [
+                  {
+                    "code": "display_scale_clipping",
+                    "severity": "warning",
+                    "message": "4.9% of finite cells exceed the fixed display scale."
+                  }
+                ],
+                "status": "warning"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "calendar_alignment_version": 2
+              },
+              "numeric_grid": "c3s/20260801/c3s_ukmo_sf_202612-202701.snow.csv.gz",
+              "native_lwe_grid": "c3s/20260801/c3s_ukmo_sf_202612-202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
-                "quality_control": "passed"
+                "comparable": true,
+                "quality_control": "warning"
               }
             }
           ],
+          "display": {
+            "quantity": "estimated snowfall depth departure",
+            "units": "in",
+            "snow_to_liquid_ratio": 10.0,
+            "scale_inches": [
+              -10,
+              10
+            ],
+            "white_band_inches": [
+              -1,
+              1
+            ],
+            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+            "calendar_alignment_version": 2
+          },
           "_catalog": {
             "canonical_product": "snowfall_anomaly",
-            "comparable": false
+            "comparable": true
           }
         },
         {
@@ -4768,7 +4792,8 @@
               "lead_month": 4,
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "c3s/20260801/c3s_multisystem_sf_202612.jpg",
               "statistic": "multi-system mean of native ensemble-mean anomalies",
               "quality_control": {
                 "registry_version": 1,
@@ -4779,41 +4804,63 @@
                 "total_points": 3200,
                 "finite_points": 3200,
                 "finite_fraction": 1.0,
-                "minimum": -1.482561,
-                "maximum": 0.234926,
-                "p01": -0.753042,
-                "p99": 0.062498,
+                "minimum": -1.408329,
+                "maximum": 0.376956,
+                "p01": -0.830775,
+                "p99": 0.183862,
                 "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.0,
+                  "below_fraction": 0.00375,
                   "above_fraction": 0.0,
-                  "clipped_fraction": 0.0
+                  "clipped_fraction": 0.00375
                 },
                 "issues": [],
                 "status": "passed"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "calendar_alignment_version": 2
+              },
+              "numeric_grid": "c3s/20260801/c3s_multisystem_sf_202612.snow.csv.gz",
+              "native_lwe_grid": "c3s/20260801/c3s_multisystem_sf_202612.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
+                "comparable": true,
                 "quality_control": "passed"
               }
             },
@@ -4825,7 +4872,8 @@
               "lead_month": 5,
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "c3s/20260801/c3s_multisystem_sf_202701.jpg",
               "statistic": "multi-system mean of native ensemble-mean anomalies",
               "quality_control": {
                 "registry_version": 1,
@@ -4836,115 +4884,80 @@
                 "total_points": 3200,
                 "finite_points": 3200,
                 "finite_fraction": 1.0,
-                "minimum": -1.492806,
-                "maximum": 0.510234,
-                "p01": -0.824092,
-                "p99": 0.17749,
+                "minimum": -2.306588,
+                "maximum": 1.089165,
+                "p01": -1.049022,
+                "p99": 0.309304,
                 "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.0,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.0
+                  "below_fraction": 0.012188,
+                  "above_fraction": 0.000625,
+                  "clipped_fraction": 0.012813
                 },
                 "issues": [],
                 "status": "passed"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
-              "_catalog": {
-                "canonical_product": "snowfall_anomaly",
-                "comparable": false,
-                "quality_control": "passed"
-              }
-            },
-            {
-              "id": "c3s-multisystem-2026080100-snowfall_anomaly-lead06",
-              "target_month": "202702",
-              "valid_start_utc": "2027-02-01T00:00:00Z",
-              "valid_end_utc": "2027-03-01T00:00:00Z",
-              "lead_month": 6,
-              "field": "snowfall_anomaly",
-              "units": "in",
-              "status": "pending",
-              "statistic": "multi-system mean of native ensemble-mean anomalies",
-              "quality_control": {
-                "registry_version": 1,
-                "product": "snowfall_anomaly",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
                 "units": "in",
-                "field": "snowfall_anomaly",
-                "period": "monthly",
-                "total_points": 3200,
-                "finite_points": 3200,
-                "finite_fraction": 1.0,
-                "minimum": -1.883952,
-                "maximum": 1.042439,
-                "p01": -0.956827,
-                "p99": 0.269649,
-                "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
-                  "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
-                  ],
-                  "below_fraction": 0.0,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.0
-                },
-                "issues": [],
-                "status": "passed"
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "calendar_alignment_version": 2
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "numeric_grid": "c3s/20260801/c3s_multisystem_sf_202701.snow.csv.gz",
+              "native_lwe_grid": "c3s/20260801/c3s_multisystem_sf_202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
+                "comparable": true,
                 "quality_control": "passed"
               }
             },
             {
-              "id": "c3s-multisystem-2026080100-snowfall_anomaly-202612-202702",
-              "target_month": "202612-202702",
+              "id": "c3s-multisystem-2026080100-snowfall_anomaly-202612-202701",
+              "target_month": "202612-202701",
               "valid_start_utc": "2026-12-01T00:00:00Z",
-              "valid_end_utc": "2027-03-01T00:00:00Z",
-              "lead_month": "4–6",
+              "valid_end_utc": "2027-02-01T00:00:00Z",
+              "lead_month": "4–5",
               "monthly_leads": [
                 4,
-                5,
-                6
+                5
               ],
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "c3s/20260801/c3s_multisystem_sf_202612-202701.jpg",
               "statistic": "multi-system mean of native ensemble-mean anomalies",
               "quality_control": {
                 "registry_version": 1,
@@ -4955,56 +4968,91 @@
                 "total_points": 3200,
                 "finite_points": 3200,
                 "finite_fraction": 1.0,
-                "minimum": -4.703354,
-                "maximum": 1.594775,
-                "p01": -2.493296,
-                "p99": 0.388217,
+                "minimum": -3.714917,
+                "maximum": 1.459964,
+                "p01": -1.7962,
+                "p99": 0.395046,
                 "display": {
-                  "minimum": -4.0,
-                  "maximum": 4.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -4.0,
-                    -3.5,
-                    -3.0,
-                    -2.5,
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0,
-                    2.5,
-                    3.0,
-                    3.5,
-                    4.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.00125,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.00125
+                  "below_fraction": 0.051875,
+                  "above_fraction": 0.00125,
+                  "clipped_fraction": 0.053125
                 },
-                "issues": [],
-                "status": "passed"
+                "issues": [
+                  {
+                    "code": "display_scale_clipping",
+                    "severity": "warning",
+                    "message": "5.3% of finite cells exceed the fixed display scale."
+                  }
+                ],
+                "status": "warning"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "calendar_alignment_version": 2
+              },
+              "numeric_grid": "c3s/20260801/c3s_multisystem_sf_202612-202701.snow.csv.gz",
+              "native_lwe_grid": "c3s/20260801/c3s_multisystem_sf_202612-202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
-                "quality_control": "passed"
+                "comparable": true,
+                "quality_control": "warning"
               }
             }
           ],
+          "display": {
+            "quantity": "estimated snowfall depth departure",
+            "units": "in",
+            "snow_to_liquid_ratio": 10.0,
+            "scale_inches": [
+              -10,
+              10
+            ],
+            "white_band_inches": [
+              -1,
+              1
+            ],
+            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+            "calendar_alignment_version": 2
+          },
           "_catalog": {
             "canonical_product": "snowfall_anomaly",
-            "comparable": false
+            "comparable": true
           }
         },
         {
@@ -6071,64 +6119,8 @@
               "lead_month": 4,
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
-              "statistic": "ensemble_mean",
-              "quality_control": {
-                "registry_version": 1,
-                "product": "snowfall_anomaly",
-                "units": "in",
-                "field": "snowfall_anomaly",
-                "period": "monthly",
-                "total_points": 3200,
-                "finite_points": 3200,
-                "finite_fraction": 1.0,
-                "minimum": -1.289184,
-                "maximum": 0.755034,
-                "p01": -0.686847,
-                "p99": 0.168314,
-                "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
-                  "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
-                  ],
-                  "below_fraction": 0.0,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.0
-                },
-                "issues": [],
-                "status": "passed"
-              },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
-              "_catalog": {
-                "canonical_product": "snowfall_anomaly",
-                "comparable": false,
-                "quality_control": "passed"
-              }
-            },
-            {
-              "id": "c3s-meteo_france-2026080100-snowfall_anomaly-lead05",
-              "target_month": "202701",
-              "valid_start_utc": "2027-01-01T00:00:00Z",
-              "valid_end_utc": "2027-02-01T00:00:00Z",
-              "lead_month": 5,
-              "field": "snowfall_anomaly",
-              "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "c3s/20260801/c3s_meteo_france_sf_202612.jpg",
               "statistic": "ensemble_mean",
               "quality_control": {
                 "registry_version": 1,
@@ -6144,48 +6136,71 @@
                 "p01": -0.91216,
                 "p99": 0.256706,
                 "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.0,
+                  "below_fraction": 0.005625,
                   "above_fraction": 0.0,
-                  "clipped_fraction": 0.0
+                  "clipped_fraction": 0.005625
                 },
                 "issues": [],
                 "status": "passed"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "calendar_alignment_version": 2
+              },
+              "numeric_grid": "c3s/20260801/c3s_meteo_france_sf_202612.snow.csv.gz",
+              "native_lwe_grid": "c3s/20260801/c3s_meteo_france_sf_202612.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
+                "comparable": true,
                 "quality_control": "passed"
               }
             },
             {
-              "id": "c3s-meteo_france-2026080100-snowfall_anomaly-lead06",
-              "target_month": "202702",
-              "valid_start_utc": "2027-02-01T00:00:00Z",
-              "valid_end_utc": "2027-03-01T00:00:00Z",
-              "lead_month": 6,
+              "id": "c3s-meteo_france-2026080100-snowfall_anomaly-lead05",
+              "target_month": "202701",
+              "valid_start_utc": "2027-01-01T00:00:00Z",
+              "valid_end_utc": "2027-02-01T00:00:00Z",
+              "lead_month": 5,
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "c3s/20260801/c3s_meteo_france_sf_202701.jpg",
               "statistic": "ensemble_mean",
               "quality_control": {
                 "registry_version": 1,
@@ -6196,58 +6211,86 @@
                 "total_points": 3200,
                 "finite_points": 3200,
                 "finite_fraction": 1.0,
-                "minimum": -2.0934,
-                "maximum": 1.038577,
-                "p01": -1.127233,
-                "p99": 0.398653,
+                "minimum": -2.317693,
+                "maximum": 1.149853,
+                "p01": -1.248007,
+                "p99": 0.441365,
                 "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.000313,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.000313
+                  "below_fraction": 0.023438,
+                  "above_fraction": 0.000313,
+                  "clipped_fraction": 0.02375
                 },
-                "issues": [],
-                "status": "passed"
+                "issues": [
+                  {
+                    "code": "display_scale_clipping",
+                    "severity": "warning",
+                    "message": "2.4% of finite cells exceed the fixed display scale."
+                  }
+                ],
+                "status": "warning"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "calendar_alignment_version": 2
+              },
+              "numeric_grid": "c3s/20260801/c3s_meteo_france_sf_202701.snow.csv.gz",
+              "native_lwe_grid": "c3s/20260801/c3s_meteo_france_sf_202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
-                "quality_control": "passed"
+                "comparable": true,
+                "quality_control": "warning"
               }
             },
             {
-              "id": "c3s-meteo_france-2026080100-snowfall_anomaly-202612-202702",
-              "target_month": "202612-202702",
+              "id": "c3s-meteo_france-2026080100-snowfall_anomaly-202612-202701",
+              "target_month": "202612-202701",
               "valid_start_utc": "2026-12-01T00:00:00Z",
-              "valid_end_utc": "2027-03-01T00:00:00Z",
-              "lead_month": "4–6",
+              "valid_end_utc": "2027-02-01T00:00:00Z",
+              "lead_month": "4–5",
               "monthly_leads": [
                 4,
-                5,
-                6
+                5
               ],
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "c3s/20260801/c3s_meteo_france_sf_202612-202701.jpg",
               "statistic": "ensemble_mean",
               "quality_control": {
                 "registry_version": 1,
@@ -6258,56 +6301,91 @@
                 "total_points": 3200,
                 "finite_points": 3200,
                 "finite_fraction": 1.0,
-                "minimum": -4.65798,
-                "maximum": 1.078268,
-                "p01": -2.344136,
-                "p99": 0.550306,
+                "minimum": -3.593089,
+                "maximum": 1.488925,
+                "p01": -2.095205,
+                "p99": 0.541534,
                 "display": {
-                  "minimum": -4.0,
-                  "maximum": 4.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -4.0,
-                    -3.5,
-                    -3.0,
-                    -2.5,
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0,
-                    2.5,
-                    3.0,
-                    3.5,
-                    4.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.001563,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.001563
+                  "below_fraction": 0.0575,
+                  "above_fraction": 0.00125,
+                  "clipped_fraction": 0.05875
                 },
-                "issues": [],
-                "status": "passed"
+                "issues": [
+                  {
+                    "code": "display_scale_clipping",
+                    "severity": "warning",
+                    "message": "5.9% of finite cells exceed the fixed display scale."
+                  }
+                ],
+                "status": "warning"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "calendar_alignment_version": 2
+              },
+              "numeric_grid": "c3s/20260801/c3s_meteo_france_sf_202612-202701.snow.csv.gz",
+              "native_lwe_grid": "c3s/20260801/c3s_meteo_france_sf_202612-202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
-                "quality_control": "passed"
+                "comparable": true,
+                "quality_control": "warning"
               }
             }
           ],
+          "display": {
+            "quantity": "estimated snowfall depth departure",
+            "units": "in",
+            "snow_to_liquid_ratio": 10.0,
+            "scale_inches": [
+              -10,
+              10
+            ],
+            "white_band_inches": [
+              -1,
+              1
+            ],
+            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+            "calendar_alignment_version": 2
+          },
           "_catalog": {
             "canonical_product": "snowfall_anomaly",
-            "comparable": false
+            "comparable": true
           }
         },
         {
@@ -8527,64 +8605,8 @@
               "lead_month": 4,
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
-              "statistic": "ensemble_mean",
-              "quality_control": {
-                "registry_version": 1,
-                "product": "snowfall_anomaly",
-                "units": "in",
-                "field": "snowfall_anomaly",
-                "period": "monthly",
-                "total_points": 3200,
-                "finite_points": 3200,
-                "finite_fraction": 1.0,
-                "minimum": -1.803576,
-                "maximum": 0.868725,
-                "p01": -0.697065,
-                "p99": 0.077938,
-                "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
-                  "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
-                  ],
-                  "below_fraction": 0.0,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.0
-                },
-                "issues": [],
-                "status": "passed"
-              },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
-              "_catalog": {
-                "canonical_product": "snowfall_anomaly",
-                "comparable": false,
-                "quality_control": "passed"
-              }
-            },
-            {
-              "id": "c3s-ecmwf-2026080100-snowfall_anomaly-lead05",
-              "target_month": "202701",
-              "valid_start_utc": "2027-01-01T00:00:00Z",
-              "valid_end_utc": "2027-02-01T00:00:00Z",
-              "lead_month": 5,
-              "field": "snowfall_anomaly",
-              "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "c3s/20260801/c3s_ecmwf_sf_202612.jpg",
               "statistic": "ensemble_mean",
               "quality_control": {
                 "registry_version": 1,
@@ -8600,48 +8622,71 @@
                 "p01": -0.908211,
                 "p99": 0.190344,
                 "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.0,
+                  "below_fraction": 0.0075,
                   "above_fraction": 0.0,
-                  "clipped_fraction": 0.0
+                  "clipped_fraction": 0.0075
                 },
                 "issues": [],
                 "status": "passed"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "calendar_alignment_version": 2
+              },
+              "numeric_grid": "c3s/20260801/c3s_ecmwf_sf_202612.snow.csv.gz",
+              "native_lwe_grid": "c3s/20260801/c3s_ecmwf_sf_202612.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
+                "comparable": true,
                 "quality_control": "passed"
               }
             },
             {
-              "id": "c3s-ecmwf-2026080100-snowfall_anomaly-lead06",
-              "target_month": "202702",
-              "valid_start_utc": "2027-02-01T00:00:00Z",
-              "valid_end_utc": "2027-03-01T00:00:00Z",
-              "lead_month": 6,
+              "id": "c3s-ecmwf-2026080100-snowfall_anomaly-lead05",
+              "target_month": "202701",
+              "valid_start_utc": "2027-01-01T00:00:00Z",
+              "valid_end_utc": "2027-02-01T00:00:00Z",
+              "lead_month": 5,
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "c3s/20260801/c3s_ecmwf_sf_202701.jpg",
               "statistic": "ensemble_mean",
               "quality_control": {
                 "registry_version": 1,
@@ -8652,58 +8697,80 @@
                 "total_points": 3200,
                 "finite_points": 3200,
                 "finite_fraction": 1.0,
-                "minimum": -2.434905,
-                "maximum": 1.437968,
-                "p01": -1.0505,
-                "p99": 0.391391,
+                "minimum": -2.695788,
+                "maximum": 1.592035,
+                "p01": -1.163054,
+                "p99": 0.433326,
                 "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.000625,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.000625
+                  "below_fraction": 0.01375,
+                  "above_fraction": 0.002188,
+                  "clipped_fraction": 0.015938
                 },
                 "issues": [],
                 "status": "passed"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "calendar_alignment_version": 2
+              },
+              "numeric_grid": "c3s/20260801/c3s_ecmwf_sf_202701.snow.csv.gz",
+              "native_lwe_grid": "c3s/20260801/c3s_ecmwf_sf_202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
+                "comparable": true,
                 "quality_control": "passed"
               }
             },
             {
-              "id": "c3s-ecmwf-2026080100-snowfall_anomaly-202612-202702",
-              "target_month": "202612-202702",
+              "id": "c3s-ecmwf-2026080100-snowfall_anomaly-202612-202701",
+              "target_month": "202612-202701",
               "valid_start_utc": "2026-12-01T00:00:00Z",
-              "valid_end_utc": "2027-03-01T00:00:00Z",
-              "lead_month": "4–6",
+              "valid_end_utc": "2027-02-01T00:00:00Z",
+              "lead_month": "4–5",
               "monthly_leads": [
                 4,
-                5,
-                6
+                5
               ],
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "c3s/20260801/c3s_ecmwf_sf_202612-202701.jpg",
               "statistic": "ensemble_mean",
               "quality_control": {
                 "registry_version": 1,
@@ -8714,56 +8781,91 @@
                 "total_points": 3200,
                 "finite_points": 3200,
                 "finite_fraction": 1.0,
-                "minimum": -5.884183,
-                "maximum": 1.56876,
-                "p01": -2.407761,
-                "p99": 0.34069,
+                "minimum": -4.341491,
+                "maximum": 1.832211,
+                "p01": -1.974193,
+                "p99": 0.51392,
                 "display": {
-                  "minimum": -4.0,
-                  "maximum": 4.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -4.0,
-                    -3.5,
-                    -3.0,
-                    -2.5,
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0,
-                    2.5,
-                    3.0,
-                    3.5,
-                    4.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.001875,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.001875
+                  "below_fraction": 0.045937,
+                  "above_fraction": 0.001875,
+                  "clipped_fraction": 0.047813
                 },
-                "issues": [],
-                "status": "passed"
+                "issues": [
+                  {
+                    "code": "display_scale_clipping",
+                    "severity": "warning",
+                    "message": "4.8% of finite cells exceed the fixed display scale."
+                  }
+                ],
+                "status": "warning"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "calendar_alignment_version": 2
+              },
+              "numeric_grid": "c3s/20260801/c3s_ecmwf_sf_202612-202701.snow.csv.gz",
+              "native_lwe_grid": "c3s/20260801/c3s_ecmwf_sf_202612-202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
-                "quality_control": "passed"
+                "comparable": true,
+                "quality_control": "warning"
               }
             }
           ],
+          "display": {
+            "quantity": "estimated snowfall depth departure",
+            "units": "in",
+            "snow_to_liquid_ratio": 10.0,
+            "scale_inches": [
+              -10,
+              10
+            ],
+            "white_band_inches": [
+              -1,
+              1
+            ],
+            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+            "calendar_alignment_version": 2
+          },
           "_catalog": {
             "canonical_product": "snowfall_anomaly",
-            "comparable": false
+            "comparable": true
           }
         },
         {
@@ -11139,64 +11241,8 @@
               "lead_month": 4,
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
-              "statistic": "ensemble_mean",
-              "quality_control": {
-                "registry_version": 1,
-                "product": "snowfall_anomaly",
-                "units": "in",
-                "field": "snowfall_anomaly",
-                "period": "monthly",
-                "total_points": 3200,
-                "finite_points": 3200,
-                "finite_fraction": 1.0,
-                "minimum": -2.614412,
-                "maximum": 0.481243,
-                "p01": -1.397699,
-                "p99": 0.219919,
-                "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
-                  "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
-                  ],
-                  "below_fraction": 0.002188,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.002188
-                },
-                "issues": [],
-                "status": "passed"
-              },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
-              "_catalog": {
-                "canonical_product": "snowfall_anomaly",
-                "comparable": false,
-                "quality_control": "passed"
-              }
-            },
-            {
-              "id": "c3s-dwd-2026080100-snowfall_anomaly-lead05",
-              "target_month": "202701",
-              "valid_start_utc": "2027-01-01T00:00:00Z",
-              "valid_end_utc": "2027-02-01T00:00:00Z",
-              "lead_month": 5,
-              "field": "snowfall_anomaly",
-              "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "c3s/20260801/c3s_dwd_sf_202612.jpg",
               "statistic": "ensemble_mean",
               "quality_control": {
                 "registry_version": 1,
@@ -11212,48 +11258,77 @@
                 "p01": -1.609041,
                 "p99": 0.204138,
                 "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.003125,
+                  "below_fraction": 0.029375,
                   "above_fraction": 0.0,
-                  "clipped_fraction": 0.003125
+                  "clipped_fraction": 0.029375
                 },
-                "issues": [],
-                "status": "passed"
+                "issues": [
+                  {
+                    "code": "display_scale_clipping",
+                    "severity": "warning",
+                    "message": "2.9% of finite cells exceed the fixed display scale."
+                  }
+                ],
+                "status": "warning"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "calendar_alignment_version": 2
+              },
+              "numeric_grid": "c3s/20260801/c3s_dwd_sf_202612.snow.csv.gz",
+              "native_lwe_grid": "c3s/20260801/c3s_dwd_sf_202612.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
-                "quality_control": "passed"
+                "comparable": true,
+                "quality_control": "warning"
               }
             },
             {
-              "id": "c3s-dwd-2026080100-snowfall_anomaly-lead06",
-              "target_month": "202702",
-              "valid_start_utc": "2027-02-01T00:00:00Z",
-              "valid_end_utc": "2027-03-01T00:00:00Z",
-              "lead_month": 6,
+              "id": "c3s-dwd-2026080100-snowfall_anomaly-lead05",
+              "target_month": "202701",
+              "valid_start_utc": "2027-01-01T00:00:00Z",
+              "valid_end_utc": "2027-02-01T00:00:00Z",
+              "lead_month": 5,
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "c3s/20260801/c3s_dwd_sf_202701.jpg",
               "statistic": "ensemble_mean",
               "quality_control": {
                 "registry_version": 1,
@@ -11264,58 +11339,86 @@
                 "total_points": 3200,
                 "finite_points": 3200,
                 "finite_fraction": 1.0,
-                "minimum": -2.658801,
-                "maximum": 0.712966,
-                "p01": -1.565576,
-                "p99": 0.207247,
+                "minimum": -2.943672,
+                "maximum": 0.789355,
+                "p01": -1.733316,
+                "p99": 0.229452,
                 "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.002812,
+                  "below_fraction": 0.026875,
                   "above_fraction": 0.0,
-                  "clipped_fraction": 0.002812
+                  "clipped_fraction": 0.026875
                 },
-                "issues": [],
-                "status": "passed"
+                "issues": [
+                  {
+                    "code": "display_scale_clipping",
+                    "severity": "warning",
+                    "message": "2.7% of finite cells exceed the fixed display scale."
+                  }
+                ],
+                "status": "warning"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "calendar_alignment_version": 2
+              },
+              "numeric_grid": "c3s/20260801/c3s_dwd_sf_202701.snow.csv.gz",
+              "native_lwe_grid": "c3s/20260801/c3s_dwd_sf_202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
-                "quality_control": "passed"
+                "comparable": true,
+                "quality_control": "warning"
               }
             },
             {
-              "id": "c3s-dwd-2026080100-snowfall_anomaly-202612-202702",
-              "target_month": "202612-202702",
+              "id": "c3s-dwd-2026080100-snowfall_anomaly-202612-202701",
+              "target_month": "202612-202701",
               "valid_start_utc": "2026-12-01T00:00:00Z",
-              "valid_end_utc": "2027-03-01T00:00:00Z",
-              "lead_month": "4–6",
+              "valid_end_utc": "2027-02-01T00:00:00Z",
+              "lead_month": "4–5",
               "monthly_leads": [
                 4,
-                5,
-                6
+                5
               ],
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "c3s/20260801/c3s_dwd_sf_202612-202701.jpg",
               "statistic": "ensemble_mean",
               "quality_control": {
                 "registry_version": 1,
@@ -11326,56 +11429,91 @@
                 "total_points": 3200,
                 "finite_points": 3200,
                 "finite_fraction": 1.0,
-                "minimum": -7.477358,
-                "maximum": 1.024759,
-                "p01": -4.406266,
-                "p99": 0.503531,
+                "minimum": -5.146849,
+                "maximum": 0.811466,
+                "p01": -3.18273,
+                "p99": 0.352349,
                 "display": {
-                  "minimum": -4.0,
-                  "maximum": 4.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -4.0,
-                    -3.5,
-                    -3.0,
-                    -2.5,
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0,
-                    2.5,
-                    3.0,
-                    3.5,
-                    4.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.013437,
+                  "below_fraction": 0.079062,
                   "above_fraction": 0.0,
-                  "clipped_fraction": 0.013437
+                  "clipped_fraction": 0.079062
                 },
-                "issues": [],
-                "status": "passed"
+                "issues": [
+                  {
+                    "code": "display_scale_clipping",
+                    "severity": "warning",
+                    "message": "7.9% of finite cells exceed the fixed display scale."
+                  }
+                ],
+                "status": "warning"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "calendar_alignment_version": 2
+              },
+              "numeric_grid": "c3s/20260801/c3s_dwd_sf_202612-202701.snow.csv.gz",
+              "native_lwe_grid": "c3s/20260801/c3s_dwd_sf_202612-202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
-                "quality_control": "passed"
+                "comparable": true,
+                "quality_control": "warning"
               }
             }
           ],
+          "display": {
+            "quantity": "estimated snowfall depth departure",
+            "units": "in",
+            "snow_to_liquid_ratio": 10.0,
+            "scale_inches": [
+              -10,
+              10
+            ],
+            "white_band_inches": [
+              -1,
+              1
+            ],
+            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+            "calendar_alignment_version": 2
+          },
           "_catalog": {
             "canonical_product": "snowfall_anomaly",
-            "comparable": false
+            "comparable": true
           }
         },
         {
@@ -12442,64 +12580,8 @@
               "lead_month": 4,
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
-              "statistic": "ensemble_mean",
-              "quality_control": {
-                "registry_version": 1,
-                "product": "snowfall_anomaly",
-                "units": "in",
-                "field": "snowfall_anomaly",
-                "period": "monthly",
-                "total_points": 3200,
-                "finite_points": 3200,
-                "finite_fraction": 1.0,
-                "minimum": -1.804379,
-                "maximum": 0.204013,
-                "p01": -0.763755,
-                "p99": 0.107481,
-                "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
-                  "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
-                  ],
-                  "below_fraction": 0.0,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.0
-                },
-                "issues": [],
-                "status": "passed"
-              },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
-              "_catalog": {
-                "canonical_product": "snowfall_anomaly",
-                "comparable": false,
-                "quality_control": "passed"
-              }
-            },
-            {
-              "id": "c3s-cmcc-2026080100-snowfall_anomaly-lead05",
-              "target_month": "202701",
-              "valid_start_utc": "2027-01-01T00:00:00Z",
-              "valid_end_utc": "2027-02-01T00:00:00Z",
-              "lead_month": 5,
-              "field": "snowfall_anomaly",
-              "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "c3s/20260801/c3s_cmcc_sf_202612.jpg",
               "statistic": "ensemble_mean",
               "quality_control": {
                 "registry_version": 1,
@@ -12515,48 +12597,71 @@
                 "p01": -0.919199,
                 "p99": 0.343352,
                 "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.0,
+                  "below_fraction": 0.00625,
                   "above_fraction": 0.0,
-                  "clipped_fraction": 0.0
+                  "clipped_fraction": 0.00625
                 },
                 "issues": [],
                 "status": "passed"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "calendar_alignment_version": 2
+              },
+              "numeric_grid": "c3s/20260801/c3s_cmcc_sf_202612.snow.csv.gz",
+              "native_lwe_grid": "c3s/20260801/c3s_cmcc_sf_202612.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
+                "comparable": true,
                 "quality_control": "passed"
               }
             },
             {
-              "id": "c3s-cmcc-2026080100-snowfall_anomaly-lead06",
-              "target_month": "202702",
-              "valid_start_utc": "2027-02-01T00:00:00Z",
-              "valid_end_utc": "2027-03-01T00:00:00Z",
-              "lead_month": 6,
+              "id": "c3s-cmcc-2026080100-snowfall_anomaly-lead05",
+              "target_month": "202701",
+              "valid_start_utc": "2027-01-01T00:00:00Z",
+              "valid_end_utc": "2027-02-01T00:00:00Z",
+              "lead_month": 5,
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "c3s/20260801/c3s_cmcc_sf_202701.jpg",
               "statistic": "ensemble_mean",
               "quality_control": {
                 "registry_version": 1,
@@ -12567,58 +12672,80 @@
                 "total_points": 3200,
                 "finite_points": 3200,
                 "finite_fraction": 1.0,
-                "minimum": -2.561327,
-                "maximum": 1.836116,
-                "p01": -1.054492,
-                "p99": 0.470047,
+                "minimum": -2.835755,
+                "maximum": 2.032842,
+                "p01": -1.167474,
+                "p99": 0.52041,
                 "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.000625,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.000625
+                  "below_fraction": 0.015938,
+                  "above_fraction": 0.0025,
+                  "clipped_fraction": 0.018437
                 },
                 "issues": [],
                 "status": "passed"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "calendar_alignment_version": 2
+              },
+              "numeric_grid": "c3s/20260801/c3s_cmcc_sf_202701.snow.csv.gz",
+              "native_lwe_grid": "c3s/20260801/c3s_cmcc_sf_202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
+                "comparable": true,
                 "quality_control": "passed"
               }
             },
             {
-              "id": "c3s-cmcc-2026080100-snowfall_anomaly-202612-202702",
-              "target_month": "202612-202702",
+              "id": "c3s-cmcc-2026080100-snowfall_anomaly-202612-202701",
+              "target_month": "202612-202701",
               "valid_start_utc": "2026-12-01T00:00:00Z",
-              "valid_end_utc": "2027-03-01T00:00:00Z",
-              "lead_month": "4–6",
+              "valid_end_utc": "2027-02-01T00:00:00Z",
+              "lead_month": "4–5",
               "monthly_leads": [
                 4,
-                5,
-                6
+                5
               ],
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "pending",
+              "status": "rendered",
+              "image": "c3s/20260801/c3s_cmcc_sf_202612-202701.jpg",
               "statistic": "ensemble_mean",
               "quality_control": {
                 "registry_version": 1,
@@ -12629,56 +12756,91 @@
                 "total_points": 3200,
                 "finite_points": 3200,
                 "finite_fraction": 1.0,
-                "minimum": -5.362003,
-                "maximum": 2.068443,
-                "p01": -2.668283,
-                "p99": 0.620792,
+                "minimum": -4.033026,
+                "maximum": 2.258903,
+                "p01": -2.064225,
+                "p99": 0.720476,
                 "display": {
-                  "minimum": -4.0,
-                  "maximum": 4.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -4.0,
-                    -3.5,
-                    -3.0,
-                    -2.5,
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0,
-                    2.5,
-                    3.0,
-                    3.5,
-                    4.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.001875,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.001875
+                  "below_fraction": 0.040938,
+                  "above_fraction": 0.002812,
+                  "clipped_fraction": 0.04375
                 },
-                "issues": [],
-                "status": "passed"
+                "issues": [
+                  {
+                    "code": "display_scale_clipping",
+                    "severity": "warning",
+                    "message": "4.4% of finite cells exceed the fixed display scale."
+                  }
+                ],
+                "status": "warning"
               },
-              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+                "calendar_alignment_version": 2
+              },
+              "numeric_grid": "c3s/20260801/c3s_cmcc_sf_202612-202701.snow.csv.gz",
+              "native_lwe_grid": "c3s/20260801/c3s_cmcc_sf_202612-202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": false,
-                "quality_control": "passed"
+                "comparable": true,
+                "quality_control": "warning"
               }
             }
           ],
+          "display": {
+            "quantity": "estimated snowfall depth departure",
+            "units": "in",
+            "snow_to_liquid_ratio": 10.0,
+            "scale_inches": [
+              -10,
+              10
+            ],
+            "white_band_inches": [
+              -1,
+              1
+            ],
+            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+            "calendar_alignment_version": 2
+          },
           "_catalog": {
             "canonical_product": "snowfall_anomaly",
-            "comparable": false
+            "comparable": true
           }
         },
         {
@@ -14873,10 +15035,10 @@
           }
         }
       ],
-      "status": "degraded",
+      "status": "online",
       "schema_version": 1,
       "manifest_kind": "c3s_seasonal_manifest",
-      "generated_utc": "2026-09-03T23:28:45Z",
+      "generated_utc": "2026-09-06T22:12:41Z",
       "source_url": "https://climate.copernicus.eu/seasonal-forecasts",
       "product_labels": {
         "500mb_height_anomaly": "500-mb Height Anomaly",
@@ -14948,11 +15110,13 @@
           "retained_fallback": false
         },
         "snowfall_anomaly": {
-          "state": "missing",
-          "reason": "No rendered target is currently published.",
-          "available": false,
-          "comparable": false,
-          "latest_init_utc": null,
+          "state": "available",
+          "reason": "Rendered target available.",
+          "available": true,
+          "comparable": true,
+          "latest_init_utc": "2026-08-01T00:00:00Z",
+          "run_id": "c3s-multisystem-2026080100-snowfall_anomaly",
+          "target_count": 3,
           "latest_run_id": "c3s-multisystem-2026080100-snowfall_anomaly",
           "latest_run_status": "rendered",
           "latest_run_init_utc": "2026-08-01T00:00:00Z",
@@ -52149,7 +52313,7 @@
   },
   "health": {
     "status": "attention",
-    "generated_utc": "2026-09-06T22:13:05Z",
+    "generated_utc": "2026-09-06T22:15:56Z",
     "freshness_policy_days": {
       "default": {
         "fresh_days": 35,
@@ -52165,11 +52329,11 @@
       "attention_surfaces": 24,
       "by_state": {
         "healthy": 26,
-        "aging": 20,
+        "aging": 21,
         "stale": 0,
         "partial": 2,
         "failed": 0,
-        "missing": 1,
+        "missing": 0,
         "noncomparable": 1,
         "not_applicable": 10
       }
@@ -52360,18 +52524,18 @@
         "model_label": "C3S multi-system",
         "product": "snowfall_anomaly",
         "product_label": "CONUS Snowfall Departure (in)",
-        "surface_state": "missing",
-        "available": false,
-        "comparable": false,
-        "health_state": "missing",
-        "freshness": "unknown",
-        "age_days": null,
+        "surface_state": "available",
+        "available": true,
+        "comparable": true,
+        "health_state": "aging",
+        "freshness": "aging",
+        "age_days": 36.9,
         "latest_status": "rendered",
         "latest_init_utc": "2026-08-01T00:00:00Z",
-        "selected_init_utc": null,
-        "selected_run_id": null,
+        "selected_init_utc": "2026-08-01T00:00:00Z",
+        "selected_run_id": "c3s-multisystem-2026080100-snowfall_anomaly",
         "retained_fallback": false,
-        "reason": "No rendered target is currently published."
+        "reason": "Rendered target available."
       },
       {
         "model": "c3s",
@@ -53442,18 +53606,18 @@
         "model_label": "C3S multi-system",
         "product": "snowfall_anomaly",
         "product_label": "CONUS Snowfall Departure (in)",
-        "surface_state": "missing",
-        "available": false,
-        "comparable": false,
-        "health_state": "missing",
-        "freshness": "unknown",
-        "age_days": null,
+        "surface_state": "available",
+        "available": true,
+        "comparable": true,
+        "health_state": "aging",
+        "freshness": "aging",
+        "age_days": 36.9,
         "latest_status": "rendered",
         "latest_init_utc": "2026-08-01T00:00:00Z",
-        "selected_init_utc": null,
-        "selected_run_id": null,
+        "selected_init_utc": "2026-08-01T00:00:00Z",
+        "selected_run_id": "c3s-multisystem-2026080100-snowfall_anomaly",
         "retained_fallback": false,
-        "reason": "No rendered target is currently published."
+        "reason": "Rendered target available."
       },
       {
         "model": "c3s",
@@ -53695,7 +53859,7 @@
     "models_expected": 10,
     "models_online": 10,
     "supported_surfaces": 50,
-    "available_surfaces": 49,
+    "available_surfaces": 50,
     "partial_surfaces": 2,
     "intentional_unavailable_surfaces": 10
   },
