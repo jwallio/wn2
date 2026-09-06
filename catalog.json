@@ -2,8 +2,8 @@
   "schema_version": 1,
   "registry_version": 1,
   "kind": "seasonal_dashboard_catalog",
-  "generated_utc": "2026-09-06T20:49:34Z",
-  "source_revision": "dd2fbd32523564cb398ef6f3a95e226db3e2fbc8",
+  "generated_utc": "2026-09-06T20:52:10Z",
+  "source_revision": "b8598bafd1d60ddba9c425f0e9b4fb023100d77e",
   "model_order": [
     "superensemble",
     "c3s",
@@ -59053,7 +59053,7 @@
   },
   "health": {
     "status": "attention",
-    "generated_utc": "2026-09-06T20:49:34Z",
+    "generated_utc": "2026-09-06T20:52:10Z",
     "freshness_policy_days": {
       "default": {
         "fresh_days": 35,
