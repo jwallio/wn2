@@ -174,7 +174,7 @@ def decode(args, init, target, members, rolling_inits, cache_dir, state_dir, wgr
         snow_to_liquid_ratio=meta, native_departure_status='unavailable',
         bias_correction='none', unsupported_cwas=meta['unsupported_cwas'],
         display_method='Bilinear native LWE then exact CWA ratio; no added smoothing',
-        display_overrides={'Florida':'white mask; numeric values retained', 'white_below_inches':0.1},
+        display_style={'white_below_inches':0.1},
         _native_lwe=lwe)
     count = len(pairs)
     label = f'{count}/{count}-cycle rolling mean' if rolling_inits else f'{count}-member mean'
@@ -193,7 +193,6 @@ def render(lwe, init, target, lead, output, seasonal=False, period_label='', ens
     matplotlib.use('Agg')
     import matplotlib.pyplot as plt
     from matplotlib.colors import BoundaryNorm, ListedColormap
-    from matplotlib.patches import Polygon
     # Pure NumPy sampling/projection helpers from the approved offline renderer.
     data, _ = lookup()
     xlon, ylat = np.meshgrid(data['display_lons'], data['display_lats'])
@@ -205,11 +204,6 @@ def render(lwe, init, target, lead, output, seasonal=False, period_label='', ens
     ax = fig.add_axes([.038,.15,.924,.70], facecolor='#edf3f5')
     filled = ax.contourf(x,y,np.ma.masked_invalid(field), levels=bounds, cmap=cmap,
         norm=BoundaryNorm(bounds,cmap.N,clip=False), extend='max', antialiased=True, corner_mask=False)
-    # Explicit owner-selected display mask, not a zeroing of model data.
-    for ring in data['florida_display_rings']:
-        px,py=project(ring[:,0],ring[:,1])
-        ax.add_patch(Polygon(np.column_stack([px,py]),facecolor='#ffffff',
-                             edgecolor='none',zorder=3))
     state_points=[]
     points, offsets = data['states_points'], data['states_offsets']
     for a,b in zip(offsets[:-1],offsets[1:]):
@@ -228,7 +222,7 @@ def render(lwe, init, target, lead, output, seasonal=False, period_label='', ens
     fig.text(.038,.912,f'Init {initialized}  •  Lead {lead}  •  {ensemble_label}',fontsize=10,color='#43535d')
     fig.text(.038,.878,'Native snowfall × CIPS / assumed ratios',fontsize=9.5,color='#536875')
     fig.text(.5,.052,'Accumulated snowfall depth (inches)  •  Not standing snowpack',ha='center',fontsize=10,color='#43535d')
-    fig.text(.5,.028,'Unadjusted estimate  •  Florida shown white by request  •  Colors saturate at 200 in',ha='center',fontsize=8.5,color='#536875')
+    fig.text(.5,.028,'Unadjusted estimate  •  Colors saturate at 200 in',ha='center',fontsize=8.5,color='#536875')
     output.parent.mkdir(parents=True,exist_ok=True)
     fig.savefig(output,dpi=120,pil_kwargs={'quality':95,'subsampling':0} if output.suffix=='.jpg' else {})
     plt.close(fig)

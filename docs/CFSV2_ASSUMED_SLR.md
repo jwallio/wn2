@@ -23,7 +23,7 @@ contains exact native/display grid spans generated from the verified April 16,
 values. No unsupported CWAs remain. Native LWE caches remain valid:
 the conversion is applied after reading cached water-equivalent grids.
 
-Rebuild: `python scripts/build_cfsv2_slr_assumptions.py /path/to/w_16ap26.zip /path/to/us-states.json`.
+Rebuild: `python scripts/build_cfsv2_slr_assumptions.py /path/to/w_16ap26.zip`.
 This offline builder requires shapely/pyshp; production still requires only
 NumPy for the lookup. The map caption identifies CIPS / assumed ratios, and
 manifest metadata lists every assumed CWA and its value.
@@ -34,8 +34,6 @@ A white bin covers 0 to less than 0.1 inch. Higher amounts retain their prior
 colors, including the remaining portion of the original lowest band. Native
 snowfall and numeric downloads are unchanged by this color choice.
 
-Florida is painted white using its verified state outline, per the owner's
-explicit display request, including its panhandle. This is not a claim that CFS
-predicts exactly zero across the state. The caption identifies the display
-choice, and manifest diagnostics record it. Underlying Florida numeric values
-and its 7:1 conversion remain available. Other states are not masked.
+The same value-based color rule applies across CONUS, including Florida and the
+far South. There is no state-specific white mask. Positive modeled snowfall is
+colored when it reaches 0.1 inch; values below that threshold are white.
