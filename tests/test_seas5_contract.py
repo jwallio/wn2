@@ -145,9 +145,27 @@ def main() -> int:
     check(module.SEAS5_PRECIP_ANOMALY_PALETTE[-1] == "#006d2c", "SEAS5 positive precipitation anomaly should retain a dark endpoint")
     check(module.latest_cds_init(dt.datetime(2026, 8, 6, 12, 0)) == "2026080100", "release-time init should use the current ECMWF month")
     check(module.latest_cds_init(dt.datetime(2026, 8, 6, 11, 59)) == "2026070100", "pre-release init should use the prior ECMWF month")
-    check(module.target_month("2025080100", 4) == "202512", "lead-month target conversion should produce December")
-    check(module.target_month("2025080100", 5) == "202601", "lead-month target conversion should cross the year boundary")
+    check(module.target_month("2025080100", 4) == "202511", "CDS month 4 from August should produce November")
+    check(module.target_month("2025080100", 6) == "202601", "lead-month target conversion should cross the year boundary")
     check(module.seasonal_period_label("202512", "202602") == "DJF 2025–26", "DJF label should identify both winter years")
+    # Independent calendar and signed-conversion regressions.
+    check([module.target_month("2026090100", k) for k in (4,5,6)] ==
+          ["202612","202701","202702"], "September CDS months 4-6 must be DJF")
+    check(module.target_month("2026090100",1) == "202609", "CDS month 1 includes initialization")
+    check(module.month_seconds("202802") == 29*86400, "leap February must use 29 days")
+    original = module.Grid([0.,1.,2.],[0.],[[-0.4,0.,0.4]])
+    for seasonal in (False,True):
+        display,spec = module.snowfall_display(original,snowfall_spec,seasonal)
+        check(display.values == [[-4.,0.,4.]], "signed LWE departures must convert exactly once")
+        check(original.values == [[-0.4,0.,0.4]], "conversion must not mutate canonical LWE")
+        from matplotlib.colors import BoundaryNorm,ListedColormap
+        cmap=ListedColormap(spec["anomaly_palette"])
+        norm=BoundaryNorm(spec["anomaly_ticks"],cmap.N)
+        check(cmap(norm(0.09)) == (1.,1.,1.,1.), "near-zero snow departure must be white")
+        check(cmap(norm(0.2)) != (1.,1.,1.,1.), "small positive departure must be visible")
+        check(cmap(norm(-0.2)) != (1.,1.,1.,1.), "small negative departure must be visible")
+    rain = module.PRODUCT_SPECS["precipitation_anomaly"]
+    check(module.snowfall_display(original,rain)[0] is original, "other fields must not be converted")
     snowfall_title = module.PRODUCT_SPECS[module.SNOWFALL_ANOMALY]
     check(snowfall_title["title"] == "SEAS5 CONUS Snowfall Departure", "SEAS5 snowfall image title should omit the parenthetical LWE unit")
     check("(in LWE)" not in snowfall_title["absolute_title"], "SEAS5 snowfall absolute image title should omit the parenthetical LWE unit")

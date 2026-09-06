@@ -27,12 +27,12 @@ on:
         default: "latest"
         type: string
       lead_months:
-        description: "Target leads, comma-separated"
+        description: "CDS forecast months (1 = initialization month)"
         required: false
         default: "4,5,6"
         type: string
       seasonal_window:
-        description: "Seasonal leads, comma-separated"
+        description: "CDS seasonal months (September 4,5,6 = DJF)"
         required: false
         default: "4,5,6"
         type: string
