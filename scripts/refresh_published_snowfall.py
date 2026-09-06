@@ -59,6 +59,25 @@ def refresh(root):
                           'snow_to_liquid_ratio': 10, 'white_below_inches': 1}
         run['source_warning'] = 'Unadjusted native snowfall at fixed 10:1; native snowfall departures unavailable.'
         run['baseline'] = {'status': 'not_applicable', 'reason': run['source_warning']}
+    # The matching native departure now exists for repaired runs. Do not leave
+    # the old 'native departures unavailable' note on their accumulation cards.
+    native_departures = {}
+    for run in document.get('runs', []):
+        if run.get('product') == 'snowfall_anomaly':
+            for target in run.get('targets', []):
+                if (target.get('baseline') or {}).get('method') == 'native_srweq_operational_2011_2025_v1':
+                    native_departures[run.get('init_utc'), target.get('target_month')] = target
+    for run in document.get('runs', []):
+        if run.get('product') != 'snowfall_accumulation':
+            continue
+        paired = False
+        for target in run.get('targets', []):
+            if (run.get('init_utc'), target.get('target_month')) in native_departures:
+                target['source_warning'] = 'Native model snowfall at fixed 10:1. Paired departures use a matched 2011–2025 native operational reference.'
+                target.setdefault('derivation', {})['native_departure_status'] = 'available'
+                paired = True
+        if paired:
+            run['source_warning'] = 'Native model snowfall at fixed 10:1; matching native departure maps are available.'
     manifest.write_text(json.dumps(document, indent=2))
     print(f'Refreshed {count} retained native snowfall accumulation maps at 10:1')
 
