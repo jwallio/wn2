@@ -27,7 +27,7 @@ on:
         default: "latest"
         type: string
       lead_months:
-        description: "CDS forecast months (1 = initialization month)"
+        description: "CDS forecast months 1-6 only (September ends February)"
         required: false
         default: "4,5,6"
         type: string

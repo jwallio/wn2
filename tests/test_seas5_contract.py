@@ -156,10 +156,16 @@ def main() -> int:
           ["202612","202701","202702"], "September CDS months 4-6 must be DJF")
     check(module.target_month("2026090100",1) == "202609", "CDS month 1 includes initialization")
     check(module.month_seconds("202802") == 29*86400, "leap February must use 29 days")
+    try:
+        module.parse_cds_leads("4,5,6,7","lead months","2026090100")
+        raise AssertionError("unsupported March must not be silently requested or skipped")
+    except module.SEAS5Error as exc:
+        check("Feb 2027" in str(exc), "unsupported lead error must explain the actual endpoint")
+    check(module.parse_cds_leads("4,5,6","lead months","2026090100") == [4,5,6], "DJF must remain valid")
     original = module.Grid([0.,1.,2.],[0.],[[-0.4,0.,0.4]])
     for seasonal in (False,True):
         display,spec = module.snowfall_display(original,snowfall_spec,seasonal)
-        check(spec["anomaly_ticks"] == expected_snowfall_ticks, "snow-depth display must match the supplied ±4 scale")
+        check(spec["anomaly_ticks"] == [-7.,-6.,-5.,*expected_snowfall_ticks,5.,6.,7.], "snow-depth display must match the extended ±7 scale")
         check(display.values == [[-4.,0.,4.]], "signed LWE departures must convert exactly once")
         check(original.values == [[-0.4,0.,0.4]], "conversion must not mutate canonical LWE")
         from matplotlib.colors import BoundaryNorm,ListedColormap

@@ -136,10 +136,10 @@ Both forecast and reference are implicitly assigned the same fixed ratio.
 The decoder and grids used in multi-model comparisons remain in LWE inches;
 run metadata records the image quantity, ratio, and white band separately.
 
-The display matches the owner-provided CFSv2 graphic: ±4 inch endpoints,
+The display matches the owner-provided CFSv2 graphic, extended to ±7 inch endpoints,
 nonlinear quarter-inch breakpoints, and a white -0.5 to +0.5 inch band.
 This scale applies to monthly and seasonal SEAS5 snow-depth images. Endpoint
-labels indicate saturation beyond ±4 inches; source values remain unchanged.
+labels indicate saturation beyond ±7 inches; source values remain unchanged.
 The white band is in estimated snow inches, not LWE inches.
 
 CDS forecast month 1 is the initialization month. For September 2026,
@@ -161,3 +161,8 @@ centered on 100°W, placing North America below the pole. A square crop reaches
 coverage. Anomalies use a ±200 m scale, white near zero, pale neutral/yellow
 weak positive departures, and stronger oranges/reds for larger departures.
 The signed anomaly values and black absolute-height contours are unchanged.
+
+CDS catalogue constraints checked September 6, 2026 confirm that the ECMWF
+System 51 September snowfall anomaly product offers forecast months 1–6 only.
+March 2027 is month 7 from September and cannot be fetched from this product.
+From a released October initialization, March is month 6 and JFM is 4,5,6.
