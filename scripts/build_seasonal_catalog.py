@@ -455,9 +455,13 @@ def _surface_state(model_key: str, runs: list[dict[str, Any]], product: str) -> 
     usable = next((run for run in candidates if _usable_targets(run)), None)
     if not usable:
         failed = next((run for run in candidates if str(run.get("status") or "").lower() in FAILED_STATUSES), None)
+        pending = next((run for run in candidates if run.get("status") == "pending"), None)
         return {
             "state": "failed" if failed else "missing",
-            "reason": "Latest supported run failed." if failed else "No rendered target is currently published.",
+            "reason": ("Latest supported run failed." if failed else
+                       "Native CanSIPS snowfall is awaiting both Canadian C3S components; releases normally arrive on the 10th."
+                       if pending and model_key == "cansips" and product == "snowfall_anomaly" else
+                       "No rendered target is currently published."),
             "available": False,
             "comparable": False,
             "latest_init_utc": (failed or {}).get("init_utc"),

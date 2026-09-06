@@ -321,8 +321,8 @@ def canonical_members(product: str, *, include_cma: bool = False) -> list[Member
             footer_label="ECCC CanSIPS v3",
             internal_members=cansips.CANSIPS_ENSEMBLE_MEMBERS,
             notes=(
-                "One ECCC family vote; CanSIPS snowfall is derived from member 2-m "
-                "+ 850-hPa temperature and total precipitation; C3S ECCC and NMME "
+                "One ECCC family vote; native snowfall from both Canadian C3S systems; "
+                "provider-matched hindcast anomalies; C3S ECCC and NMME "
                 "ECCC copies are excluded"
                 if product == "snowfall_anomaly"
                 else "One ECCC family vote; C3S ECCC and NMME ECCC copies are excluded"
@@ -729,30 +729,16 @@ def load_cansips_member(
         target = c3s.target_month(init, lead)
         try:
             if product == cansips.PRODUCT_SNOWFALL_ANOMALY:
-                forecast, forecast_source, last_request = cansips.load_snowfall_estimate(
-                    init,
-                    lead,
-                    False,
-                    cache_dir,
-                    root,
-                    args.request_delay,
-                    last_request,
-                    target,
-                    args.force_decode,
-                    True,
-                )
-                climatology, hindcast_sources, last_request = cansips.snowfall_hindcast_climatology(
-                    init,
-                    lead,
-                    args.climo_start,
-                    args.climo_end,
-                    cache_dir,
-                    root,
-                    args.request_delay,
-                    last_request,
-                    args.force_decode,
-                    True,
-                )
+                from cansips_native_snow import NativeSnowArchive
+                # The super-ensemble already uses zero-based target leads here.
+                native, native_source = NativeSnowArchive(cache_dir).grid(init, lead)
+                member_grids[lead][key] = native
+                provenance[lead][key] = {
+                    "source_package": "ECCC CanSIPS v3 native snowfall / C3S",
+                    "source_file": native_source, "baseline": native_source["baseline"],
+                    "internal_members": 40, "internal_groups": ["CanESM5", "GEM5.2-NEMO"],
+                }
+                continue
             else:
                 forecast, forecast_source, last_request = cansips.load_ensemble_mean(
                     init,

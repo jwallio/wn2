@@ -63,17 +63,17 @@ class CacheTests(unittest.TestCase):
     def test_render_only_matches_normal_without_loading_models(self):
         with tempfile.TemporaryDirectory() as tmp:
             root=Path(tmp)
-            args=c.build_parser().parse_args(['--product','snowfall_anomaly','--no-borders'])
+            args=c.build_parser().parse_args(['--product','precipitation_anomaly','--no-borders'])
             grid=lambda v:c.Grid([0.,1.],[0.,1.],[[v,v],[v,v]])
             forecast=(grid(1.5),{'source_files':[{'url':'test'}]},0.)
             baseline=(grid(1.),[{'url':'hindcast'}],0.)
-            callargs=(args,c.PRODUCT_SPECS['snowfall_anomaly'],'2026090100',[3,4,5],[3,4,5],'',root,root/'out',[],None)
-            with patch.object(c,'load_snowfall_estimate',return_value=forecast), patch.object(c,'snowfall_hindcast_climatology',return_value=baseline), patch.object(c,'render_standalone') as render:
+            callargs=(args,c.PRODUCT_SPECS['precipitation_anomaly'],'2026090100',[3,4,5],[3,4,5],'',root,root/'out',[],None)
+            with patch.object(c,'load_ensemble_mean',return_value=forecast), patch.object(c,'hindcast_climatology',return_value=baseline), patch.object(c,'render_standalone') as render:
                 entry, failures=c.render_product_run(*callargs)
                 expected=[call.args[0].values for call in render.call_args_list]
                 self.assertEqual(failures,0)
             args.render_only=True
-            with patch.object(c,'load_snowfall_estimate',side_effect=AssertionError('model loading forbidden')), patch.object(c,'snowfall_hindcast_climatology',side_effect=AssertionError('baseline loading forbidden')), patch.object(c,'render_standalone') as render:
+            with patch.object(c,'load_ensemble_mean',side_effect=AssertionError('model loading forbidden')), patch.object(c,'hindcast_climatology',side_effect=AssertionError('baseline loading forbidden')), patch.object(c,'render_standalone') as render:
                 entry,failures=c.render_product_run(*callargs)
                 self.assertEqual(failures,0)
                 self.assertEqual([call.args[0].values for call in render.call_args_list],expected)

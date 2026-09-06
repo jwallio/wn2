@@ -1,10 +1,17 @@
 name: CanSIPS v3 Seasonal Graphics
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - scripts/cansips_native_snow.py
+      - tests/test_cansips_native_snow.py
   schedule:
     # ECCC refreshes CanSIPS on the first of each month; use the second-day
     # afternoon buffer so the Datamart inventory has time to settle.
     - cron: "30 16 2 * *"
+    # Native Canadian snowfall arrives via C3S on the 10th; retry release delays.
+    - cron: "30 13 10-14 * *"
   workflow_dispatch:
     inputs:
       product:
@@ -32,14 +39,14 @@ on:
         default: "latest"
         type: string
       lead_months:
-        description: "Target leads, comma-separated (DJF default: 4,5,6)"
+        description: "Target leads, comma-separated (September DJF: 3,4,5; native snowfall supports 0-5)"
         required: false
-        default: "4,5,6"
+        default: "3,4,5"
         type: string
       seasonal_window:
         description: "Consecutive leads for the seasonal aggregate"
         required: false
-        default: "4,5,6"
+        default: "3,4,5"
         type: string
       climo_start:
         description: "First CanSIPS hindcast year"
@@ -66,10 +73,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 360
     env:
-      CANSIPS_PRODUCT: ${{ inputs.product || 'all' }}
+      CANSIPS_PRODUCT: ${{ inputs.product || (github.event_name == 'push' && 'snowfall_anomaly') || (github.event.schedule == '30 13 10-14 * *' && 'snowfall_anomaly') || 'all' }}
       CANSIPS_INIT: ${{ inputs.init || 'latest' }}
-      LEAD_MONTHS: ${{ inputs.lead_months || '4,5,6' }}
-      SEASONAL_WINDOW: ${{ inputs.seasonal_window || '4,5,6' }}
+      LEAD_MONTHS: ${{ inputs.lead_months || '3,4,5' }}
+      SEASONAL_WINDOW: ${{ inputs.seasonal_window || '3,4,5' }}
       CLIMO_START: ${{ inputs.climo_start || '1991' }}
       CLIMO_END: ${{ inputs.climo_end || '2020' }}
       CANSIPS_WGRIB2: ""
@@ -86,7 +93,10 @@ jobs:
           cache-dependency-path: requirements.txt
 
       - name: Install CanSIPS rendering dependencies
-        run: python -m pip install --upgrade requests numpy matplotlib Pillow xarray cfgrib eccodes
+        run: python -m pip install --upgrade requests numpy matplotlib Pillow xarray cfgrib eccodes "cdsapi>=0.7.7"
+
+      - name: Validate native snowfall calculation
+        run: python tests/test_cansips_native_snow.py
 
       - name: Restore CanSIPS decoded-grid cache
         uses: actions/cache@v4
@@ -123,7 +133,15 @@ jobs:
         with:
           required: ${{ env.CANSIPS_PRODUCT != 'snowfall_anomaly' && env.RENDER_ONLY != 'true' }}
 
+      - name: Check native snowfall against available C3S data
+        if: ${{ github.event_name == 'push' }}
+        env:
+          CDS_API_KEY: ${{ secrets.CDS_API_KEY }}
+        run: python scripts/cansips_native_snow.py
+
       - name: Render CanSIPS v3 products
+        env:
+          CDS_API_KEY: ${{ secrets.CDS_API_KEY }}
         run: |
           extra_args=()
           if [[ "$RENDER_ONLY" == "true" ]]; then extra_args+=(--render-only); fi
