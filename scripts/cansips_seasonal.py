@@ -636,6 +636,32 @@ def _decode_cfgrib_members(
                 pass
 
 
+def snowfall_depth_display(grid: Grid, product: dict[str, Any]):
+    """Convert signed departures only for standalone images, retaining LWE inputs."""
+    if product["name"] != PRODUCT_SNOWFALL_ANOMALY:
+        return grid, product
+    spec = dict(product)
+    for key in list(spec):
+        if key.startswith(("monthly_anomaly_", "seasonal_anomaly_")):
+            del spec[key]
+    spec.update(
+        title="CanSIPS v3 Estimated Snowfall Departure (in)",
+        anomaly_min=-10., anomaly_max=10., anomaly_ticks=list(range(-10,11)),
+        anomaly_palette=[*SNOWFALL_ANOMALY_PALETTE[:9],"#ffffff","#ffffff",
+                         *SNOWFALL_ANOMALY_PALETTE[13:]],
+        anomaly_endpoint_labels={"minimum":"≤−10", "maximum":"≥+10"},
+        native_snow_depth_display=True,
+        header_detail="{source_label}  •  Estimated snowfall departure (in)  •  10:1 snow-to-liquid ratio",
+    )
+    return Grid(grid.lons[:],grid.lats[:],
+                [[value*10. for value in row] for row in grid.values]), spec
+
+
+def render_standalone(grid: Grid, *args, product_spec, **kwargs):
+    display_grid, display_spec = snowfall_depth_display(grid, product_spec)
+    return render_map(display_grid, *args, product_spec=display_spec, **kwargs)
+
+
 def derive_snowfall_lwe_grid(
     temperature_members: Any,
     precipitation_members: Any,
@@ -1301,6 +1327,10 @@ def render_product_run(
         "raw_field": product["raw_field"],
         "raw_units": product["raw_units"],
         "conversion": product.get("conversion"),
+        "display": ({"quantity":"estimated snowfall depth departure", "units":"in",
+                     "snow_to_liquid_ratio":10., "white_band_inches":[-1.,1.],
+                     "scale_inches":[-10.,10.], "numeric_grid_quantity":"snowfall LWE departure"}
+                    if product["name"] == PRODUCT_SNOWFALL_ANOMALY else None),
         "source_variables": product.get("source_variables"),
         "grid": {"longitude_count": 360, "latitude_count": 180, "resolution": "1 degree", "layout": "LatLon1.0"},
         "climatology": {
@@ -1422,7 +1452,7 @@ def render_product_run(
             target_entry["status"] = "decoded"
             if not args.decode_only:
                 output_path = output_dir / init[:8] / f"cansips_{product['id_token']}_{target}.jpg"
-                render_map(
+                render_standalone(
                     anomaly,
                     init,
                     target,
@@ -1521,7 +1551,7 @@ def render_product_run(
             }
             period_label = seasonal_period_label(first_target, last_target)
             output_path = output_dir / init[:8] / f"cansips_{product['id_token']}_{first_target}-{last_target}.jpg"
-            render_map(
+            render_standalone(
                 seasonal_anomaly,
                 init,
                 first_target,
