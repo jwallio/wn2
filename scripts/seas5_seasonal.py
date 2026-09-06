@@ -467,8 +467,8 @@ SNOW_DISPLAY_RATIO = 10.0
 def snowfall_display(grid: Grid, product: dict[str, Any], seasonal: bool = False):
     if product["name"] != SNOWFALL_ANOMALY:
         return grid, product
-    # Match the owner-provided CFSv2 departure graphic in snow-depth inches.
-    ticks = [-7.,-6.,-5.,*SNOWFALL_ANOMALY_TICKS,5.,6.,7.]
+    # Whole-inch snow-depth departures; keep the central -1 to +1 inches white.
+    ticks = list(range(-10, 11))
     spec = dict(product)
     for key in list(spec):
         if key.startswith(("monthly_anomaly_", "seasonal_anomaly_")):
@@ -476,9 +476,10 @@ def snowfall_display(grid: Grid, product: dict[str, Any], seasonal: bool = False
     spec.update(
         title="SEAS5 Estimated Snowfall Departure (in)",
         anomaly_min=ticks[0], anomaly_max=ticks[-1], anomaly_ticks=ticks,
-        anomaly_endpoint_labels={"minimum": "≤−7.0", "maximum": "≥+7.0"},
-        anomaly_palette=["#2d1204","#3b1805","#481e07",*SNOWFALL_ANOMALY_PALETTE,
-                         "#102f4b","#0d263e","#091d30"],
+        anomaly_endpoint_labels={"minimum": "≤−10", "maximum": "≥+10"},
+        anomaly_tick_decimals=0,
+        anomaly_palette=[*SNOWFALL_ANOMALY_PALETTE[:9], "#ffffff", "#ffffff",
+                         *SNOWFALL_ANOMALY_PALETTE[13:]],
         native_snow_depth_display=True,
         header_detail="{source_label}  •  Estimated snowfall departure (in)  •  10:1 snow-to-liquid ratio",
     )
