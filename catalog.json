@@ -2,8 +2,8 @@
   "schema_version": 1,
   "registry_version": 1,
   "kind": "seasonal_dashboard_catalog",
-  "generated_utc": "2026-09-06T14:53:32Z",
-  "source_revision": "f04b5c82db268c4525453405d067639d56edaf19",
+  "generated_utc": "2026-09-06T15:16:15Z",
+  "source_revision": "1bf31e01dd3ec9ae655650bcc37fa7eec2bcda72",
   "model_order": [
     "superensemble",
     "c3s",
@@ -36774,7 +36774,7 @@
       "status": "online",
       "schema_version": 1,
       "manifest_kind": "cfsv2_seasonal_manifest",
-      "generated_utc": "2026-09-06T14:52:24Z",
+      "generated_utc": "2026-09-06T15:14:59Z",
       "source_url": "https://nomads.ncep.noaa.gov/pub/data/nccf/com/cfs/prod/",
       "product_labels": {},
       "validation": {
@@ -64583,7 +64583,7 @@
   },
   "health": {
     "status": "attention",
-    "generated_utc": "2026-09-06T14:53:32Z",
+    "generated_utc": "2026-09-06T15:16:15Z",
     "freshness_policy_days": {
       "default": {
         "fresh_days": 35,
