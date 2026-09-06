@@ -6,7 +6,8 @@ DISPLAY = {
     "quantity": "estimated snowfall depth departure", "units": "in",
     "snow_to_liquid_ratio": RATIO, "scale_inches": [-10, 10],
     "white_band_inches": [-1, 1],
-    "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
+    "canonical_grid_quantity": "snowfall liquid-water-equivalent departure",
+    "numeric_grid_quantity": "estimated snowfall depth departure",
     "calendar_alignment_version": 2,
     "native_blend_version": 1,
 }
