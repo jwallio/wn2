@@ -23,7 +23,7 @@ class NativeSnowTests(unittest.TestCase):
 
     def test_grid_identity_masks_and_qc(self):
         grid=self.grid(); converted=native.depth_grid(grid);data,meta=native.lookup()
-        np.testing.assert_allclose(converted.values,data['native_ratios'],equal_nan=True)
+        np.testing.assert_allclose(converted.values,np.where(np.isfinite(data['native_ratios']),10.,np.nan),equal_nan=True)
         self.assertEqual(np.isfinite(converted.values).sum(),925)
         self.assertEqual(len(meta['unsupported_cwas']),0)
         qc=cf.grid_quality_control('snowfall_accumulation',converted.values,units='in',field='snowfall_accumulation',seasonal=False)

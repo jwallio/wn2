@@ -100,7 +100,7 @@ PRODUCT_LABELS = {
     "850mb_temperature_anomaly": "850-mb Temperature Anomaly",
     "2m_temperature_anomaly": "2-m Temperature Anomaly",
     "precipitation_anomaly": "CONUS Precipitation Anomaly",
-    "snowfall_anomaly": "CONUS Snowfall Water-Equivalent Departure",
+    "snowfall_anomaly": "CONUS Snowfall Departure (in)",
     "mslp_anomaly": "MSLP Anomaly",
 }
 

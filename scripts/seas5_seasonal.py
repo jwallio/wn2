@@ -465,27 +465,8 @@ SNOW_DISPLAY_RATIO = 10.0
 
 
 def snowfall_display(grid: Grid, product: dict[str, Any], seasonal: bool = False):
-    if product["name"] != SNOWFALL_ANOMALY:
-        return grid, product
-    # Whole-inch snow-depth departures; keep the central -1 to +1 inches white.
-    ticks = list(range(-10, 11))
-    spec = dict(product)
-    for key in list(spec):
-        if key.startswith(("monthly_anomaly_", "seasonal_anomaly_")):
-            del spec[key]
-    spec.update(
-        title="SEAS5 Estimated Snowfall Departure (in)",
-        anomaly_min=ticks[0], anomaly_max=ticks[-1], anomaly_ticks=ticks,
-        anomaly_endpoint_labels={"minimum": "≤−10", "maximum": "≥+10"},
-        anomaly_tick_decimals=0,
-        anomaly_palette=[*SNOWFALL_ANOMALY_PALETTE[:9], "#ffffff", "#ffffff",
-                         *SNOWFALL_ANOMALY_PALETTE[13:]],
-        native_snow_depth_display=True,
-        header_detail="{source_label}  •  Estimated snowfall departure (in)  •  10:1 snow-to-liquid ratio",
-    )
-    converted = Grid(grid.lons[:], grid.lats[:],
-                     (np.asarray(grid.values) * SNOW_DISPLAY_RATIO).tolist())
-    return converted, spec
+    from snowfall_display import depth_departure
+    return depth_departure(grid, product, SNOWFALL_ANOMALY_PALETTE)
 
 
 def render_standalone(grid: Grid, *args, product_spec, seasonal=False, **kwargs):
@@ -912,7 +893,7 @@ def run(args: argparse.Namespace) -> int:
         "conversion": product["conversion"],
         "lead_convention": "CDS forecast month 1 is the initialization month",
         "display": ({"quantity": "estimated snowfall depth departure", "units": "in",
-                     "snow_to_liquid_ratio": SNOW_DISPLAY_RATIO, "white_band_inches": [-0.5, 0.5],
+                     "snow_to_liquid_ratio": SNOW_DISPLAY_RATIO, "white_band_inches": [-1.0, 1.0],
                      "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"}
                     if args.product == SNOWFALL_ANOMALY else None),
         "climatology": {

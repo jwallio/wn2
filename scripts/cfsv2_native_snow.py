@@ -1,4 +1,4 @@
-"""Native SRWEQ accumulation with exact, precomputed CIPS CWA ratios."""
+"""Native SRWEQ accumulation displayed as snowfall depth at a fixed 10:1 ratio."""
 import calendar
 from datetime import datetime, timezone
 import hashlib
@@ -74,7 +74,7 @@ def depth_grid(lwe):
     values = np.asarray(lwe.values)
     if not np.isfinite(values).all() or np.any(values < 0):
         raise ValueError('Native snowfall must be complete and nonnegative before masking')
-    return cf.Grid(lwe.lons[:], lwe.lats[:], (values * data['native_ratios']).tolist())
+    return cf.Grid(lwe.lons[:], lwe.lats[:], np.where(np.isfinite(data['native_ratios']), values * 10.0, np.nan).tolist())
 
 
 def cached_cycle(session, args, cycle, member, target, state_dir, cache_dir, wgrib2):
@@ -170,10 +170,10 @@ def decode(args, init, target, members, rolling_inits, cache_dir, state_dir, wgr
     lwe = strict_mean([g for g,_ in decoded], expected=len(pairs))
     depth = depth_grid(lwe)
     _, meta = lookup()
-    diagnostics = dict(method='native_SRWEQ_times_CIPS_CWA_with_assumed_fills_v2',
-        snow_to_liquid_ratio=meta, native_departure_status='unavailable',
+    diagnostics = dict(method='native_SRWEQ_times_fixed_10_to_1_v1',
+        snow_to_liquid_ratio=10.0, native_departure_status='unavailable',
         bias_correction='none', unsupported_cwas=meta['unsupported_cwas'],
-        display_method='Bilinear native LWE then exact CWA ratio; no added smoothing',
+        display_method='Bilinear native snowfall water equivalent times 10; no added smoothing',
         display_style={'white_below_inches':1.0},
         _native_lwe=lwe)
     count = len(pairs)
@@ -200,7 +200,7 @@ def render(lwe, init, target, lead, output, seasonal=False, period_label='', ens
     data, _ = lookup()
     xlon, ylat = np.meshgrid(data['display_lons'], data['display_lats'])
     x, y = project(xlon, ylat)
-    field = sample(lwe, xlon, ylat) * data['display_ratios']
+    field = np.where(np.isfinite(data['display_ratios']), sample(lwe, xlon, ylat) * 10.0, np.nan)
     bounds, ticks, palette = accumulation_style(seasonal)
     cmap = ListedColormap(palette); cmap.set_over(palette[-1])
     fig = plt.figure(figsize=(9,7.35), dpi=120, facecolor='#f7f9fb')
@@ -223,7 +223,7 @@ def render(lwe, init, target, lead, output, seasonal=False, period_label='', ens
     fig.text(.962,.955,label,fontsize=13,weight='bold',ha='right',color='#172735')
     initialized=datetime.strptime(init,'%Y%m%d%H').strftime('%d %b %Y %HZ')
     fig.text(.038,.912,f'Init {initialized}  •  Lead {lead}  •  {ensemble_label}',fontsize=10,color='#43535d')
-    fig.text(.038,.878,'Native snowfall × CIPS / assumed ratios',fontsize=9.5,color='#536875')
+    fig.text(.038,.878,'Native model snowfall • 10:1 snow-depth estimate',fontsize=9.5,color='#536875')
     fig.text(.5,.052,'Accumulated snowfall depth (inches)  •  Not standing snowpack',ha='center',fontsize=10,color='#43535d')
     fig.text(.5,.028,'Unadjusted estimate  •  Colors saturate at 200 in',ha='center',fontsize=8.5,color='#536875')
     output.parent.mkdir(parents=True,exist_ok=True)
