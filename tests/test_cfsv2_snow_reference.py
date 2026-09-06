@@ -88,6 +88,27 @@ class ReferenceTests(unittest.TestCase):
         with self.assertRaises(cf.CFSv2Error):
             ref.match_forecast_grid(grid, forecast)
 
+    def test_real_wgrib2_csv_coordinates_match_eccodes_reference(self):
+        # Actual 2026090512 -> 202703 reference coordinates and the site's
+        # wgrib2-decoded 2026090506 March native LWE grid (same global grid).
+        reference = cf.Grid(
+            [-179.06275195822496, -178.12525326370803],
+            [-89.27671287810583, -88.33975425118209],
+            [[0.25, 0.5], [0.75, 1.0]])
+        forecast = cf.Grid([-179.063, -178.125], [-89.2767, -88.3398],
+                           [[1., 2.], [3., 4.]])
+        aligned = ref.match_forecast_grid(reference, forecast)
+        self.assertIs(aligned.values, reference.values)
+        self.assertEqual(cf.subtract_grids(forecast, aligned).values,
+                         [[0.75, 1.5], [2.25, 3.]])
+        for axis, offset in [('lons', 0.001), ('lats', 0.0001)]:
+            shifted = cf.Grid(forecast.lons[:], forecast.lats[:], forecast.values)
+            getattr(shifted, axis)[0] += offset
+            with self.subTest(axis=axis), self.assertRaises(cf.CFSv2Error):
+                ref.match_forecast_grid(reference, shifted)
+        with self.assertRaises(cf.CFSv2Error):
+            ref.match_forecast_grid(reference, cf.Grid([0.], forecast.lats, [[0.], [0.]]))
+
     def test_missing_month_preflight_before_decoder(self):
         args = self.args()
         args.lead_months = '5,6'

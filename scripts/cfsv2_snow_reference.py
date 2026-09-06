@@ -36,9 +36,15 @@ def reference_years(cycles):
 def match_forecast_grid(reference, forecast):
     """Allow decoder coordinate rounding, never spatial interpolation."""
     from cfsv2_seasonal import CFSv2Error, Grid
+    # wgrib2 -csv writes coordinates with C %g (six significant digits).
+    # Across [-180, 180] longitude / [-90, 90] latitude, rounding can reach
+    # 0.0005 / 0.00005 degrees. Include 1e-6 for decoder/CSV normalization.
+    # Keep rtol=0: these are absolute encoding tolerances, not grid spacing.
     if (np.shape(reference.values) != np.shape(forecast.values)
-            or not np.allclose(reference.lons, forecast.lons, rtol=0, atol=1e-5)
-            or not np.allclose(reference.lats, forecast.lats, rtol=0, atol=1e-5)):
+            or np.shape(reference.lons) != np.shape(forecast.lons)
+            or np.shape(reference.lats) != np.shape(forecast.lats)
+            or not np.allclose(reference.lons, forecast.lons, rtol=0, atol=0.000501)
+            or not np.allclose(reference.lats, forecast.lats, rtol=0, atol=0.000051)):
         raise CFSv2Error('Snowfall reference grid does not match the forecast grid')
     return Grid(forecast.lons[:], forecast.lats[:], reference.values)
 
