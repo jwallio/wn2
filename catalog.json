@@ -2,7 +2,7 @@
   "schema_version": 1,
   "registry_version": 1,
   "kind": "seasonal_dashboard_catalog",
-  "generated_utc": "2026-09-06T21:50:04Z",
+  "generated_utc": "2026-09-06T21:52:47Z",
   "source_revision": "24750a6fb8a732ae075dd667e6876ef08ecfcea0",
   "model_order": [
     "superensemble",
@@ -37936,7 +37936,7 @@
           "init_utc": "2026-08-01T00:00:00Z",
           "status": "rendered",
           "statistic": "ensemble_mean",
-          "aggregation": "3-month sum of official CDS monthly ensemble-mean anomalies",
+          "aggregation": "2-month sum of official CDS monthly ensemble-mean anomalies",
           "ensemble_scope": "ECMWF SEAS5/System 51 forecast ensemble",
           "ensemble_members": 51,
           "field": "snowfall_anomaly",
@@ -37950,81 +37950,27 @@
             "status": "not_used"
           },
           "conversion": "CDS anomalous snowfall water rate multiplied by target-month seconds and converted from metres to inches",
+          "display": {
+            "quantity": "estimated snowfall depth departure",
+            "units": "in",
+            "snow_to_liquid_ratio": 10.0,
+            "white_band_inches": [
+              -1.0,
+              1.0
+            ],
+            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+          },
           "targets": [
             {
-              "id": "seas5-2026080100-snowfall_anomaly-lead04",
+              "id": "seas5-2026080100-snowfall_anomaly-lead05",
               "target_month": "202612",
               "valid_start_utc": "2026-12-01T00:00:00Z",
               "valid_end_utc": "2027-01-01T00:00:00Z",
-              "lead_month": 4,
-              "field": "snowfall_anomaly",
-              "units": "in",
-              "status": "rendered",
-              "image": "seas5/20260801/seas5_sf_202612.jpg",
-              "baseline": {
-                "status": "official_postprocessed",
-                "source": "C3S official postprocessed anomaly; ECMWF/System 51",
-                "dataset": "seasonal-postprocessed-single-levels"
-              },
-              "ensemble_members": 51,
-              "statistic": "ensemble_mean",
-              "aggregation": "monthly total",
-              "quality_control": {
-                "registry_version": 1,
-                "product": "snowfall_anomaly",
-                "units": "in",
-                "field": "snowfall_anomaly",
-                "period": "monthly",
-                "total_points": 3200,
-                "finite_points": 3200,
-                "finite_fraction": 1.0,
-                "minimum": -1.803576,
-                "maximum": 0.868725,
-                "p01": -0.697065,
-                "p99": 0.077938,
-                "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
-                  "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
-                  ],
-                  "below_fraction": 0.0,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.0
-                },
-                "issues": [],
-                "status": "passed"
-              },
-              "_catalog": {
-                "canonical_product": "snowfall_anomaly",
-                "comparable": true,
-                "quality_control": "passed"
-              }
-            },
-            {
-              "id": "seas5-2026080100-snowfall_anomaly-lead05",
-              "target_month": "202701",
-              "valid_start_utc": "2027-01-01T00:00:00Z",
-              "valid_end_utc": "2027-02-01T00:00:00Z",
               "lead_month": 5,
               "field": "snowfall_anomaly",
               "units": "in",
               "status": "rendered",
-              "image": "seas5/20260801/seas5_sf_202701.jpg",
+              "image": "seas5/20260801/seas5_sf_202612.jpg",
               "baseline": {
                 "status": "official_postprocessed",
                 "source": "C3S official postprocessed anomaly; ECMWF/System 51",
@@ -38047,32 +37993,54 @@
                 "p01": -0.908211,
                 "p99": 0.190344,
                 "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.0,
+                  "below_fraction": 0.0075,
                   "above_fraction": 0.0,
-                  "clipped_fraction": 0.0
+                  "clipped_fraction": 0.0075
                 },
                 "issues": [],
                 "status": "passed"
               },
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+              },
+              "numeric_grid": "seas5/20260801/seas5_sf_202612.snow.csv.gz",
+              "native_lwe_grid": "seas5/20260801/seas5_sf_202612.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
                 "comparable": true,
@@ -38081,14 +38049,14 @@
             },
             {
               "id": "seas5-2026080100-snowfall_anomaly-lead06",
-              "target_month": "202702",
-              "valid_start_utc": "2027-02-01T00:00:00Z",
-              "valid_end_utc": "2027-03-01T00:00:00Z",
+              "target_month": "202701",
+              "valid_start_utc": "2027-01-01T00:00:00Z",
+              "valid_end_utc": "2027-02-01T00:00:00Z",
               "lead_month": 6,
               "field": "snowfall_anomaly",
               "units": "in",
               "status": "rendered",
-              "image": "seas5/20260801/seas5_sf_202702.jpg",
+              "image": "seas5/20260801/seas5_sf_202701.jpg",
               "baseline": {
                 "status": "official_postprocessed",
                 "source": "C3S official postprocessed anomaly; ECMWF/System 51",
@@ -38106,37 +38074,59 @@
                 "total_points": 3200,
                 "finite_points": 3200,
                 "finite_fraction": 1.0,
-                "minimum": -2.434905,
-                "maximum": 1.437968,
-                "p01": -1.0505,
-                "p99": 0.391391,
+                "minimum": -2.695788,
+                "maximum": 1.592035,
+                "p01": -1.163054,
+                "p99": 0.433326,
                 "display": {
-                  "minimum": -2.0,
-                  "maximum": 2.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.000625,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.000625
+                  "below_fraction": 0.01375,
+                  "above_fraction": 0.002188,
+                  "clipped_fraction": 0.015938
                 },
                 "issues": [],
                 "status": "passed"
               },
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+              },
+              "numeric_grid": "seas5/20260801/seas5_sf_202701.snow.csv.gz",
+              "native_lwe_grid": "seas5/20260801/seas5_sf_202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
                 "comparable": true,
@@ -38144,20 +38134,19 @@
               }
             },
             {
-              "id": "seas5-2026080100-snowfall_anomaly-202612-202702",
-              "target_month": "202612-202702",
+              "id": "seas5-2026080100-snowfall_anomaly-202612-202701",
+              "target_month": "202612-202701",
               "valid_start_utc": "2026-12-01T00:00:00Z",
-              "valid_end_utc": "2027-03-01T00:00:00Z",
-              "lead_month": "4-6",
+              "valid_end_utc": "2027-02-01T00:00:00Z",
+              "lead_month": "5-6",
               "monthly_leads": [
-                4,
                 5,
                 6
               ],
               "field": "snowfall_anomaly",
               "units": "in",
               "status": "rendered",
-              "image": "seas5/20260801/seas5_sf_202612-202702.jpg",
+              "image": "seas5/20260801/seas5_sf_202612-202701.jpg",
               "baseline": {
                 "status": "official_postprocessed",
                 "source": "C3S official postprocessed anomaly; ECMWF/System 51",
@@ -38165,7 +38154,7 @@
               },
               "ensemble_members": 51,
               "statistic": "ensemble_mean",
-              "aggregation": "3-month sum",
+              "aggregation": "2-month sum",
               "quality_control": {
                 "registry_version": 1,
                 "product": "snowfall_anomaly",
@@ -38175,49 +38164,69 @@
                 "total_points": 3200,
                 "finite_points": 3200,
                 "finite_fraction": 1.0,
-                "minimum": -5.884183,
-                "maximum": 1.56876,
-                "p01": -2.407761,
-                "p99": 0.34069,
+                "minimum": -4.341491,
+                "maximum": 1.832211,
+                "p01": -1.974193,
+                "p99": 0.51392,
                 "display": {
-                  "minimum": -4.0,
-                  "maximum": 4.0,
+                  "minimum": -10.0,
+                  "maximum": 10.0,
                   "breakpoints": [
-                    -4.0,
-                    -3.5,
-                    -3.0,
-                    -2.5,
-                    -2.0,
-                    -1.75,
-                    -1.5,
-                    -1.25,
-                    -1.0,
-                    -0.75,
-                    -0.5,
-                    0.0,
-                    0.5,
-                    0.75,
-                    1.0,
-                    1.25,
-                    1.5,
-                    1.75,
-                    2.0,
-                    2.5,
-                    3.0,
-                    3.5,
-                    4.0
+                    -10,
+                    -9,
+                    -8,
+                    -7,
+                    -6,
+                    -5,
+                    -4,
+                    -3,
+                    -2,
+                    -1,
+                    0,
+                    1,
+                    2,
+                    3,
+                    4,
+                    5,
+                    6,
+                    7,
+                    8,
+                    9,
+                    10
                   ],
-                  "below_fraction": 0.001875,
-                  "above_fraction": 0.0,
-                  "clipped_fraction": 0.001875
+                  "below_fraction": 0.045937,
+                  "above_fraction": 0.001875,
+                  "clipped_fraction": 0.047813
                 },
-                "issues": [],
-                "status": "passed"
+                "issues": [
+                  {
+                    "code": "display_scale_clipping",
+                    "severity": "warning",
+                    "message": "4.8% of finite cells exceed the fixed display scale."
+                  }
+                ],
+                "status": "warning"
               },
+              "display": {
+                "quantity": "estimated snowfall depth departure",
+                "units": "in",
+                "snow_to_liquid_ratio": 10.0,
+                "scale_inches": [
+                  -10,
+                  10
+                ],
+                "white_band_inches": [
+                  -1,
+                  1
+                ],
+                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+              },
+              "numeric_grid": "seas5/20260801/seas5_sf_202612-202701.snow.csv.gz",
+              "native_lwe_grid": "seas5/20260801/seas5_sf_202612-202701.lwe.csv.gz",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
                 "comparable": true,
-                "quality_control": "passed"
+                "quality_control": "warning"
               }
             }
           ],
@@ -38964,7 +38973,7 @@
       "status": "degraded",
       "schema_version": 1,
       "manifest_kind": "seas5_seasonal_manifest",
-      "generated_utc": "2026-09-06T21:44:02Z",
+      "generated_utc": "2026-09-06T21:49:29Z",
       "source_url": "https://cds.climate.copernicus.eu/datasets/seasonal-postprocessed-single-levels",
       "product_labels": {},
       "validation": {
@@ -57317,7 +57326,7 @@
   },
   "health": {
     "status": "attention",
-    "generated_utc": "2026-09-06T21:50:04Z",
+    "generated_utc": "2026-09-06T21:52:47Z",
     "freshness_policy_days": {
       "default": {
         "fresh_days": 35,
