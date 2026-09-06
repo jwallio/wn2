@@ -108,7 +108,8 @@ def load_reference(directory, init, target, cycles, member):
         'anchor_init': init, 'target_month': target, 'forecast_cycles': list(cycles),
         'historical_cycles': meta['historical_cycles'], 'historical_years': meta['historical_years'],
         'excluded_years': meta.get('excluded_years', []),
-        'reference_interpolation': 'same hour; bracket gap at most five days; no extrapolation',
+        'reference_interpolation': ('same hour; five-day brackets, six only across leap day; no extrapolation'
+                                    if method == NORMALIZED_METHOD else 'same hour; bracket gap at most five days; no extrapolation'),
         'observation_bias_adjustment': False,
     }
 

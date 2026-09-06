@@ -4,6 +4,7 @@ import calendar
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timedelta
 import hashlib
+import io
 import json
 from pathlib import Path
 import re
@@ -48,7 +49,9 @@ def weights_for_time(moment, hour, dates):
     lo, hi = before[-1], after[0]
     if lo == hi:
         return {lo.strftime('%Y%m%d%H'): 1.}
-    if hi - lo > timedelta(days=5):
+    leap_gap = (hi - lo == timedelta(days=6) and calendar.isleap(lo.year)
+                and lo.month == 2 and hi.month == 3)
+    if hi - lo > timedelta(days=5) and not leap_gap:
         raise ValueError('Historical bracket exceeds five days')
     fraction = (moment - lo).total_seconds() / (hi - lo).total_seconds()
     return {lo.strftime('%Y%m%d%H'): 1 - fraction, hi.strftime('%Y%m%d%H'): fraction}
@@ -100,14 +103,16 @@ def cached_sample(init, target, cache):
     except requests.HTTPError as exc:
         if exc.response is None or exc.response.status_code != 404:
             raise
-        missing.write_text(json.dumps(dict(init=init, target=target, status=404, url=exc.response.url)))
+        source.atomic_write(missing, json.dumps(dict(init=init, target=target, status=404, url=exc.response.url)).encode())
         raise MissingHistoricalCycle(exc.response.url) from exc
 
     days = calendar.monthrange(int(target[:4]), int(target[4:]))[1]
     result = dict(lons=sample['lons'], lats=sample['lats'], snow_per_day=sample['snow'] / days)
-    np.savez_compressed(path, **result)
-    sidecar.write_text(json.dumps(dict(method=NORMALIZED_METHOD, init=init, target=target,
-        sha256=hashlib.sha256(path.read_bytes()).hexdigest(), sources=sample['sources'])) + '\n')
+    buffer = io.BytesIO()
+    np.savez_compressed(buffer, **result)
+    source.atomic_write(path, buffer.getvalue())
+    source.atomic_write(sidecar, (json.dumps(dict(method=NORMALIZED_METHOD, init=init, target=target,
+        sha256=hashlib.sha256(path.read_bytes()).hexdigest(), sources=sample['sources'])) + '\n').encode())
     result['sources'] = sample['sources']
     return result
 
@@ -157,7 +162,9 @@ def build_target(init, target, cycles, plans, cache, output, workers):
         raise ValueError(f'Only {len(complete_plans)} complete historical years for {target}; need at least 25')
     output.mkdir(parents=True, exist_ok=True)
     stem = output / f'snowfall-reference-{init}-{target}'
-    np.savez_compressed(stem.with_suffix('.npz'), lons=axes[0], lats=axes[1], reference=np.mean(annual, axis=0))
+    buffer = io.BytesIO()
+    np.savez_compressed(buffer, lons=axes[0], lats=axes[1], reference=np.mean(annual, axis=0))
+    source.atomic_write(stem.with_suffix('.npz'), buffer.getvalue())
     meta = dict(schema_version=1, method=NORMALIZED_METHOD, initialization=init,
         target_month=target, forecast_cycles=cycles, member=1, units='inches_water_equivalent',
         historical_years=[y for y, _ in complete_plans], historical_cycles=len(records),
@@ -166,7 +173,7 @@ def build_target(init, target, cycles, plans, cache, output, workers):
         target_calendar_days=days, annual_weights=[dict(year=y, weights=w) for y, w in complete_plans],
         source_records=records, leap_day_policy='nonleap Feb29 interpolated between Feb28 and Mar1',
         accumulation_policy='historical daily snowfall multiplied by operational target calendar days')
-    stem.with_suffix('.json').write_text(json.dumps(meta, indent=2) + '\n')
+    source.atomic_write(stem.with_suffix('.json'), (json.dumps(meta, indent=2) + '\n').encode())
     load_reference(output, init, target, cycles, 1)
     print(f'Built reference: {init} -> {target} ({len(records)} historical forecasts)', flush=True)
 

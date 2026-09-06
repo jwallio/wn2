@@ -13,6 +13,7 @@ from pathlib import Path
 import re
 import time
 import threading
+import tempfile
 import xml.etree.ElementTree as ET
 
 import eccodes as ec
@@ -43,6 +44,20 @@ def http_session():
     if not hasattr(_http_state, 'session'):
         _http_state.session = requests.Session()
     return _http_state.session
+
+
+def atomic_write(path, data):
+    """Publish complete cache files even when a workflow is interrupted."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(dir=path.parent, prefix=path.name + '.', suffix='.tmp', delete=False) as handle:
+            temporary = Path(handle.name)
+            handle.write(data)
+        temporary.replace(path)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
 
 
 def fetch(url, cache, start=None, end=None, limit=2_000_000):
@@ -77,8 +92,8 @@ def fetch(url, cache, start=None, end=None, limit=2_000_000):
                 meta = dict(url=url, start=start, end=end, sha256=sha(data), bytes=len(data),
                             retrieved_utc=datetime.now(timezone.utc).isoformat())
                 cache.mkdir(parents=True, exist_ok=True)
-                path.write_bytes(data)
-                sidecar.write_text(json.dumps(meta, indent=2))
+                atomic_write(path, data)
+                atomic_write(sidecar, json.dumps(meta, indent=2).encode())
                 return data, meta
         except requests.RequestException as exc:
             if isinstance(exc, requests.HTTPError) and exc.response is not None and exc.response.status_code == 404:

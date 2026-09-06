@@ -32,6 +32,11 @@ class BuilderTests(unittest.TestCase):
     def test_year_crossing_keeps_target_relative_to_anchor(self):
         self.assertEqual(builder.historical_time('2025123118', 1983, 2026), datetime(1982, 12, 31, 18))
 
+    def test_actual_leap_year_archive_gap(self):
+        # NOAA uses Feb25 then Mar02, including in leap years.
+        weights = builder.weights_for_time(datetime(1984, 2, 28, 6), '06', ['19840225', '19840302'])
+        self.assertEqual(weights, {'1984022506': .5, '1984030206': .5})
+
     def test_exact_hour_and_no_extrapolation(self):
         self.assertEqual(builder.weights_for_time(datetime(1982, 9, 3, 12), '12', ['19820829', '19820903']), {'1982090312': 1.})
         with self.assertRaises(ValueError):

@@ -10,7 +10,8 @@ There is no station fitting, forecast blending, or new forecasting model.
 For each operational cycle date, use nearby same-hour historical forecasts.
 Derive snowfall independently from each historical forecast's precipitation
 and monthly temperatures before interpolation and averaging. Linear
-interpolation uses brackets no more than five days apart, without extrapolation.
+interpolation uses brackets no more than five days apart, except NOAA’s
+February 25–March 2 interval spans six days in leap years. No extrapolation is used.
 Average cycles within each historical year, then weight complete years equally.
 Integrate historical daily snowfall using the operational target month's day
 count, including leap February. This removes a calendar-length artifact when
@@ -46,6 +47,8 @@ derived fields; they do not repeat the historical GRIB downloads/decoding.
 Cold starts must populate the historical cache and take longer than normal
 rolling updates. Missing-source responses are cached for one day; input caches
 expire after 45 days and run bundles after 14 days to bound cache growth.
+Numerical cache files and their metadata are written atomically so interrupted
+writes cannot publish a half-written file.
 
 ```bash
 python scripts/build_cfsv2_snow_reference.py \
@@ -68,3 +71,25 @@ cache reuse, correct workflow routing, and monthly/seasonal provenance.
 The original reviewed March bundle remains readable for reproduction.
 This adjustment fixes reference consistency; it does not establish forecast
 skill or reduce the native snow-depth totals shown by the separate product.
+
+## Completed operational integration check (September 5, 2026 anchor)
+
+- References built for December 2026 and January–March 2027: 1,380 complete
+  historical forecasts represented, from 28/29/29/29 years respectively.
+  December excludes 1983 because one NOAA upper-air forecast file returns 404.
+- Independently decoded all 24 actual operational cycles for each of the four
+  months (96 monthly forecasts), preserving the unadjusted model fields.
+- Exercised the actual generator, QC, renderer, multi-window assembly, and
+  manifest with those grids injected at the decoder boundary. All four monthly
+  maps plus DJF and JFM rendered successfully with complete ensembles.
+- Monthly subtraction replay: exact agreement. Seasonal sum/subtraction replay:
+  maximum difference 3.56e-15 inches water equivalent.
+- Generalized March reference versus reviewed March reference: maximum
+  difference 2.67e-15 inches water equivalent.
+- Advanced the anchor to September 5 12Z with network access explicitly blocked:
+  all four references rebuilt from cache in 4.89 seconds, zero historical
+  downloads. This is the reference step, not total end-to-end rendering time.
+
+This test uses ecCodes for independent forecast decoding; it is not a claim
+that a GitHub-hosted wgrib2/Pages run has already completed. The standard GitHub
+contract workflow checks the integration before merge.
