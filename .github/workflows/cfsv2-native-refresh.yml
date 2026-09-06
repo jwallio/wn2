@@ -1,4 +1,4 @@
-name: Refresh CFSv2 Native Snowfall Departures
+name: Refresh Current and Retained CFSv2 Native Snowfall
 on:
   push:
     branches: [main]
