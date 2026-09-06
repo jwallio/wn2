@@ -135,7 +135,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .cache/c3s
-          key: c3s-${{ runner.os }}-${{ env.C3S_PRODUCT }}-${{ env.C3S_CENTRES }}-cds-v2
+          key: c3s-${{ runner.os }}-${{ env.C3S_PRODUCT }}-${{ github.run_id }}-cds-v2
           restore-keys: |
             c3s-${{ runner.os }}-${{ env.C3S_PRODUCT }}-
 
