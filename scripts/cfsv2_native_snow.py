@@ -185,7 +185,10 @@ def accumulation_style(seasonal=False):
     # Show amounts below one inch as white without whitening the full
     # old 0–2 inch monthly or 0–5 inch seasonal color band.
     bounds,ticks,palette=cf.absolute_style(cf.get_product_spec(cf.PRODUCT_SNOWFALL_ACCUMULATION),seasonal)
-    return [bounds[0],1.0,*bounds[1:]], sorted(set([*ticks,1.0])), ['#ffffff',*palette]
+    bounds = [bounds[0],1.0,*bounds[1:]]
+    # Label alternating color boundaries, retaining the white cutoff and endpoints.
+    ticks = sorted(set([bounds[0],*bounds[1::2],bounds[-1]]))
+    return bounds, ticks, ['#ffffff',*palette]
 
 
 def render(lwe, init, target, lead, output, seasonal=False, period_label='', ensemble_label=''):
