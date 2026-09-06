@@ -1,0 +1,58 @@
+{
+  "initialization": "2026090606",
+  "historical_years": [
+    2011,
+    2012,
+    2013,
+    2014,
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022,
+    2023,
+    2024,
+    2025
+  ],
+  "locations": [
+    {
+      "location": "Miami",
+      "forecast_inches": 0.024236220472440943,
+      "reference_inches": 0.008400000000000001,
+      "departure_inches": 0.015836220472440942
+    },
+    {
+      "location": "Atlanta",
+      "forecast_inches": 19.01820472440945,
+      "reference_inches": 6.05340472440945,
+      "departure_inches": 12.9648
+    },
+    {
+      "location": "Nashville",
+      "forecast_inches": 37.425401574803146,
+      "reference_inches": 20.144683464566935,
+      "departure_inches": 17.280718110236215
+    },
+    {
+      "location": "Oklahoma City",
+      "forecast_inches": 48.70743307086614,
+      "reference_inches": 25.885105511811034,
+      "departure_inches": 22.82232755905511
+    },
+    {
+      "location": "Charlotte",
+      "forecast_inches": 28.310456692913387,
+      "reference_inches": 13.724683464566931,
+      "departure_inches": 14.585773228346454
+    },
+    {
+      "location": "New York",
+      "forecast_inches": 57.45245669291339,
+      "reference_inches": 49.75610078740159,
+      "departure_inches": 7.696355905511796
+    }
+  ]
+}
