@@ -24,8 +24,8 @@ class NativeSnowTests(unittest.TestCase):
     def test_grid_identity_masks_and_qc(self):
         grid=self.grid(); converted=native.depth_grid(grid);data,meta=native.lookup()
         np.testing.assert_allclose(converted.values,data['native_ratios'],equal_nan=True)
-        self.assertEqual(np.isfinite(converted.values).sum(),903)
-        self.assertEqual(len(meta['unsupported_cwas']),4)
+        self.assertEqual(np.isfinite(converted.values).sum(),925)
+        self.assertEqual(len(meta['unsupported_cwas']),0)
         qc=cf.grid_quality_control('snowfall_accumulation',converted.values,units='in',field='snowfall_accumulation',seasonal=False)
         cf.require_quality_control(qc,ValueError)
         grid.lons[0]+=.01
@@ -40,15 +40,40 @@ class NativeSnowTests(unittest.TestCase):
         self.assertEqual(meta['assumed_ratios']['PSR'],10.)
         self.assertEqual(meta['assumed_ratios']['BMX'],8.)
         self.assertEqual(meta['assumed_ratios']['MFL'],7.)
-        self.assertEqual(meta['unsupported_cwas'],['BRO','CRP','EWX','HGX'])
+        self.assertEqual(meta['unsupported_cwas'],[])
         self.assertEqual(len(meta['measured_supported_cwas']),97)
-        self.assertEqual(len(meta['assumed_ratios']),15)
+        self.assertEqual(len(meta['assumed_ratios']),19)
         # Test geographic display points, not just configuration values.
         for lon,lat,expected in [(-112.07,33.45,10),(-86.8,33.5,8),
-                                 (-80.19,25.76,7),(-90.07,29.95,7)]:
+                                 (-80.19,25.76,7),(-90.07,29.95,7),
+                                 (-95.37,29.76,7),(-98.49,29.42,8)]:
             x=np.abs(data['display_lons']-lon).argmin()
             y=np.abs(data['display_lats']-lat).argmin()
             self.assertEqual(data['display_ratios'][y,x],expected)
+
+    def test_zero_style_and_florida_display_override(self):
+        from matplotlib.colors import BoundaryNorm, ListedColormap
+        for seasonal in [False,True]:
+            bounds,ticks,palette=native.accumulation_style(seasonal)
+            norm=BoundaryNorm(bounds,len(palette),clip=False)
+            cmap=ListedColormap(palette)
+            self.assertEqual(cmap(norm(0.)),(1.,1.,1.,1.))
+            self.assertEqual(cmap(norm(0.099)),(1.,1.,1.,1.))
+            self.assertNotEqual(cmap(norm(0.1)),(1.,1.,1.,1.))
+            old=cf.absolute_style(cf.get_product_spec('snowfall_accumulation'),seasonal)
+            oldnorm=BoundaryNorm(old[0],len(old[2]),clip=False)
+            oldcmap=ListedColormap(old[2])
+            for value in [1.,10.,50.,150.]:
+                self.assertEqual(cmap(norm(value)),oldcmap(oldnorm(value)))
+        data,meta=native.lookup()
+        self.assertEqual(data['missing_points'].shape,(0,2))
+        self.assertEqual(data['missing_offsets'].tolist(),[0])
+        self.assertIn('underlying values retained',meta['florida_display_policy'])
+        self.assertEqual(len(data['florida_display_rings']),1)
+        # Florida numeric snowfall is still positive; only the image is masked.
+        g=native.depth_grid(self.grid(1.))
+        x=np.abs(data['lons']+80.19).argmin();y=np.abs(data['lats']-25.76).argmin()
+        self.assertGreater(g.values[y][x],0.)
 
     def test_missing_values_and_members_fail_closed(self):
         for value in [float('nan'),-1,float('inf')]:
