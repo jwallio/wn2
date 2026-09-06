@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "cansips_seasonal_manifest",
-  "generated_utc": "2026-09-06T20:21:16Z",
+  "generated_utc": "2026-09-06T20:40:02Z",
   "source": "ECCC MSC CanSIPS v3 / Datamart",
   "source_url": "https://eccc-msc.github.io/open-data/msc-data/nwp_cansips/readme_cansips-datamart_en/",
   "source_urls": [
@@ -28,17 +28,19 @@
       "id": "cansips-2026090100-snowfall_anomaly",
       "model": "CanSIPS v3",
       "product": "snowfall_anomaly",
+      "presentation": "winter_djf_jfm_v1",
       "method": "eccc_native_snowfall_c3s_v1",
       "source": "ECCC CanSIPS v3 / Copernicus C3S",
       "source_url": "https://cds.climate.copernicus.eu/datasets/seasonal-postprocessed-single-levels",
       "init_utc": "2026-09-01T00:00:00Z",
-      "generated_utc": "2026-09-06T19:51:54Z",
+      "generated_utc": "2026-09-06T20:40:01Z",
       "field": "snowfall_anomaly",
       "units": "in",
       "raw_field": "snowfall_anomalous_rate_of_accumulation",
       "raw_units": "m s-1",
       "statistic": "ensemble_mean",
       "ensemble_members": 40,
+      "aggregation": "ensemble-mean seasonal total departure; sum monthly departures",
       "ensemble_scope": "20 CanESM5 + 20 GEM5.2-NEMO members; equal component weights",
       "climatology": {
         "source": "C3S 1993\u20132016 system-matched hindcast climatology",
@@ -61,6 +63,64 @@
       },
       "conversion": "Native snowfall anomalous rate \u00d7 target-month seconds \u00f7 0.0254; equal component mean; sum months; display only \u00d710.",
       "targets": [
+        {
+          "id": "cansips-2026090100-snowfall_anomaly-202612-202702",
+          "target_month": "202612-202702",
+          "lead_month": "3\u20135",
+          "field": "snowfall_anomaly",
+          "units": "in",
+          "valid_start_utc": "2026-12-01T00:00:00Z",
+          "valid_end_utc": "2027-03-01T00:00:00Z",
+          "ensemble_members": 40,
+          "statistic": "ensemble_mean",
+          "baseline": {
+            "source": "C3S 1993\u20132016 system-matched hindcast climatology",
+            "method": "eccc_native_snowfall_c3s_v1"
+          },
+          "monthly_leads": [
+            3,
+            4,
+            5
+          ],
+          "season": "DJF",
+          "aggregation": "ensemble-mean seasonal total departure",
+          "status": "pending",
+          "missing_months": [
+            "202612",
+            "202701",
+            "202702"
+          ],
+          "error": "DJF unavailable: missing Dec 2026, Jan 2027, Feb 2027. Awaiting native snowfall from both Canadian models."
+        },
+        {
+          "id": "cansips-2026090100-snowfall_anomaly-202701-202703",
+          "target_month": "202701-202703",
+          "lead_month": "4\u20136",
+          "field": "snowfall_anomaly",
+          "units": "in",
+          "valid_start_utc": "2027-01-01T00:00:00Z",
+          "valid_end_utc": "2027-04-01T00:00:00Z",
+          "ensemble_members": 40,
+          "statistic": "ensemble_mean",
+          "baseline": {
+            "source": "C3S 1993\u20132016 system-matched hindcast climatology",
+            "method": "eccc_native_snowfall_c3s_v1"
+          },
+          "monthly_leads": [
+            4,
+            5,
+            6
+          ],
+          "season": "JFM",
+          "aggregation": "ensemble-mean seasonal total departure",
+          "status": "pending",
+          "missing_months": [
+            "202701",
+            "202702",
+            "202703"
+          ],
+          "error": "JFM unavailable: missing Jan 2027, Feb 2027, Mar 2027. This initialization does not cover the complete season; use a run covering all three months."
+        },
         {
           "id": "cansips-2026090100-snowfall_anomaly-lead03",
           "target_month": "202612",
@@ -113,26 +173,21 @@
           "error": "Native snowfall for 202609 / 202702 is not yet available for ECCC system 4. C3S normally releases on the 10th at 12 UTC."
         },
         {
-          "id": "cansips-2026090100-snowfall_anomaly-202612-202702",
-          "target_month": "202612-202702",
-          "lead_month": "3\u20135",
+          "id": "cansips-2026090100-snowfall_anomaly-lead06",
+          "target_month": "202703",
+          "lead_month": 6,
           "field": "snowfall_anomaly",
           "units": "in",
-          "valid_start_utc": "2026-12-01T00:00:00Z",
-          "valid_end_utc": "2027-03-01T00:00:00Z",
+          "valid_start_utc": "2027-03-01T00:00:00Z",
+          "valid_end_utc": "2027-04-01T00:00:00Z",
           "ensemble_members": 40,
           "statistic": "ensemble_mean",
           "baseline": {
             "source": "C3S 1993\u20132016 system-matched hindcast climatology",
             "method": "eccc_native_snowfall_c3s_v1"
           },
-          "monthly_leads": [
-            3,
-            4,
-            5
-          ],
           "status": "pending",
-          "error": "Waiting for complete native snowfall for every month and both Canadian models."
+          "error": "202703 is outside this initialization\u2019s native snowfall range. Use an initialization covering this month; months from different runs are not combined."
         }
       ],
       "status": "pending"
