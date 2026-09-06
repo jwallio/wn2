@@ -178,3 +178,23 @@ and +1 inch. Endpoint labels indicate saturation; larger numeric values are
 retained. Native derived LWE grids and multi-model comparisons are unchanged.
 Run metadata records image units, ratio, white band, and scale separately.
 Existing maps need regeneration to pick up this display change.
+
+
+## Faster repeat runs
+
+Run normal mode once to populate versioned, checksummed monthly render grids
+and finished climatologies. Subsequent normal runs reuse climatologies. Select
+`render_only` in Actions (or pass `--render-only`) for styling-only reruns;
+missing or damaged grids stop the run rather than triggering model downloads.
+The same selected months and baseline years must have been prepared first.
+Borders and the published history manifest may still require small downloads.
+Native LWE, 40-member derivation and seasonal aggregation are unchanged.
+
+Actions uses `--decode-workers 2`: a persistent pair of worker processes decodes
+the snowfall temperature/precipitation inputs, while downloads retain their
+existing sequential pacing. Use 1 on memory-constrained local machines.
+Each successful Actions run saves a fresh cache key and restores the latest
+matching prefix, so additional months no longer disappear behind an immutable
+cache key. Derived caches use an explicit science version; bump it whenever
+the derivation or baseline semantics change. No measured speedup is claimed
+until a production run is timed.

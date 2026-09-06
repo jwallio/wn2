@@ -77,7 +77,7 @@ def main() -> int:
         "Restore CanSIPS decoded-grid cache", "Restore published CanSIPS run history",
         "Set up wgrib2", "./.github/actions/setup-wgrib2",
         "--climo-start", "--climo-end", "--retain-runs 4", "--common-reference-dir", "CANSIPS_WGRIB2",
-        "snowfall_anomaly", "xarray", "cfgrib", "eccodes", "-v2",
+        "snowfall_anomaly", "xarray", "cfgrib", "eccodes", "-v3-", "render_only", "--decode-workers 2",
     ):
         check(term in workflow, f"workflow missing CanSIPS term: {term}")
     for term in (
