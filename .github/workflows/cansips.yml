@@ -22,6 +22,10 @@ on:
           - snowfall_anomaly
           - mslp_anomaly
           - sea_surface_height_anomaly
+      render_only:
+        description: "Redraw cached grids only (run normal mode once first)"
+        type: boolean
+        default: false
       init:
         description: "CanSIPS initialization as YYYYMM, YYYYMM0100, or latest"
         required: false
@@ -69,6 +73,7 @@ jobs:
       CLIMO_START: ${{ inputs.climo_start || '1991' }}
       CLIMO_END: ${{ inputs.climo_end || '2020' }}
       CANSIPS_WGRIB2: ""
+      RENDER_ONLY: ${{ inputs.render_only || false }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -87,8 +92,9 @@ jobs:
         uses: actions/cache@v4
         with:
           path: .cache/cansips
-          key: cansips-${{ runner.os }}-${{ env.CANSIPS_INIT }}-${{ env.CANSIPS_PRODUCT }}-v2
+          key: cansips-${{ runner.os }}-${{ env.CANSIPS_INIT }}-${{ env.CANSIPS_PRODUCT }}-v3-${{ github.run_id }}-${{ github.run_attempt }}
           restore-keys: |
+            cansips-${{ runner.os }}-${{ env.CANSIPS_INIT }}-${{ env.CANSIPS_PRODUCT }}-v3-
             cansips-${{ runner.os }}-${{ env.CANSIPS_INIT }}-${{ env.CANSIPS_PRODUCT }}-
             cansips-${{ runner.os }}-
 
@@ -115,10 +121,12 @@ jobs:
       - name: Set up wgrib2
         uses: ./.github/actions/setup-wgrib2
         with:
-          required: ${{ env.CANSIPS_PRODUCT != 'snowfall_anomaly' }}
+          required: ${{ env.CANSIPS_PRODUCT != 'snowfall_anomaly' && env.RENDER_ONLY != 'true' }}
 
       - name: Render CanSIPS v3 products
         run: |
+          extra_args=()
+          if [[ "$RENDER_ONLY" == "true" ]]; then extra_args+=(--render-only); fi
           python scripts/cansips_seasonal.py \
             --product "$CANSIPS_PRODUCT" \
             --init "$CANSIPS_INIT" \
@@ -133,7 +141,9 @@ jobs:
             --retain-runs 4 \
             --common-reference-dir public/seasonal/common_reference/1991-2020 \
             --wgrib2 "$CANSIPS_WGRIB2" \
-            --request-delay 1.0
+            --request-delay 1.0 \
+            --decode-workers 2 \
+            "${extra_args[@]}"
 
       - name: Package CanSIPS Pages payload
         if: success()

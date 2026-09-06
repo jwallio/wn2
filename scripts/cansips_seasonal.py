@@ -23,6 +23,23 @@ import sys
 from pathlib import Path
 from typing import Any, Callable
 from urllib.parse import urljoin
+from cansips_cache import cached_climatology, location as cache_location, save as save_derived, load as load_derived
+from concurrent.futures import ProcessPoolExecutor
+import atexit
+
+_DECODE_WORKERS = 1
+_DECODE_POOL = None
+
+def decode_snow_inputs(inputs):
+    global _DECODE_POOL
+    if _DECODE_WORKERS == 1:
+        return [_decode_cfgrib_members(*item) for item in inputs]
+    if _DECODE_POOL is None:
+        _DECODE_POOL = ProcessPoolExecutor(max_workers=_DECODE_WORKERS)
+        atexit.register(_DECODE_POOL.shutdown)
+    futures = [_DECODE_POOL.submit(_decode_cfgrib_members, *item) for item in inputs]
+    return [future.result() for future in futures]
+
 
 from cfsv2_seasonal import (
     ANOMALY_PALETTE,
@@ -915,21 +932,14 @@ def load_snowfall_estimate(
         attempts=CANSIPS_DOWNLOAD_ATTEMPTS,
         timeout=CANSIPS_DOWNLOAD_TIMEOUT,
     )
-    temperature_lons, temperature_lats, temperature_members, temperature_variable = _decode_cfgrib_members(
-        temperature_2m_raw,
-        ("avg_2t", "t2m", "2t"),
-        "2-m temperature",
-    )
-    temperature_850_lons, temperature_850_lats, temperature_850_members, temperature_850_variable = _decode_cfgrib_members(
-        temperature_850_raw,
-        ("avg_t", "t850", "t"),
-        "850-hPa temperature",
-    )
-    precipitation_lons, precipitation_lats, precipitation_members, precipitation_variable = _decode_cfgrib_members(
-        precipitation_raw,
-        ("prate", "precipitation_rate"),
-        "precipitation rate",
-    )
+    decoded = decode_snow_inputs([
+        (temperature_2m_raw, ("avg_2t", "t2m", "2t"), "2-m temperature"),
+        (temperature_850_raw, ("avg_t", "t850", "t"), "850-hPa temperature"),
+        (precipitation_raw, ("prate", "precipitation_rate"), "precipitation rate"),
+    ])
+    temperature_lons, temperature_lats, temperature_members, temperature_variable = decoded[0]
+    temperature_850_lons, temperature_850_lats, temperature_850_members, temperature_850_variable = decoded[1]
+    precipitation_lons, precipitation_lats, precipitation_members, precipitation_variable = decoded[2]
     if (
         temperature_lons != temperature_850_lons
         or temperature_lats != temperature_850_lats
@@ -975,6 +985,7 @@ def load_snowfall_estimate(
     return grid, metadata, last_request
 
 
+@cached_climatology
 def snowfall_hindcast_climatology(
     init: str,
     lead: int,
@@ -1105,6 +1116,7 @@ def load_ensemble_mean(
     }, last_request
 
 
+@cached_climatology
 def hindcast_climatology(
     init: str,
     lead: int,
@@ -1249,6 +1261,8 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--no-borders", action="store_true")
     parser.add_argument("--decode-only", action="store_true")
     parser.add_argument("--force-decode", action="store_true")
+    parser.add_argument("--render-only", action="store_true", help="require saved monthly grids; never download or decode model data")
+    parser.add_argument("--decode-workers", type=int, choices=(1,2), default=1)
     return parser
 
 
@@ -1380,75 +1394,92 @@ def render_product_run(
             "status": "planned",
         }
         try:
-            if product["name"] == PRODUCT_SNOWFALL_ANOMALY:
-                forecast, forecast_source, last_request = load_snowfall_estimate(
-                    init,
-                    lead,
-                    False,
-                    cache_dir,
-                    repo_root,
-                    args.request_delay,
-                    last_request,
-                    target,
-                    args.force_decode,
-                    True,
-                )
-                climatology, hindcast_sources, last_request = snowfall_hindcast_climatology(
-                    init,
-                    lead,
-                    args.climo_start,
-                    args.climo_end,
-                    cache_dir,
-                    repo_root,
-                    args.request_delay,
-                    last_request,
-                    args.force_decode,
-                    True,
-                )
+            snapshot = cache_location(cache_dir, 'render',
+                {'init':init,'lead':lead,'product':product['name'],
+                 'years':[args.climo_start,args.climo_end]})
+            if getattr(args, 'render_only', False):
+                try:
+                    saved, metadata = load_derived(snapshot)
+                    forecast, anomaly, climatology = saved['forecast'], saved['anomaly'], saved['climatology']
+                    target_entry.update(metadata)
+                except (OSError, ValueError, KeyError) as exc:
+                    raise CanSIPSError(f"Render-only cache missing or invalid for {target}; run normal mode once") from exc
+                forecast_grids[lead], anomaly_grids[lead] = forecast, anomaly
+                common_reference_file = None
+                if common_reference_enabled:
+                    common_reference_file = common_reference_dir / f"z500_{target}.csv.gz"
+                    write_grid_state(climatology, common_reference_file)
             else:
-                forecast, forecast_source, last_request = load_ensemble_mean(
-                    init,
-                    lead,
-                    False,
-                    cache_dir,
-                    repo_root,
-                    wgrib2,
-                    args.request_delay,
-                    last_request,
-                    product,
-                    target,
-                    args.force_decode,
+                if product["name"] == PRODUCT_SNOWFALL_ANOMALY:
+                    forecast, forecast_source, last_request = load_snowfall_estimate(
+                        init,
+                        lead,
+                        False,
+                        cache_dir,
+                        repo_root,
+                        args.request_delay,
+                        last_request,
+                        target,
+                        args.force_decode,
+                        True,
+                    )
+                    climatology, hindcast_sources, last_request = snowfall_hindcast_climatology(
+                        init,
+                        lead,
+                        args.climo_start,
+                        args.climo_end,
+                        cache_dir,
+                        repo_root,
+                        args.request_delay,
+                        last_request,
+                        args.force_decode,
+                        True,
+                    )
+                else:
+                    forecast, forecast_source, last_request = load_ensemble_mean(
+                        init,
+                        lead,
+                        False,
+                        cache_dir,
+                        repo_root,
+                        wgrib2,
+                        args.request_delay,
+                        last_request,
+                        product,
+                        target,
+                        args.force_decode,
+                    )
+                    climatology, hindcast_sources, last_request = hindcast_climatology(
+                        init, lead, args.climo_start, args.climo_end, cache_dir, repo_root,
+                        wgrib2, args.request_delay, last_request, product, args.force_decode,
+                    )
+                anomaly = subtract_grids(forecast, climatology)
+                forecast_grids[lead] = forecast
+                anomaly_grids[lead] = anomaly
+                target_entry["quality_control"] = grid_quality_control(
+                    product["name"],
+                    anomaly.values,
+                    units=product["units"],
+                    field=product["field"],
+                    seasonal=False,
                 )
-                climatology, hindcast_sources, last_request = hindcast_climatology(
-                    init, lead, args.climo_start, args.climo_end, cache_dir, repo_root,
-                    wgrib2, args.request_delay, last_request, product, args.force_decode,
-                )
-            anomaly = subtract_grids(forecast, climatology)
-            forecast_grids[lead] = forecast
-            anomaly_grids[lead] = anomaly
-            target_entry["quality_control"] = grid_quality_control(
-                product["name"],
-                anomaly.values,
-                units=product["units"],
-                field=product["field"],
-                seasonal=False,
-            )
-            require_quality_control(target_entry["quality_control"], CanSIPSError)
-            common_reference_file = None
-            if common_reference_enabled:
-                common_reference_file = common_reference_dir / f"z500_{target}.csv.gz"
-                write_grid_state(climatology, common_reference_file)
-            target_entry["source_files"] = forecast_source.get("source_files", [forecast_source])
-            target_entry["baseline"] = {
-                "source": baseline_label,
-                "years": f"{args.climo_start}-{args.climo_end}",
-                "initialization_month": init[4:6],
-                "lead_month": lead,
-                "ensemble_members": CANSIPS_ENSEMBLE_MEMBERS,
-                "method": climatology_method,
-                "files": hindcast_sources,
-            }
-            target_entry["ensemble_complete"] = True
+                require_quality_control(target_entry["quality_control"], CanSIPSError)
+                common_reference_file = None
+                if common_reference_enabled:
+                    common_reference_file = common_reference_dir / f"z500_{target}.csv.gz"
+                    write_grid_state(climatology, common_reference_file)
+                target_entry["source_files"] = forecast_source.get("source_files", [forecast_source])
+                target_entry["baseline"] = {
+                    "source": baseline_label,
+                    "years": f"{args.climo_start}-{args.climo_end}",
+                    "initialization_month": init[4:6],
+                    "lead_month": lead,
+                    "ensemble_members": CANSIPS_ENSEMBLE_MEMBERS,
+                    "method": climatology_method,
+                    "files": hindcast_sources,
+                }
+                target_entry["ensemble_complete"] = True
+                save_derived(snapshot, {'forecast':forecast,'anomaly':anomaly,'climatology':climatology}, target_entry)
             target_entry["status"] = "decoded"
             if not args.decode_only:
                 output_path = output_dir / init[:8] / f"cansips_{product['id_token']}_{target}.jpg"
@@ -1605,6 +1636,10 @@ def render_product_run(
 
 
 def run(args: argparse.Namespace) -> int:
+    global _DECODE_WORKERS
+    _DECODE_WORKERS = getattr(args, "decode_workers", 1)
+    if getattr(args, "render_only", False) and (args.force_decode or args.decode_only):
+        raise CanSIPSError("--render-only cannot be combined with --force-decode or --decode-only")
     repo_root = Path(__file__).resolve().parents[1]
     init = parse_init(args.init)
     leads = parse_int_list(args.lead_months, "lead months", 0, 11)
@@ -1628,7 +1663,7 @@ def run(args: argparse.Namespace) -> int:
     products = selected_products(args.product)
     wgrib2 = (
         find_wgrib2(args.wgrib2)
-        if any(product["name"] != PRODUCT_SNOWFALL_ANOMALY for product in products)
+        if not getattr(args, "render_only", False) and any(product["name"] != PRODUCT_SNOWFALL_ANOMALY for product in products)
         else ""
     )
     for product in products:
