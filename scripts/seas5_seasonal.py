@@ -468,7 +468,7 @@ def snowfall_display(grid: Grid, product: dict[str, Any], seasonal: bool = False
     if product["name"] != SNOWFALL_ANOMALY:
         return grid, product
     # Match the owner-provided CFSv2 departure graphic in snow-depth inches.
-    ticks = list(SNOWFALL_ANOMALY_TICKS)
+    ticks = [-7.,-6.,-5.,*SNOWFALL_ANOMALY_TICKS,5.,6.,7.]
     spec = dict(product)
     for key in list(spec):
         if key.startswith(("monthly_anomaly_", "seasonal_anomaly_")):
@@ -476,7 +476,9 @@ def snowfall_display(grid: Grid, product: dict[str, Any], seasonal: bool = False
     spec.update(
         title="SEAS5 Estimated Snowfall Departure (in)",
         anomaly_min=ticks[0], anomaly_max=ticks[-1], anomaly_ticks=ticks,
-        anomaly_endpoint_labels={"minimum": "≤−4.0", "maximum": "≥+4.0"},
+        anomaly_endpoint_labels={"minimum": "≤−7.0", "maximum": "≥+7.0"},
+        anomaly_palette=["#2d1204","#3b1805","#481e07",*SNOWFALL_ANOMALY_PALETTE,
+                         "#102f4b","#0d263e","#091d30"],
         native_snow_depth_display=True,
         header_detail="{source_label}  •  Estimated snowfall departure (in)  •  10:1 snow-to-liquid ratio",
     )
@@ -835,14 +837,27 @@ def build_parser() -> argparse.ArgumentParser:
     return parser
 
 
+def parse_cds_leads(value: str, label: str, init: str):
+    try:
+        return parse_int_list(value, label, 1, 6)
+    except CFSv2Error as exc:
+        start = dt.datetime.strptime(target_month(init,1), "%Y%m").strftime("%b %Y")
+        end = dt.datetime.strptime(target_month(init,6), "%Y%m").strftime("%b %Y")
+        raise SEAS5Error(
+            f"{exc}. This CDS product supplies forecast months 1–6 ({start} through {end}). "
+            "Month 1 is the initialization month; month 7 is outside this source's range. "
+            "Use available months only, or a later released initialization."
+        ) from exc
+
+
 def run(args: argparse.Namespace) -> int:
     repo_root = Path(__file__).resolve().parents[1]
     product = get_product_spec(args.product)
     archive = CDSArchive(resolve_repo_path(args.cache_dir, repo_root))
     init = archive.latest_init() if args.init == "latest" else parse_init(args.init)
     init_date = dt.datetime.strptime(init, "%Y%m%d%H").replace(tzinfo=dt.timezone.utc)
-    leads = parse_int_list(args.lead_months, "lead months", 1, 6)
-    seasonal_leads = parse_int_list(args.seasonal_window, "seasonal window", 1, 6) if args.seasonal_window else []
+    leads = parse_cds_leads(args.lead_months, "lead months", init)
+    seasonal_leads = parse_cds_leads(args.seasonal_window, "seasonal window", init) if args.seasonal_window else []
     if seasonal_leads:
         expected = list(range(min(seasonal_leads), max(seasonal_leads) + 1))
         if seasonal_leads != expected:
