@@ -17,6 +17,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
+      - name: Refresh native CanSIPS map titles and download metadata
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: >-
+          gh workflow run cansips.yml --ref main
+          -f product=snowfall_anomaly -f init=202608
+          -f lead_months=4,5 -f seasonal_window=4,5
       - name: Regenerate the native December-January snowfall blend
         env:
           GH_TOKEN: ${{ github.token }}
