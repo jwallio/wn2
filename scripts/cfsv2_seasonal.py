@@ -655,8 +655,8 @@ PRODUCT_SPECS = {
         "seasonal_absolute_bounds": SNOWFALL_ACCUMULATION_SEASONAL_BOUNDS_IN,
         "seasonal_absolute_ticks": SNOWFALL_ACCUMULATION_SEASONAL_TICKS_IN,
         "seasonal_absolute_palette": SNOWFALL_ACCUMULATION_SEASONAL_PALETTE,
-        "conversion": "Native SRWEQ integrated over calendar months, complete-cycle mean, multiplied by verified CIPS 1971-2000 CWA mean SLR; unadjusted estimate",
-        "header_detail": "{source_label}  •  Native snowfall × CIPS 1971-2000 CWA mean ratio  •  Estimated snow depth (in)  •  CONUS domain",
+        "conversion": "Native SRWEQ integrated over calendar months, complete-cycle mean, multiplied by CIPS CWA mean SLR with explicit owner-assumed fills; unadjusted estimate",
+        "header_detail": "{source_label}  •  Native snowfall × CIPS / assumed CWA ratio  •  Estimated snow depth (in)  •  CONUS domain",
         "map_domain": "land",
         "fit_frame_to_domain": True,
         "domain_frame_padding_fraction": 0.0,
@@ -3839,7 +3839,7 @@ def _run_single_window(args: argparse.Namespace) -> int:
         "targets": [],
     }
     if product_name == PRODUCT_SNOWFALL_ACCUMULATION:
-        run_entry["source_warning"] = "Unadjusted native snowfall × CIPS CWA ratios; 19 CWAs unavailable. The separate phase-derived departure is not a reference for this accumulation."
+        run_entry["source_warning"] = "Unadjusted native snowfall × CIPS/assumed CWA ratios; 15 assumed and 4 Texas CWAs unavailable. The separate phase-derived departure is not a reference for this accumulation."
     common_reference_enabled = bool(common_reference_dir or args.common_reference_url) and product_name == PRODUCT_HEIGHT_ANOMALY
     if common_reference_enabled:
         run_entry["comparison_reference"] = {
@@ -3865,7 +3865,7 @@ def _run_single_window(args: argparse.Namespace) -> int:
         run_entry["baseline"] = {
             "status": "not_applicable",
             "reason": (
-                "unadjusted native snowfall × CIPS CWA ratio; native departure unavailable"
+                "unadjusted native snowfall × CIPS/assumed CWA ratio; native departure unavailable"
                 if product_name == PRODUCT_SNOWFALL_ACCUMULATION
                 else "absolute smoke output"
             ),
@@ -3959,7 +3959,7 @@ def _run_single_window(args: argparse.Namespace) -> int:
                 )
                 if product_name == PRODUCT_SNOWFALL_ACCUMULATION:
                     native_lwe_grids[lead] = derivation_diagnostics.pop("_native_lwe")
-                    target_entry["source_warning"] = "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference."
+                    target_entry["source_warning"] = "Unadjusted native snowfall estimate; includes assumed SLRs in 15 CWAs; 4 Texas CWAs unavailable. Separate phase-derived departures are not its reference."
                 target_entry["derivation"] = derivation_diagnostics
             else:
                 ensemble, source_files, ensemble_count, ensemble_expected_for_target, ensemble_label, last_request = decode_target_ensemble(
@@ -4267,7 +4267,7 @@ def _run_single_window(args: argparse.Namespace) -> int:
                 seasonal_entry["baseline"] = {
                     "status": "not_applicable",
                     "reason": (
-                        "unadjusted native snowfall × CIPS CWA ratio; native departure unavailable"
+                        "unadjusted native snowfall × CIPS/assumed CWA ratio; native departure unavailable"
                         if product_name == PRODUCT_SNOWFALL_ACCUMULATION
                         else "absolute smoke output"
                     ),
