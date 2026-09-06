@@ -165,3 +165,16 @@ parameter. The central
 other model payloads before publishing GitHub Pages.
 
 No CanSIPS credential is required for the public ECCC Datamart source.
+
+
+## Estimated snow-depth departure images
+
+Standalone monthly and seasonal snowfall images convert signed LWE departures
+to estimated snow depth using a fixed 10:1 snow-to-liquid ratio. The title and
+subtitle identify estimated snowfall inches and the ratio. This is not a
+calibration: forecast and hindcast reference implicitly use the same fixed ratio.
+The scale has one-inch steps from -10 to +10 inches, with white between -1
+and +1 inch. Endpoint labels indicate saturation; larger numeric values are
+retained. Native derived LWE grids and multi-model comparisons are unchanged.
+Run metadata records image units, ratio, white band, and scale separately.
+Existing maps need regeneration to pick up this display change.
