@@ -1,1 +1,1 @@
-{"quantity": "estimated snowfall depth departure", "units": "in", "snow_to_liquid_ratio": 10.0, "scale_inches": [-10, 10], "white_band_inches": [-1, 1], "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"}
+{"quantity": "estimated snowfall depth departure", "units": "in", "snow_to_liquid_ratio": 10.0, "scale_inches": [-10, 10], "white_band_inches": [-1, 1], "numeric_grid_quantity": "estimated snowfall depth departure", "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"}

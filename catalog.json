@@ -2,8 +2,8 @@
   "schema_version": 1,
   "registry_version": 1,
   "kind": "seasonal_dashboard_catalog",
-  "generated_utc": "2026-09-06T22:15:56Z",
-  "source_revision": "d27887dd0af30ee8db74b007261c49f0659e21ad",
+  "generated_utc": "2026-09-06T22:33:35Z",
+  "source_revision": "3f4d7f6141cfd00cd01ae4b1c04e08a1b3ceb84b",
   "model_order": [
     "superensemble",
     "c3s",
@@ -724,8 +724,7 @@
               "lead_month": 4,
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "rendered",
-              "image": "superensemble/20260801/superensemble_sf_202612.jpg",
+              "status": "pending",
               "baseline": {
                 "status": "native_model_baselines",
                 "method": "equal mean of source-native anomaly fields; no common climatology imposed"
@@ -790,26 +789,10 @@
                 "issues": [],
                 "status": "passed"
               },
-              "display": {
-                "quantity": "estimated snowfall depth departure",
-                "units": "in",
-                "snow_to_liquid_ratio": 10.0,
-                "scale_inches": [
-                  -10,
-                  10
-                ],
-                "white_band_inches": [
-                  -1,
-                  1
-                ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
-              },
-              "numeric_grid": "superensemble/20260801/superensemble_sf_202612.snow.csv.gz",
-              "native_lwe_grid": "superensemble/20260801/superensemble_sf_202612.lwe.csv.gz",
+              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": true,
+                "comparable": false,
                 "quality_control": "passed"
               }
             },
@@ -821,8 +804,7 @@
               "lead_month": 5,
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "rendered",
-              "image": "superensemble/20260801/superensemble_sf_202701.jpg",
+              "status": "pending",
               "baseline": {
                 "status": "native_model_baselines",
                 "method": "equal mean of source-native anomaly fields; no common climatology imposed"
@@ -887,26 +869,10 @@
                 "issues": [],
                 "status": "passed"
               },
-              "display": {
-                "quantity": "estimated snowfall depth departure",
-                "units": "in",
-                "snow_to_liquid_ratio": 10.0,
-                "scale_inches": [
-                  -10,
-                  10
-                ],
-                "white_band_inches": [
-                  -1,
-                  1
-                ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
-              },
-              "numeric_grid": "superensemble/20260801/superensemble_sf_202701.snow.csv.gz",
-              "native_lwe_grid": "superensemble/20260801/superensemble_sf_202701.lwe.csv.gz",
+              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": true,
+                "comparable": false,
                 "quality_control": "passed"
               }
             },
@@ -922,8 +888,7 @@
               ],
               "field": "snowfall_anomaly",
               "units": "in",
-              "status": "rendered",
-              "image": "superensemble/20260801/superensemble_sf_202612-202701.jpg",
+              "status": "pending",
               "baseline": {
                 "status": "native_model_baselines",
                 "method": "equal mean of source-native anomaly fields; no common climatology imposed"
@@ -994,48 +959,17 @@
                 ],
                 "status": "warning"
               },
-              "display": {
-                "quantity": "estimated snowfall depth departure",
-                "units": "in",
-                "snow_to_liquid_ratio": 10.0,
-                "scale_inches": [
-                  -10,
-                  10
-                ],
-                "white_band_inches": [
-                  -1,
-                  1
-                ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
-              },
-              "numeric_grid": "superensemble/20260801/superensemble_sf_202612-202701.snow.csv.gz",
-              "native_lwe_grid": "superensemble/20260801/superensemble_sf_202612-202701.lwe.csv.gz",
+              "error": "Awaiting snowfall refresh; retained image units or valid month have not been verified.",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
-                "comparable": true,
+                "comparable": false,
                 "quality_control": "warning"
               }
             }
           ],
-          "display": {
-            "quantity": "estimated snowfall depth departure",
-            "units": "in",
-            "snow_to_liquid_ratio": 10.0,
-            "scale_inches": [
-              -10,
-              10
-            ],
-            "white_band_inches": [
-              -1,
-              1
-            ],
-            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-            "calendar_alignment_version": 2
-          },
           "_catalog": {
             "canonical_product": "snowfall_anomaly",
-            "comparable": true
+            "comparable": false
           }
         },
         {
@@ -2185,13 +2119,11 @@
           "retained_fallback": false
         },
         "snowfall_anomaly": {
-          "state": "available",
-          "reason": "Rendered target available.",
-          "available": true,
-          "comparable": true,
-          "latest_init_utc": "2026-08-01T00:00:00Z",
-          "run_id": "superensemble-2026080100-snowfall_anomaly",
-          "target_count": 3,
+          "state": "missing",
+          "reason": "No rendered target is currently published.",
+          "available": false,
+          "comparable": false,
+          "latest_init_utc": null,
           "latest_run_id": "superensemble-2026080100-snowfall_anomaly",
           "latest_run_status": "rendered",
           "latest_run_init_utc": "2026-08-01T00:00:00Z",
@@ -2361,8 +2293,9 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "c3s/20260801/c3s_ukmo_sf_202612.snow.csv.gz",
               "native_lwe_grid": "c3s/20260801/c3s_ukmo_sf_202612.lwe.csv.gz",
@@ -2441,8 +2374,9 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "c3s/20260801/c3s_ukmo_sf_202701.snow.csv.gz",
               "native_lwe_grid": "c3s/20260801/c3s_ukmo_sf_202701.lwe.csv.gz",
@@ -2531,8 +2465,9 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "c3s/20260801/c3s_ukmo_sf_202612-202701.snow.csv.gz",
               "native_lwe_grid": "c3s/20260801/c3s_ukmo_sf_202612-202701.lwe.csv.gz",
@@ -2555,8 +2490,9 @@
               -1,
               1
             ],
-            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-            "calendar_alignment_version": 2
+            "numeric_grid_quantity": "estimated snowfall depth departure",
+            "calendar_alignment_version": 2,
+            "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
           },
           "_catalog": {
             "canonical_product": "snowfall_anomaly",
@@ -4853,8 +4789,9 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "c3s/20260801/c3s_multisystem_sf_202612.snow.csv.gz",
               "native_lwe_grid": "c3s/20260801/c3s_multisystem_sf_202612.lwe.csv.gz",
@@ -4933,8 +4870,9 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "c3s/20260801/c3s_multisystem_sf_202701.snow.csv.gz",
               "native_lwe_grid": "c3s/20260801/c3s_multisystem_sf_202701.lwe.csv.gz",
@@ -5023,8 +4961,9 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "c3s/20260801/c3s_multisystem_sf_202612-202701.snow.csv.gz",
               "native_lwe_grid": "c3s/20260801/c3s_multisystem_sf_202612-202701.lwe.csv.gz",
@@ -5047,8 +4986,9 @@
               -1,
               1
             ],
-            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-            "calendar_alignment_version": 2
+            "numeric_grid_quantity": "estimated snowfall depth departure",
+            "calendar_alignment_version": 2,
+            "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
           },
           "_catalog": {
             "canonical_product": "snowfall_anomaly",
@@ -6180,8 +6120,9 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "c3s/20260801/c3s_meteo_france_sf_202612.snow.csv.gz",
               "native_lwe_grid": "c3s/20260801/c3s_meteo_france_sf_202612.lwe.csv.gz",
@@ -6266,8 +6207,9 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "c3s/20260801/c3s_meteo_france_sf_202701.snow.csv.gz",
               "native_lwe_grid": "c3s/20260801/c3s_meteo_france_sf_202701.lwe.csv.gz",
@@ -6356,8 +6298,9 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "c3s/20260801/c3s_meteo_france_sf_202612-202701.snow.csv.gz",
               "native_lwe_grid": "c3s/20260801/c3s_meteo_france_sf_202612-202701.lwe.csv.gz",
@@ -6380,8 +6323,9 @@
               -1,
               1
             ],
-            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-            "calendar_alignment_version": 2
+            "numeric_grid_quantity": "estimated snowfall depth departure",
+            "calendar_alignment_version": 2,
+            "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
           },
           "_catalog": {
             "canonical_product": "snowfall_anomaly",
@@ -8666,8 +8610,9 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "c3s/20260801/c3s_ecmwf_sf_202612.snow.csv.gz",
               "native_lwe_grid": "c3s/20260801/c3s_ecmwf_sf_202612.lwe.csv.gz",
@@ -8746,8 +8691,9 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "c3s/20260801/c3s_ecmwf_sf_202701.snow.csv.gz",
               "native_lwe_grid": "c3s/20260801/c3s_ecmwf_sf_202701.lwe.csv.gz",
@@ -8836,8 +8782,9 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "c3s/20260801/c3s_ecmwf_sf_202612-202701.snow.csv.gz",
               "native_lwe_grid": "c3s/20260801/c3s_ecmwf_sf_202612-202701.lwe.csv.gz",
@@ -8860,8 +8807,9 @@
               -1,
               1
             ],
-            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-            "calendar_alignment_version": 2
+            "numeric_grid_quantity": "estimated snowfall depth departure",
+            "calendar_alignment_version": 2,
+            "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
           },
           "_catalog": {
             "canonical_product": "snowfall_anomaly",
@@ -11308,8 +11256,9 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "c3s/20260801/c3s_dwd_sf_202612.snow.csv.gz",
               "native_lwe_grid": "c3s/20260801/c3s_dwd_sf_202612.lwe.csv.gz",
@@ -11394,8 +11343,9 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "c3s/20260801/c3s_dwd_sf_202701.snow.csv.gz",
               "native_lwe_grid": "c3s/20260801/c3s_dwd_sf_202701.lwe.csv.gz",
@@ -11484,8 +11434,9 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "c3s/20260801/c3s_dwd_sf_202612-202701.snow.csv.gz",
               "native_lwe_grid": "c3s/20260801/c3s_dwd_sf_202612-202701.lwe.csv.gz",
@@ -11508,8 +11459,9 @@
               -1,
               1
             ],
-            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-            "calendar_alignment_version": 2
+            "numeric_grid_quantity": "estimated snowfall depth departure",
+            "calendar_alignment_version": 2,
+            "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
           },
           "_catalog": {
             "canonical_product": "snowfall_anomaly",
@@ -12641,8 +12593,9 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "c3s/20260801/c3s_cmcc_sf_202612.snow.csv.gz",
               "native_lwe_grid": "c3s/20260801/c3s_cmcc_sf_202612.lwe.csv.gz",
@@ -12721,8 +12674,9 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "c3s/20260801/c3s_cmcc_sf_202701.snow.csv.gz",
               "native_lwe_grid": "c3s/20260801/c3s_cmcc_sf_202701.lwe.csv.gz",
@@ -12811,8 +12765,9 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-                "calendar_alignment_version": 2
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "calendar_alignment_version": 2,
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "c3s/20260801/c3s_cmcc_sf_202612-202701.snow.csv.gz",
               "native_lwe_grid": "c3s/20260801/c3s_cmcc_sf_202612-202701.lwe.csv.gz",
@@ -12835,8 +12790,9 @@
               -1,
               1
             ],
-            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure",
-            "calendar_alignment_version": 2
+            "numeric_grid_quantity": "estimated snowfall depth departure",
+            "calendar_alignment_version": 2,
+            "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
           },
           "_catalog": {
             "canonical_product": "snowfall_anomaly",
@@ -17122,7 +17078,8 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "native_lwe_grid": "cfsv2/2026090606/cfsv2_snowfalla_202612.lwe.csv.gz",
               "_catalog": {
@@ -17313,7 +17270,8 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "native_lwe_grid": "cfsv2/2026090606/cfsv2_snowfalla_202701.lwe.csv.gz",
               "_catalog": {
@@ -17504,7 +17462,8 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "native_lwe_grid": "cfsv2/2026090606/cfsv2_snowfalla_202702.lwe.csv.gz",
               "_catalog": {
@@ -17695,7 +17654,8 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "native_lwe_grid": "cfsv2/2026090606/cfsv2_snowfalla_202703.lwe.csv.gz",
               "_catalog": {
@@ -18035,7 +17995,8 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "native_lwe_grid": "cfsv2/2026090606/cfsv2_snowfalla_202612-202702.lwe.csv.gz",
               "_catalog": {
@@ -18368,7 +18329,8 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "native_lwe_grid": "cfsv2/2026090606/cfsv2_snowfalla_202701-202703.lwe.csv.gz",
               "_catalog": {
@@ -18390,7 +18352,8 @@
               -1,
               1
             ],
-            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+            "numeric_grid_quantity": "estimated snowfall depth departure",
+            "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
           },
           "_catalog": {
             "canonical_product": "snowfall_anomaly",
@@ -18475,7 +18438,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090606/cfsv2_snowfall_202612.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090606/cfsv2_snowfall_lwe_202612.csv.gz",
               "_catalog": {
@@ -18533,7 +18496,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090606/cfsv2_snowfall_202701.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090606/cfsv2_snowfall_lwe_202701.csv.gz",
               "_catalog": {
@@ -18591,7 +18554,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090606/cfsv2_snowfall_202702.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090606/cfsv2_snowfall_lwe_202702.csv.gz",
               "_catalog": {
@@ -18649,7 +18612,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090606/cfsv2_snowfall_202703.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090606/cfsv2_snowfall_lwe_202703.csv.gz",
               "_catalog": {
@@ -18712,7 +18675,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090606/cfsv2_snowfall_202612-202702.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090606/cfsv2_snowfall_lwe_202612-202702.csv.gz",
               "_catalog": {
@@ -18775,7 +18738,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090606/cfsv2_snowfall_202701-202703.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090606/cfsv2_snowfall_lwe_202701-202703.csv.gz",
               "_catalog": {
@@ -21916,7 +21879,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_202612.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_lwe_202612.csv.gz",
               "_catalog": {
@@ -21974,7 +21937,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_202701.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_lwe_202701.csv.gz",
               "_catalog": {
@@ -22032,7 +21995,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_202702.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_lwe_202702.csv.gz",
               "_catalog": {
@@ -22090,7 +22053,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_202703.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_lwe_202703.csv.gz",
               "_catalog": {
@@ -22153,7 +22116,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_202612-202702.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_lwe_202612-202702.csv.gz",
               "_catalog": {
@@ -22216,7 +22179,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_202701-202703.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_lwe_202701-202703.csv.gz",
               "_catalog": {
@@ -25357,7 +25320,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090518/cfsv2_snowfall_202612.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090518/cfsv2_snowfall_lwe_202612.csv.gz",
               "_catalog": {
@@ -25415,7 +25378,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090518/cfsv2_snowfall_202701.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090518/cfsv2_snowfall_lwe_202701.csv.gz",
               "_catalog": {
@@ -25473,7 +25436,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090518/cfsv2_snowfall_202702.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090518/cfsv2_snowfall_lwe_202702.csv.gz",
               "_catalog": {
@@ -25531,7 +25494,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090518/cfsv2_snowfall_202703.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090518/cfsv2_snowfall_lwe_202703.csv.gz",
               "_catalog": {
@@ -25594,7 +25557,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090518/cfsv2_snowfall_202612-202702.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090518/cfsv2_snowfall_lwe_202612-202702.csv.gz",
               "_catalog": {
@@ -25657,7 +25620,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090518/cfsv2_snowfall_202701-202703.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090518/cfsv2_snowfall_lwe_202701-202703.csv.gz",
               "_catalog": {
@@ -28812,7 +28775,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090512/cfsv2_snowfall_202612.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090512/cfsv2_snowfall_lwe_202612.csv.gz",
               "_catalog": {
@@ -28870,7 +28833,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090512/cfsv2_snowfall_202701.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090512/cfsv2_snowfall_lwe_202701.csv.gz",
               "_catalog": {
@@ -28928,7 +28891,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090512/cfsv2_snowfall_202702.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090512/cfsv2_snowfall_lwe_202702.csv.gz",
               "_catalog": {
@@ -28986,7 +28949,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090512/cfsv2_snowfall_202703.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090512/cfsv2_snowfall_lwe_202703.csv.gz",
               "_catalog": {
@@ -29049,7 +29012,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090512/cfsv2_snowfall_202612-202702.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090512/cfsv2_snowfall_lwe_202612-202702.csv.gz",
               "_catalog": {
@@ -29112,7 +29075,7 @@
                 "snow_to_liquid_ratio": 10,
                 "native_departure_status": "unavailable"
               },
-              "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+              "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
               "numeric_grid": "public/seasonal/cfsv2/2026090512/cfsv2_snowfall_202701-202703.csv.gz",
               "native_lwe_grid": "public/seasonal/cfsv2/2026090512/cfsv2_snowfall_lwe_202701-202703.csv.gz",
               "_catalog": {
@@ -31048,7 +31011,8 @@
               -1,
               1
             ],
-            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+            "numeric_grid_quantity": "estimated snowfall depth departure",
+            "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
           },
           "targets": [
             {
@@ -31127,7 +31091,8 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "seas5/20260901/seas5_sf_202612.snow.csv.gz",
               "native_lwe_grid": "seas5/20260901/seas5_sf_202612.lwe.csv.gz",
@@ -31213,7 +31178,8 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "seas5/20260901/seas5_sf_202701.snow.csv.gz",
               "native_lwe_grid": "seas5/20260901/seas5_sf_202701.lwe.csv.gz",
@@ -31299,7 +31265,8 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "seas5/20260901/seas5_sf_202702.snow.csv.gz",
               "native_lwe_grid": "seas5/20260901/seas5_sf_202702.lwe.csv.gz",
@@ -31396,7 +31363,8 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "seas5/20260901/seas5_sf_202612-202702.snow.csv.gz",
               "native_lwe_grid": "seas5/20260901/seas5_sf_202612-202702.lwe.csv.gz",
@@ -32945,7 +32913,8 @@
               -1,
               1
             ],
-            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+            "numeric_grid_quantity": "estimated snowfall depth departure",
+            "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
           },
           "targets": [
             {
@@ -33024,7 +32993,8 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "seas5/20260801/seas5_sf_202612.snow.csv.gz",
               "native_lwe_grid": "seas5/20260801/seas5_sf_202612.lwe.csv.gz",
@@ -33110,7 +33080,8 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "seas5/20260801/seas5_sf_202701.snow.csv.gz",
               "native_lwe_grid": "seas5/20260801/seas5_sf_202701.lwe.csv.gz",
@@ -33206,7 +33177,8 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "numeric_grid": "seas5/20260801/seas5_sf_202612-202701.snow.csv.gz",
               "native_lwe_grid": "seas5/20260801/seas5_sf_202612-202701.lwe.csv.gz",
@@ -41693,7 +41665,8 @@
               -1,
               1
             ],
-            "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+            "numeric_grid_quantity": "estimated snowfall depth departure",
+            "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
           },
           "method": "eccc_native_snowfall_c3s_v1",
           "presentation": "winter_djf_jfm_v1",
@@ -41809,7 +41782,8 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "native_lwe_grid": "cansips/20260801/cansips_native_snowfalla_winter_202612-202701.lwe.csv.gz",
               "_catalog": {
@@ -41867,7 +41841,8 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "native_lwe_grid": "cansips/20260801/cansips_native_snowfalla_winter_202612.lwe.csv.gz",
               "_catalog": {
@@ -41925,7 +41900,8 @@
                   -1,
                   1
                 ],
-                "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"
+                "numeric_grid_quantity": "estimated snowfall depth departure",
+                "canonical_grid_quantity": "snowfall liquid-water-equivalent departure"
               },
               "native_lwe_grid": "cansips/20260801/cansips_native_snowfalla_winter_202701.lwe.csv.gz",
               "_catalog": {
@@ -52313,7 +52289,7 @@
   },
   "health": {
     "status": "attention",
-    "generated_utc": "2026-09-06T22:15:56Z",
+    "generated_utc": "2026-09-06T22:33:35Z",
     "freshness_policy_days": {
       "default": {
         "fresh_days": 35,
@@ -52329,11 +52305,11 @@
       "attention_surfaces": 24,
       "by_state": {
         "healthy": 26,
-        "aging": 21,
+        "aging": 20,
         "stale": 0,
         "partial": 2,
         "failed": 0,
-        "missing": 0,
+        "missing": 1,
         "noncomparable": 1,
         "not_applicable": 10
       }
@@ -52416,18 +52392,18 @@
         "model_label": "Super Ensemble",
         "product": "snowfall_anomaly",
         "product_label": "CONUS Snowfall Departure (in)",
-        "surface_state": "available",
-        "available": true,
-        "comparable": true,
-        "health_state": "aging",
-        "freshness": "aging",
-        "age_days": 36.9,
+        "surface_state": "missing",
+        "available": false,
+        "comparable": false,
+        "health_state": "missing",
+        "freshness": "unknown",
+        "age_days": null,
         "latest_status": "rendered",
         "latest_init_utc": "2026-08-01T00:00:00Z",
-        "selected_init_utc": "2026-08-01T00:00:00Z",
-        "selected_run_id": "superensemble-2026080100-snowfall_anomaly",
+        "selected_init_utc": null,
+        "selected_run_id": null,
         "retained_fallback": false,
-        "reason": "Rendered target available."
+        "reason": "No rendered target is currently published."
       },
       {
         "model": "superensemble",
@@ -53498,18 +53474,18 @@
         "model_label": "Super Ensemble",
         "product": "snowfall_anomaly",
         "product_label": "CONUS Snowfall Departure (in)",
-        "surface_state": "available",
-        "available": true,
-        "comparable": true,
-        "health_state": "aging",
-        "freshness": "aging",
-        "age_days": 36.9,
+        "surface_state": "missing",
+        "available": false,
+        "comparable": false,
+        "health_state": "missing",
+        "freshness": "unknown",
+        "age_days": null,
         "latest_status": "rendered",
         "latest_init_utc": "2026-08-01T00:00:00Z",
-        "selected_init_utc": "2026-08-01T00:00:00Z",
-        "selected_run_id": "superensemble-2026080100-snowfall_anomaly",
+        "selected_init_utc": null,
+        "selected_run_id": null,
         "retained_fallback": false,
-        "reason": "Rendered target available."
+        "reason": "No rendered target is currently published."
       },
       {
         "model": "superensemble",
@@ -53859,7 +53835,7 @@
     "models_expected": 10,
     "models_online": 10,
     "supported_surfaces": 50,
-    "available_surfaces": 50,
+    "available_surfaces": 49,
     "partial_surfaces": 2,
     "intentional_unavailable_surfaces": 10
   },

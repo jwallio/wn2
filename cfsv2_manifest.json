@@ -15721,7 +15721,7 @@
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "derivation": {
             "method": "native_SRWEQ_times_fixed_10_to_1_v1",
             "snow_to_liquid_ratio": 10,
@@ -16311,7 +16311,7 @@
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "derivation": {
             "method": "native_SRWEQ_times_fixed_10_to_1_v1",
             "snow_to_liquid_ratio": 10,
@@ -16901,7 +16901,7 @@
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "derivation": {
             "method": "native_SRWEQ_times_fixed_10_to_1_v1",
             "snow_to_liquid_ratio": 10,
@@ -17491,7 +17491,7 @@
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "derivation": {
             "method": "native_SRWEQ_times_fixed_10_to_1_v1",
             "snow_to_liquid_ratio": 10,
@@ -19180,7 +19180,7 @@
             "snow_to_liquid_ratio": 10,
             "native_departure_status": "unavailable"
           },
-          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "native_lwe_grid": "public/seasonal/cfsv2/2026090606/cfsv2_snowfall_lwe_202612-202702.csv.gz"
         },
         {
@@ -20830,7 +20830,7 @@
             "snow_to_liquid_ratio": 10,
             "native_departure_status": "unavailable"
           },
-          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "native_lwe_grid": "public/seasonal/cfsv2/2026090606/cfsv2_snowfall_lwe_202701-202703.csv.gz"
         }
       ],
@@ -53717,7 +53717,7 @@
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "derivation": {
             "method": "native_SRWEQ_times_fixed_10_to_1_v1",
             "snow_to_liquid_ratio": 10,
@@ -54307,7 +54307,7 @@
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "derivation": {
             "method": "native_SRWEQ_times_fixed_10_to_1_v1",
             "snow_to_liquid_ratio": 10,
@@ -54897,7 +54897,7 @@
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "derivation": {
             "method": "native_SRWEQ_times_fixed_10_to_1_v1",
             "snow_to_liquid_ratio": 10,
@@ -55487,7 +55487,7 @@
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "derivation": {
             "method": "native_SRWEQ_times_fixed_10_to_1_v1",
             "snow_to_liquid_ratio": 10,
@@ -57176,7 +57176,7 @@
             "snow_to_liquid_ratio": 10,
             "native_departure_status": "unavailable"
           },
-          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "native_lwe_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_lwe_202612-202702.csv.gz"
         },
         {
@@ -58826,7 +58826,7 @@
             "snow_to_liquid_ratio": 10,
             "native_departure_status": "unavailable"
           },
-          "source_warning": "Unadjusted native snowfall estimate; includes assumed SLRs in 19 CWAs. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "native_lwe_grid": "public/seasonal/cfsv2/2026090600/cfsv2_snowfall_lwe_202701-202703.csv.gz"
         }
       ],
@@ -91713,7 +91713,7 @@
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "derivation": {
             "method": "native_SRWEQ_times_fixed_10_to_1_v1",
             "snow_to_liquid_ratio": 10,
@@ -92303,7 +92303,7 @@
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "derivation": {
             "method": "native_SRWEQ_times_fixed_10_to_1_v1",
             "snow_to_liquid_ratio": 10,
@@ -92893,7 +92893,7 @@
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "derivation": {
             "method": "native_SRWEQ_times_fixed_10_to_1_v1",
             "snow_to_liquid_ratio": 10,
@@ -93483,7 +93483,7 @@
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "derivation": {
             "method": "native_SRWEQ_times_fixed_10_to_1_v1",
             "snow_to_liquid_ratio": 10,
@@ -95172,7 +95172,7 @@
             "snow_to_liquid_ratio": 10,
             "native_departure_status": "unavailable"
           },
-          "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "native_lwe_grid": "public/seasonal/cfsv2/2026090518/cfsv2_snowfall_lwe_202612-202702.csv.gz"
         },
         {
@@ -96822,7 +96822,7 @@
             "snow_to_liquid_ratio": 10,
             "native_departure_status": "unavailable"
           },
-          "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "native_lwe_grid": "public/seasonal/cfsv2/2026090518/cfsv2_snowfall_lwe_202701-202703.csv.gz"
         }
       ],
@@ -129723,7 +129723,7 @@
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "derivation": {
             "method": "native_SRWEQ_times_fixed_10_to_1_v1",
             "snow_to_liquid_ratio": 10,
@@ -130313,7 +130313,7 @@
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "derivation": {
             "method": "native_SRWEQ_times_fixed_10_to_1_v1",
             "snow_to_liquid_ratio": 10,
@@ -130903,7 +130903,7 @@
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "derivation": {
             "method": "native_SRWEQ_times_fixed_10_to_1_v1",
             "snow_to_liquid_ratio": 10,
@@ -131493,7 +131493,7 @@
             }
           ],
           "status": "rendered",
-          "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "derivation": {
             "method": "native_SRWEQ_times_fixed_10_to_1_v1",
             "snow_to_liquid_ratio": 10,
@@ -133182,7 +133182,7 @@
             "snow_to_liquid_ratio": 10,
             "native_departure_status": "unavailable"
           },
-          "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "native_lwe_grid": "public/seasonal/cfsv2/2026090512/cfsv2_snowfall_lwe_202612-202702.csv.gz"
         },
         {
@@ -134832,7 +134832,7 @@
             "snow_to_liquid_ratio": 10,
             "native_departure_status": "unavailable"
           },
-          "source_warning": "Unadjusted native snowfall estimate; 19 CWA ratios unavailable. Separate phase-derived departures are not its reference.",
+          "source_warning": "Unadjusted native snowfall at fixed 10:1; native departures unavailable.",
           "native_lwe_grid": "public/seasonal/cfsv2/2026090512/cfsv2_snowfall_lwe_202701-202703.csv.gz"
         }
       ],
