@@ -1,6 +1,6 @@
 """Build explicit owner-selected SLR fills on the verified CWA geometry.
 
-Usage: python scripts/build_cfsv2_slr_assumptions.py /path/to/w_16ap26.zip
+Usage: python scripts/build_cfsv2_slr_assumptions.py /path/to/w_16ap26.zip /path/to/us-states.json
 The original measured lookup remains unchanged. Runtime needs only NumPy/JSON.
 """
 import hashlib
@@ -14,7 +14,7 @@ import render_cfsv2_cwa_snapshot as cwa
 
 RATIOS = {'PSR':10., 'BMX':8., 'CAE':8., 'CHS':8., 'ILM':8., 'JAN':8.,
           'LCH':7., 'LIX':7., 'MOB':7., 'TAE':7., 'JAX':7., 'KEY':7.,
-          'MFL':7., 'MLB':7., 'TBW':7.}
+          'MFL':7., 'MLB':7., 'TBW':7., 'BRO':7., 'CRP':7., 'HGX':7., 'EWX':8.}
 
 
 def spans(mask):
@@ -24,7 +24,7 @@ def spans(mask):
     return [[int(a[0]),int(a[-1])+1] for a in np.split(indices,breaks)]
 
 
-def build(archive_path):
+def build(archive_path, state_borders):
     root=Path(__file__).with_name('data')
     meta=json.loads((root/'cfsv2_cwa_slr_v1.json').read_text())
     if hashlib.sha256(archive_path.read_bytes()).hexdigest()!=meta['boundary_sha256']:
@@ -38,8 +38,8 @@ def build(archive_path):
             'base_lookup_sha256':meta['lookup_sha256'],
             'boundary_sha256':meta['boundary_sha256'],'ratios':RATIOS,
             'reasons':{'PSR':'Use neighboring TWC measured mean (10:1), per owner.',
-                       '8':'Owner-selected Southeast assumption.',
-                       '7':'Owner-selected Gulf Coast / Florida assumption.'},
+                       '8':'Owner-selected Southeast / inland EWX assumption.',
+                       '7':'Owner-selected Gulf Coast / Florida / coastal Texas assumption.'},
             'unsupported_cwas':sorted(set(meta['unsupported_cwas'])-set(RATIOS))}
     for name,x,y in [('native','lons','lats'),('display','display_lons','display_lats')]:
         xx,yy=np.meshgrid(data[x],data[y]);_,codes=cwa.ratio_grid(xx,yy,geometry,RATIOS)
@@ -55,8 +55,18 @@ def build(archive_path):
             ring_codes.append(code)
     assert len(ring_codes)==len(data['missing_offsets'])-1
     result['retained_missing_rings']=[i for i,c in enumerate(ring_codes) if c not in RATIOS]
+    states=json.loads(state_borders.read_text())['features']
+    florida=next(f for f in states if f['properties']['name']=='Florida')['geometry']
+    polys=florida['coordinates'] if florida['type']=='MultiPolygon' else [florida['coordinates']]
+    rings=[np.asarray(p[0]) for p in polys]
+    existing=[data['states_points'][a:b] for a,b in zip(data['states_offsets'][:-1],data['states_offsets'][1:])]
+    for ring in rings:
+        if not any(np.array_equal(ring,r) for r in existing):
+            raise ValueError('Florida outline differs from verified map geometry')
+    result['florida_display_rings']=[r.tolist() for r in rings]
+    result['florida_display_policy']='owner_requested_white_mask; underlying values retained'
     path=root/'cfsv2_slr_assumptions_v1.json'
     path.write_text(json.dumps(result,indent=2)+'\n')
     print(path, result['unsupported_cwas'])
 
-if __name__=='__main__':build(Path(sys.argv[1]))
+if __name__=='__main__':build(Path(sys.argv[1]), Path(sys.argv[2]))
