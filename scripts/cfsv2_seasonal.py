@@ -2839,7 +2839,8 @@ def render_map(
             return np.rad2deg(longitude), np.rad2deg(latitude)
 
         polar_equator_radius = 2.0 * np.tan(
-            np.pi / 4.0 - np.deg2rad(max(0.0, min(90.0, lat_min))) / 2.0
+            np.pi / 4.0 - np.deg2rad(max(0.0, min(89.0,
+                float(product_spec.get("polar_frame_latitude", lat_min))))) / 2.0
         )
         x_min, x_max = -float(polar_equator_radius), float(polar_equator_radius)
         y_min, y_max = -float(polar_equator_radius), float(polar_equator_radius)
