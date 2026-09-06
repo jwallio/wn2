@@ -12,6 +12,25 @@ from snowfall_display import depth_departure
 
 
 class SnowfallDisplay(unittest.TestCase):
+    def test_c3s_calendar_matches_the_label_and_invalidates_old_cache(self):
+        from unittest.mock import patch
+        archive = c3s.CDSArchive(Path('/tmp/c3s-calendar-test'), 'ecmwf', '51')
+        spec = c3s.PRODUCT_SPECS['snowfall_anomaly']
+        grid = cf.Grid([0, 1], [0], [[1, 2]])
+        for lead, target, cds_month in [(0, '202608', 1), (4, '202612', 5), (5, '202701', 6)]:
+            with patch.object(archive, '_cached_grid', return_value=None), \
+                 patch.object(archive, 'retrieve', return_value=Path('source.grib')) as retrieve, \
+                 patch.object(archive, '_save_grid'), \
+                 patch.object(c3s, 'grid_from_grib', return_value=grid) as decode:
+                archive.grid(spec, '2026080100', target, lead)
+                self.assertEqual(retrieve.call_args.args[-1], cds_month)
+                self.assertEqual(decode.call_args.args[-2:], (target, cds_month))
+                self.assertIn('valid_month_v2', str(archive.decoded_grid_path(spec, '2026080100', cds_month)))
+        with self.assertRaisesRegex(c3s.C3SError, 'unavailable'):
+            archive.grid(spec, '2026080100', '202702', 6)
+        with self.assertRaisesRegex(c3s.C3SError, 'disagree'):
+            archive.grid(spec, '2026080100', '202701', 4)
+
     def test_all_providers_use_depth_once_and_common_scale(self):
         from matplotlib.colors import BoundaryNorm, ListedColormap
         original = cf.Grid([0, 1, 2, 3, 4], [0], [[-.2, -.05, 0, .05, .2]])

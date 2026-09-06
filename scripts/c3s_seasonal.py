@@ -329,6 +329,8 @@ class CDSArchive:
 
         tag = "raw" if raw else "anom"
         product_name = str(product["name"]).replace("-", "_")
+        if product["name"] == "snowfall_anomaly":
+            product_name += "_valid_month_v2"
         safe = f"{self.centre}_{self.system}_{product_name}_{init[:6]}_{tag}_l{lead:02d}".replace("-", "_")
         return self.cache_dir / "decoded" / safe / "field.csv.gz"
 
@@ -402,6 +404,14 @@ class CDSArchive:
         return path
 
     def grid(self, product: dict[str, Any], init: str, target: str, lead: int) -> tuple[Grid, Path]:
+        if product["name"] == "snowfall_anomaly":
+            if target != target_month(init, lead):
+                raise C3SError("Snowfall target and initialization lead disagree")
+            # Dashboard leads are zero-based; CDS forecastMonth 1 is the
+            # initialization month. August leads 4/5 require CDS months 5/6.
+            lead += 1
+            if not 1 <= lead <= 6:
+                raise C3SError(f"Native monthly snowfall ends {target_month(init, 5)} for initialization {init[:6]}; {target} is unavailable")
         cached = self._cached_grid(product, init, lead)
         if cached is not None:
             return cached, self.retrieve_path(product, init, lead)

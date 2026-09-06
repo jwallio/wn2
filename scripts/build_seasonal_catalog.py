@@ -266,14 +266,16 @@ def _target_catalog_state(
             if canonical_product(product) == "snowfall_anomaly":
                 local_image = site_root / _published_asset_path(site_root, normalized_image)
                 metadata_path = local_image.with_suffix(".snow.json")
-                if metadata_path.exists():
-                    normalized["display"] = json.loads(metadata_path.read_text(encoding="utf-8"))
+                display = json.loads(metadata_path.read_text(encoding="utf-8")) if metadata_path.exists() else None
+                needs_calendar_check = any(part in {"c3s", "superensemble"} for part in local_image.parts)
+                if display and (not needs_calendar_check or display.get("calendar_alignment_version", 0) >= 2):
+                    normalized["display"] = display
                     normalized["numeric_grid"] = str(PurePosixPath(normalized_image).with_suffix(".snow.csv.gz"))
                     normalized["native_lwe_grid"] = str(PurePosixPath(normalized_image).with_suffix(".lwe.csv.gz"))
                 elif check_assets:
                     normalized.pop("image", None)
                     normalized["status"] = "pending"
-                    normalized["error"] = "Awaiting snowfall-depth refresh; retained image units have not been verified."
+                    normalized["error"] = "Awaiting snowfall refresh; retained image units or valid month have not been verified."
                     comparable = False
 
 
@@ -305,7 +307,10 @@ def _target_catalog_state(
             for copied in normalized_comparison.values():
                 if copied.get("image"):
                     local = site_root / _published_asset_path(site_root, copied["image"])
-                    if not local.with_suffix(".snow.json").exists():
+                    marker = local.with_suffix(".snow.json")
+                    display = json.loads(marker.read_text()) if marker.exists() else {}
+                    needs_calendar_check = any(part in {"c3s", "superensemble"} for part in local.parts)
+                    if not display or (needs_calendar_check and display.get("calendar_alignment_version", 0) < 2):
                         copied.pop("image", None)
                         copied["status"] = "pending"
                         copied["error"] = "Awaiting verified snowfall-depth image."
@@ -887,4 +892,3 @@ def main(argv: list[str] | None = None) -> int:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
