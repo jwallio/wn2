@@ -2,7 +2,7 @@
   "schema_version": 1,
   "registry_version": 1,
   "kind": "seasonal_dashboard_catalog",
-  "generated_utc": "2026-09-06T21:19:43Z",
+  "generated_utc": "2026-09-06T21:22:26Z",
   "source_revision": "d4382c17f6a50340b520cc82df5c6903e95f1f1c",
   "model_order": [
     "superensemble",
@@ -48543,10 +48543,10 @@
           "source_url": "https://cds.climate.copernicus.eu/datasets/seasonal-postprocessed-single-levels",
           "product": "snowfall_anomaly",
           "init_utc": "2026-08-01T00:00:00Z",
-          "generated_utc": "2026-09-06T20:45:44Z",
+          "generated_utc": "2026-09-06T21:20:49Z",
           "status": "partial",
           "statistic": "ensemble_mean",
-          "aggregation": "ensemble-mean seasonal total departure; sum monthly departures",
+          "aggregation": "ensemble-mean period total departure; sum included monthly departures",
           "ensemble_scope": "20 CanESM5 + 20 GEM5.2-NEMO members; equal component weights",
           "ensemble_members": 40,
           "field": "snowfall_anomaly",
@@ -48574,14 +48574,14 @@
               "field": "snowfall_anomaly",
               "units": "in",
               "status": "pending",
-              "error": "DJF unavailable: missing Feb 2027. This initialization does not cover the complete season; use a run covering all three months.",
+              "error": "DJF unavailable: missing Feb 2027. This initialization does not cover the complete period; use a run covering every included month.",
               "baseline": {
                 "source": "C3S 1993–2016 system-matched hindcast climatology",
                 "method": "eccc_native_snowfall_c3s_v1"
               },
               "ensemble_members": 40,
               "statistic": "ensemble_mean",
-              "aggregation": "ensemble-mean seasonal total departure",
+              "aggregation": "ensemble-mean 3-month total departure",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
                 "comparable": true,
@@ -48602,18 +48602,67 @@
               "field": "snowfall_anomaly",
               "units": "in",
               "status": "pending",
-              "error": "JFM unavailable: missing Feb 2027, Mar 2027. This initialization does not cover the complete season; use a run covering all three months.",
+              "error": "JFM unavailable: missing Feb 2027, Mar 2027. This initialization does not cover the complete period; use a run covering every included month.",
               "baseline": {
                 "source": "C3S 1993–2016 system-matched hindcast climatology",
                 "method": "eccc_native_snowfall_c3s_v1"
               },
               "ensemble_members": 40,
               "statistic": "ensemble_mean",
-              "aggregation": "ensemble-mean seasonal total departure",
+              "aggregation": "ensemble-mean 3-month total departure",
               "_catalog": {
                 "canonical_product": "snowfall_anomaly",
                 "comparable": true,
                 "quality_control": "legacy"
+              }
+            },
+            {
+              "id": "cansips-2026080100-snowfall_anomaly-202612-202701",
+              "target_month": "202612-202701",
+              "label": "D+J 2026–27",
+              "valid_start_utc": "2026-12-01T00:00:00Z",
+              "valid_end_utc": "2027-02-01T00:00:00Z",
+              "lead_month": "4–5",
+              "monthly_leads": [
+                4,
+                5
+              ],
+              "field": "snowfall_anomaly",
+              "units": "in",
+              "status": "rendered",
+              "image": "cansips/20260801/cansips_native_snowfalla_winter_202612-202701.jpg",
+              "baseline": {
+                "source": "C3S 1993–2016 system-matched hindcast climatology",
+                "method": "eccc_native_snowfall_c3s_v1"
+              },
+              "ensemble_members": 40,
+              "ensemble_complete": true,
+              "statistic": "ensemble_mean",
+              "aggregation": "ensemble-mean 2-month total departure",
+              "quality_control": {
+                "status": "passed",
+                "field": "snowfall_anomaly",
+                "units": "in",
+                "quantity": "snowfall LWE departure",
+                "minimum": -2.6318853847791486,
+                "maximum": 1.3097781177750192,
+                "finite_fraction": 1.0,
+                "display": {
+                  "quantity": "estimated snowfall depth departure",
+                  "units": "in",
+                  "snow_to_liquid_ratio": 10,
+                  "minimum": -10,
+                  "maximum": 10,
+                  "clipped_fraction": 0.0559375
+                },
+                "issues": [],
+                "validation_scope": "data integrity and units; not observational forecast skill"
+              },
+              "numeric_grid": "public/seasonal/cansips/20260801/cansips_native_snow_202612-202701.csv.gz",
+              "_catalog": {
+                "canonical_product": "snowfall_anomaly",
+                "comparable": true,
+                "quality_control": "passed"
               }
             },
             {
@@ -55690,7 +55739,7 @@
       "status": "degraded",
       "schema_version": 1,
       "manifest_kind": "cansips_seasonal_manifest",
-      "generated_utc": "2026-09-06T21:14:55Z",
+      "generated_utc": "2026-09-06T21:20:53Z",
       "source_url": "https://eccc-msc.github.io/open-data/msc-data/nwp_cansips/readme_cansips-datamart_en/",
       "product_labels": {
         "500mb_height_anomaly": "500-mb Height Anomaly",
@@ -55820,7 +55869,7 @@
           "comparable": true,
           "latest_init_utc": "2026-08-01T00:00:00Z",
           "run_id": "cansips-2026080100-snowfall_anomaly",
-          "target_count": 2,
+          "target_count": 3,
           "latest_run_id": "cansips-2026090100-snowfall_anomaly",
           "latest_run_status": "pending",
           "latest_run_init_utc": "2026-09-01T00:00:00Z",
@@ -59081,7 +59130,7 @@
   },
   "health": {
     "status": "attention",
-    "generated_utc": "2026-09-06T21:19:43Z",
+    "generated_utc": "2026-09-06T21:22:26Z",
     "freshness_policy_days": {
       "default": {
         "fresh_days": 35,
