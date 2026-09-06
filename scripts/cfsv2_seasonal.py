@@ -3414,7 +3414,7 @@ def render_map(
             header_detail = (
                 f"{source_label}  •  {display_baseline_label}  •  Snow-water equivalent (in)  •  CONUS domain"
             )
-        if product_spec["name"] == PRODUCT_SNOWFALL_ANOMALY:
+        if product_spec["name"] == PRODUCT_SNOWFALL_ANOMALY and not product_spec.get("native_snow_depth_display"):
             header_detail = (
                 f"{source_label}  •  {display_baseline_label}  •  Derived snowfall liquid-water equivalent (in)  •  CONUS domain"
             )

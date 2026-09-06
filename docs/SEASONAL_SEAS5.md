@@ -41,7 +41,7 @@ Download tab: [manage CDS licences](https://cds.climate.copernicus.eu/datasets/s
 | `2m_temperature_anomaly` | `2m_temperature_anomaly` | anomaly in °C | monthly/seasonal mean |
 | `850mb_temperature_anomaly` | `temperature_anomaly` at 850 hPa | anomaly in °C | monthly/seasonal mean |
 | `precipitation_anomaly` | `total_precipitation_anomalous_rate_of_accumulation` | CONUS total anomaly in inches | monthly/seasonal total |
-| `snowfall_anomaly` | `snowfall_anomalous_rate_of_accumulation` | CONUS liquid-water-equivalent anomaly in inches | monthly/seasonal total |
+| `snowfall_anomaly` | `snowfall_anomalous_rate_of_accumulation` | Estimated snow-depth departure (10:1) on images; canonical grids remain LWE | monthly/seasonal total |
 | `snow_depth_anomaly` | `snow_depth_anomaly` | CONUS snow-depth water-equivalent anomaly in inches | monthly/seasonal mean |
 | `mslp_anomaly` | `mean_sea_level_pressure_anomaly` | anomaly in hPa | monthly/seasonal mean |
 
@@ -70,7 +70,7 @@ anomaly methodology.
 ## Local usage
 
 Install the repository requirements and configure CDS credentials. Then render
-the default DJF-style lead window:
+the default CDS forecast-month window (4–6 is DJF for a September initialization):
 
 ```powershell
 .\scripts\render_seas5.ps1 `
@@ -125,3 +125,28 @@ cross-model controls.
 - [CDS API setup](https://cds.climate.copernicus.eu/how-to-api)
 - [ECMWF C3S seasonal forecast service](https://www.ecmwf.int/en/forecasts/datasets/c3s-seasonal-forecasts)
 - [C3S data availability summary](https://confluence.ecmwf.int/pages/viewpage.action?navigatingVersions=true&pageId=638830872)
+
+
+## Snowfall display and calendar convention
+
+Standalone SEAS5 snowfall images multiply the native signed LWE anomaly by a
+fixed 10:1 ratio. One inch on the image scale is one inch of estimated snowfall
+departure, not standing snowpack. This is a display conversion, not calibration.
+Both forecast and reference are implicitly assigned the same fixed ratio.
+The decoder and grids used in multi-model comparisons remain in LWE inches;
+run metadata records the image quantity, ratio, and white band separately.
+
+The white band is -0.1 to +0.1 inch estimated snow. Monthly scales reach ±20
+inches and seasonal scales ±40 inches, with saturated endpoints labeled. These
+wider endpoints accommodate the depth conversion without clipping everything
+at the previous LWE limits. The source values are not clipped.
+
+CDS forecast month 1 is the initialization month. For September 2026,
+months 4,5,6 are December 2026, January 2027, and February 2027. They must not
+be labeled January–March. The six-month CDS request range does not include
+March from September. Existing published images need regeneration; old images
+and retained historical runs are not automatically corrected by changing code.
+
+References:
+- https://ecmwf-projects.github.io/copernicus-training-c3s/sf-anomalies.html
+- https://cds.climate.copernicus.eu/datasets/seasonal-postprocessed-single-levels

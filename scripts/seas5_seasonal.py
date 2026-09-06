@@ -398,7 +398,7 @@ def month_after(year: int, month: int, lead_months: int) -> tuple[int, int]:
 
 def target_month(init: str, lead_months: int) -> str:
     init_date = dt.datetime.strptime(init, "%Y%m%d%H")
-    year, month = month_after(init_date.year, init_date.month, lead_months)
+    year, month = month_after(init_date.year, init_date.month, lead_months - 1)
     return f"{year:04d}{month:02d}"
 
 
@@ -448,6 +448,39 @@ def convert_values(values: np.ndarray, product: dict[str, Any], target: str) -> 
     if variable == "slp":
         return converted / 100.0
     raise SEAS5Error(f"no unit conversion is defined for SEAS5 variable {variable}")
+
+
+# Keep native LWE in the decoder and model blends; convert only the standalone
+# image. A fixed ratio is an explicit estimate, not an observed bias correction.
+SNOW_DISPLAY_RATIO = 10.0
+
+
+def snowfall_display(grid: Grid, product: dict[str, Any], seasonal: bool = False):
+    if product["name"] != SNOWFALL_ANOMALY:
+        return grid, product
+    positive = ([0.1, 0.5, 1, 2, 3, 5, 7, 10, 20, 30, 40] if seasonal else
+                [0.1, 0.25, 0.5, 1, 2, 3, 5, 7, 10, 15, 20])
+    ticks = [-value for value in reversed(positive)] + [0.0] + positive
+    spec = dict(product)
+    for key in list(spec):
+        if key.startswith(("monthly_anomaly_", "seasonal_anomaly_")):
+            del spec[key]
+    spec.update(
+        title="SEAS5 Estimated Snowfall Departure (in)",
+        anomaly_min=ticks[0], anomaly_max=ticks[-1], anomaly_ticks=ticks,
+        anomaly_endpoint_labels={"minimum": f"≤−{positive[-1]}", "maximum": f"≥+{positive[-1]}"},
+        native_snow_depth_display=True,
+        header_detail="{source_label}  •  Estimated snowfall departure (in)  •  10:1 snow-to-liquid ratio",
+    )
+    converted = Grid(grid.lons[:], grid.lats[:],
+                     (np.asarray(grid.values) * SNOW_DISPLAY_RATIO).tolist())
+    return converted, spec
+
+
+def render_standalone(grid: Grid, *args, product_spec, seasonal=False, **kwargs):
+    display_grid, display_spec = snowfall_display(grid, product_spec, seasonal)
+    return render_map(display_grid, *args, product_spec=display_spec,
+                      seasonal=seasonal, **kwargs)
 
 
 def latest_cds_init(now: dt.datetime | None = None) -> str:
@@ -772,7 +805,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--product", choices=tuple(PRODUCT_SPECS), default=Z500_ANOMALY)
     parser.add_argument("--init", default="latest", help="SEAS5 initialization as YYYYMM, YYYYMMDD, or latest")
     parser.add_argument("--lead-months", default="4,5,6", help="comma-separated target leads")
-    parser.add_argument("--seasonal-window", default="4,5,6", help="consecutive target leads for the seasonal map")
+    parser.add_argument("--seasonal-window", default="4,5,6", help="consecutive CDS forecast months; 1 is initialization month (September: 4,5,6 = DJF)")
     parser.add_argument("--climo-years", default="1981-2016", help="legacy compatibility option; official CDS anomaly baseline is used")
     parser.add_argument("--cache-dir", default=".cache/seas5")
     parser.add_argument("--output-dir", default="public/seasonal/seas5")
@@ -853,6 +886,11 @@ def run(args: argparse.Namespace) -> int:
         "raw_field": product["raw_field"],
         "raw_units": product["raw_units"],
         "conversion": product["conversion"],
+        "lead_convention": "CDS forecast month 1 is the initialization month",
+        "display": ({"quantity": "estimated snowfall depth departure", "units": "in",
+                     "snow_to_liquid_ratio": SNOW_DISPLAY_RATIO, "white_band_inches": [-0.1, 0.1],
+                     "numeric_grid_quantity": "snowfall liquid-water-equivalent departure"}
+                    if args.product == SNOWFALL_ANOMALY else None),
         "climatology": {
             "source": "C3S postprocessed anomaly field",
             "years_requested": f"{climo_years[0]}-{climo_years[1]}",
@@ -949,7 +987,7 @@ def run(args: argparse.Namespace) -> int:
                 target_entry["status"] = "decoded"
             else:
                 output_path = output_dir / init[:8] / f"seas5_{product['variable']}_{target}.jpg"
-                render_map(
+                render_standalone(
                     forecast,
                     init,
                     target,
@@ -1073,7 +1111,7 @@ def run(args: argparse.Namespace) -> int:
                 )
                 require_quality_control(seasonal_entry["quality_control"], SEAS5Error)
             output_path = output_dir / init[:8] / f"seas5_{product['variable']}_{first_target}-{last_target}.jpg"
-            render_map(
+            render_standalone(
                 seasonal_forecast,
                 init,
                 first_target,
