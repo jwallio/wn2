@@ -136,10 +136,11 @@ Both forecast and reference are implicitly assigned the same fixed ratio.
 The decoder and grids used in multi-model comparisons remain in LWE inches;
 run metadata records the image quantity, ratio, and white band separately.
 
-The white band is -0.1 to +0.1 inch estimated snow. Monthly scales reach ±20
-inches and seasonal scales ±40 inches, with saturated endpoints labeled. These
-wider endpoints accommodate the depth conversion without clipping everything
-at the previous LWE limits. The source values are not clipped.
+The display matches the owner-provided CFSv2 graphic: ±4 inch endpoints,
+nonlinear quarter-inch breakpoints, and a white -0.5 to +0.5 inch band.
+This scale applies to monthly and seasonal SEAS5 snow-depth images. Endpoint
+labels indicate saturation beyond ±4 inches; source values remain unchanged.
+The white band is in estimated snow inches, not LWE inches.
 
 CDS forecast month 1 is the initialization month. For September 2026,
 months 4,5,6 are December 2026, January 2027, and February 2027. They must not

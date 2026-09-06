@@ -156,14 +156,15 @@ def main() -> int:
     original = module.Grid([0.,1.,2.],[0.],[[-0.4,0.,0.4]])
     for seasonal in (False,True):
         display,spec = module.snowfall_display(original,snowfall_spec,seasonal)
+        check(spec["anomaly_ticks"] == expected_snowfall_ticks, "snow-depth display must match the supplied ±4 scale")
         check(display.values == [[-4.,0.,4.]], "signed LWE departures must convert exactly once")
         check(original.values == [[-0.4,0.,0.4]], "conversion must not mutate canonical LWE")
         from matplotlib.colors import BoundaryNorm,ListedColormap
         cmap=ListedColormap(spec["anomaly_palette"])
         norm=BoundaryNorm(spec["anomaly_ticks"],cmap.N)
         check(cmap(norm(0.09)) == (1.,1.,1.,1.), "near-zero snow departure must be white")
-        check(cmap(norm(0.2)) != (1.,1.,1.,1.), "small positive departure must be visible")
-        check(cmap(norm(-0.2)) != (1.,1.,1.,1.), "small negative departure must be visible")
+        check(cmap(norm(0.6)) != (1.,1.,1.,1.), "small positive departure must be visible")
+        check(cmap(norm(-0.6)) != (1.,1.,1.,1.), "small negative departure must be visible")
     rain = module.PRODUCT_SPECS["precipitation_anomaly"]
     check(module.snowfall_display(original,rain)[0] is original, "other fields must not be converted")
     snowfall_title = module.PRODUCT_SPECS[module.SNOWFALL_ANOMALY]
