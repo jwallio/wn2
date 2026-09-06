@@ -61,7 +61,8 @@ def lookup():
     if hashlib.sha256(path.read_bytes()).hexdigest() != meta['lookup_sha256']:
         raise ValueError('CIPS lookup checksum differs from verified geometry')
     with np.load(path, allow_pickle=False) as data:
-        return {k: data[k].copy() for k in data.files}, meta
+        from cfsv2_slr_assumptions import apply
+        return apply({k: data[k].copy() for k in data.files}, meta)
 
 
 def depth_grid(lwe):
@@ -169,7 +170,7 @@ def decode(args, init, target, members, rolling_inits, cache_dir, state_dir, wgr
     lwe = strict_mean([g for g,_ in decoded], expected=len(pairs))
     depth = depth_grid(lwe)
     _, meta = lookup()
-    diagnostics = dict(method='native_SRWEQ_times_CIPS_CWA_mean_v1',
+    diagnostics = dict(method='native_SRWEQ_times_CIPS_CWA_with_assumed_fills_v2',
         snow_to_liquid_ratio=meta, native_departure_status='unavailable',
         bias_correction='none', unsupported_cwas=meta['unsupported_cwas'],
         display_method='Bilinear native LWE then exact CWA ratio; no added smoothing',
@@ -215,7 +216,7 @@ def render(lwe, init, target, lead, output, seasonal=False, period_label='', ens
     fig.text(.962,.955,label,fontsize=13,weight='bold',ha='right',color='#172735')
     initialized=datetime.strptime(init,'%Y%m%d%H').strftime('%d %b %Y %HZ')
     fig.text(.038,.912,f'Init {initialized}  •  Lead {lead}  •  {ensemble_label}',fontsize=10,color='#43535d')
-    fig.text(.038,.878,'Native snowfall × CIPS CWA mean ratio  •  Hatched areas: ratio unavailable',fontsize=9.5,color='#536875')
+    fig.text(.038,.878,'Native snowfall × CIPS / assumed ratios  •  Hatched areas: ratio unavailable',fontsize=9.5,color='#536875')
     fig.text(.5,.052,'Accumulated snowfall depth (inches)  •  Not standing snowpack',ha='center',fontsize=10,color='#43535d')
     fig.text(.5,.028,'Unadjusted estimate  •  CWA steps possible  •  Colors saturate at 200 in; higher values retained',ha='center',fontsize=8.5,color='#536875')
     output.parent.mkdir(parents=True,exist_ok=True)

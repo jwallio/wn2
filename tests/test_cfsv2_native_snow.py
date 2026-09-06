@@ -24,12 +24,31 @@ class NativeSnowTests(unittest.TestCase):
     def test_grid_identity_masks_and_qc(self):
         grid=self.grid(); converted=native.depth_grid(grid);data,meta=native.lookup()
         np.testing.assert_allclose(converted.values,data['native_ratios'],equal_nan=True)
-        self.assertEqual(np.isfinite(converted.values).sum(),829)
-        self.assertEqual(len(meta['unsupported_cwas']),19)
+        self.assertEqual(np.isfinite(converted.values).sum(),903)
+        self.assertEqual(len(meta['unsupported_cwas']),4)
         qc=cf.grid_quality_control('snowfall_accumulation',converted.values,units='in',field='snowfall_accumulation',seasonal=False)
         cf.require_quality_control(qc,ValueError)
         grid.lons[0]+=.01
         with self.assertRaises(ValueError):native.depth_grid(grid)
+
+    def test_assumed_fills_preserve_measured_ratios(self):
+        data,meta=native.lookup()
+        with np.load(Path(cf.__file__).with_name('data')/'cfsv2_cwa_slr_v1.npz') as old:
+            for name in ('native_ratios','display_ratios'):
+                measured=np.isfinite(old[name])
+                np.testing.assert_array_equal(data[name][measured],old[name][measured])
+        self.assertEqual(meta['assumed_ratios']['PSR'],10.)
+        self.assertEqual(meta['assumed_ratios']['BMX'],8.)
+        self.assertEqual(meta['assumed_ratios']['MFL'],7.)
+        self.assertEqual(meta['unsupported_cwas'],['BRO','CRP','EWX','HGX'])
+        self.assertEqual(len(meta['measured_supported_cwas']),97)
+        self.assertEqual(len(meta['assumed_ratios']),15)
+        # Test geographic display points, not just configuration values.
+        for lon,lat,expected in [(-112.07,33.45,10),(-86.8,33.5,8),
+                                 (-80.19,25.76,7),(-90.07,29.95,7)]:
+            x=np.abs(data['display_lons']-lon).argmin()
+            y=np.abs(data['display_lats']-lat).argmin()
+            self.assertEqual(data['display_ratios'][y,x],expected)
 
     def test_missing_values_and_members_fail_closed(self):
         for value in [float('nan'),-1,float('inf')]:
